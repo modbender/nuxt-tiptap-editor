@@ -2,12 +2,12 @@
 Get your module up and running quickly.
 
 Find and replace all on all files (CMD+SHIFT+F):
-- Name: Nuxt TipTap
-- Package name: nuxt-tiptap
+- Name: Nuxt TipTap Editor
+- Package name: nuxt-tiptap-editor
 - Description: Essentials to Quickly Integrate TipTap Editor into your Nuxt App
 -->
 
-# Nuxt TipTap
+# Nuxt TipTap Editor
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -17,7 +17,7 @@ Find and replace all on all files (CMD+SHIFT+F):
 Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionality to your Nuxt 3 App.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-- [🏀 Online playground](https://stackblitz.com/github/modbender/nuxt-tiptap?file=playground%2Fapp.vue)
+- [🏀 Online playground](https://stackblitz.com/github/modbender/nuxt-tiptap-editor?file=playground%2Fapp.vue)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
@@ -27,24 +27,24 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
 
 ## Quick Setup
 
-1. Add `nuxt-tiptap` dependency to your project
+1. Add `nuxt-tiptap-editor` dependency to your project
 
    ```bash
    # Using pnpm
-   pnpm add -D nuxt-tiptap
+   pnpm add -D nuxt-tiptap-editor
 
    # Using yarn
-   yarn add --dev nuxt-tiptap
+   yarn add --dev nuxt-tiptap-editor
 
    # Using npm
-   npm install --save-dev nuxt-tiptap
+   npm install --save-dev nuxt-tiptap-editor
    ```
 
-2. Add `nuxt-tiptap` to the `modules` section of `nuxt.config.ts`
+2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
 
    ```js
    export default defineNuxtConfig({
-     modules: ["nuxt-tiptap"],
+     modules: ["nuxt-tiptap-editor"],
    });
    ```
 
@@ -187,7 +187,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
 
 4. Now edit the HTML, replace `button` with your UI provided component, or style it using tailwind, etc.
 
-That's it! You can now use Nuxt TipTap in your Nuxt app ✨
+That's it! You can now use Nuxt TipTap Editor in your Nuxt app ✨
 
 **P.S** Currently, this module only provides minimal and essential imports to quickly add TipTap Editor to your Nuxt 3 App. The only main reason this module came to exist is to provide auto import to your Nuxt 3 App. More features might be added later on.
 
@@ -219,11 +219,11 @@ npm run release
 
 <!-- Badges -->
 
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-tiptap/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/nuxt-tiptap
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-tiptap.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npmjs.com/package/nuxt-tiptap
-[license-src]: https://img.shields.io/npm/l/nuxt-tiptap.svg?style=flat&colorA=18181B&colorB=28CF8D
-[license-href]: https://npmjs.com/package/nuxt-tiptap
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-tiptap-editor/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/nuxt-tiptap-editor
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-tiptap-editor.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/nuxt-tiptap-editor
+[license-src]: https://img.shields.io/npm/l/nuxt-tiptap-editor.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-href]: https://npmjs.com/package/nuxt-tiptap-editor
 [nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
