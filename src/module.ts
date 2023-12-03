@@ -1,11 +1,8 @@
 import {
   defineNuxtModule,
-  addPlugin,
   addImports,
-  addImportsDir,
   addComponent,
   createResolver,
-  tryResolveModule,
 } from "@nuxt/kit";
 
 import { name, version } from "../package.json";
@@ -37,10 +34,13 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {},
   async setup(options, nuxt) {
-    const { resolve } = createResolver(import.meta.url);
+    // const { resolve } = createResolver(import.meta.url);
+
+    nuxt.options.build.transpile.push("@tiptap/vue-3");
+    nuxt.options.build.transpile.push("@tiptap/starter-kit");
+    nuxt.options.build.transpile.push("@tiptap/pm");
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolve("./runtime/plugin"));
 
     for (const obj of defaultImports) {
       addImports({
