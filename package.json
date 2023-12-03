@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tiptap",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TipTap Editor for Nuxt",
   "repository": "modbender/nuxt-tiptap",
   "license": "MIT",
