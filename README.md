@@ -48,7 +48,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
    });
    ```
 
-3. You can use the contents of this file as reference [TipTap.client.vue](/playground/components/TipTap.client.vue). Copy the code to your own `components/TipTap.client.vue`. Any path is fine as long as it's under `components` directory with .client.vue extension.
+3. You can use the contents of this file as reference [TipTap.client.vue](/playground/components/TipTap.client.vue). Copy the code to your own `components/TipTap.client.vue`. Any path is fine as long as it's under `components` directory with `.client.vue` extension.
 
    ```xhtml
    <template>
@@ -185,7 +185,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
    </script>
    ```
 
-4. Now edit the HTML, replace `button` with your UI provided component, or style it using tailwind, etc.
+4. Now edit the HTML, replace `button` with your UI provided component, or style it using tailwind or whichever CSS you are using, add icons or text, modify active state class, verify dark mode, etc.
 
 That's it! You can now use Nuxt TipTap Editor in your Nuxt app ✨
 
