@@ -8,6 +8,12 @@ import * as allImports from "./imports";
 
 export interface ModuleOptions {
   /**
+   * Prefix for imported elements
+   *
+   * @default 'TipTap'
+   */
+  prefix: string;
+  /**
    * Determine if lowlight should be enabled
    *
    * @default false
@@ -40,24 +46,33 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {
+    prefix: "Tiptap",
     lowlight: false,
   },
   async setup(options, nuxt) {
     // const { resolve } = createResolver(import.meta.url);
 
-    nuxt.options.build.transpile.push("@tiptap/vue-3");
-    nuxt.options.build.transpile.push("@tiptap/starter-kit");
-    nuxt.options.build.transpile.push("@tiptap/pm");
+    const transpileModules = new Set<string>([]);
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-
-    for (const obj of allImports.defaultImports) {
+    for (const obj of allImports.defaultComposables) {
       addImports({
         as: obj.name,
         name: obj.name,
         from: obj.path,
         // _internal_install: obj.path,
       });
+      transpileModules.add(obj.path);
+    }
+
+    for (const obj of allImports.defaultImports) {
+      addImports({
+        as: `${options.prefix}${obj.name}`,
+        name: obj.name,
+        from: obj.path,
+        // _internal_install: obj.path,
+      });
+      transpileModules.add(obj.path);
     }
 
     for (const obj of allImports.defaultComponents) {
@@ -68,6 +83,7 @@ export default defineNuxtModule<ModuleOptions>({
         filePath: obj.path,
         // _internal_install: obj.path,
       });
+      transpileModules.add(obj.path);
     }
 
     if (options.lowlight === false) {
@@ -81,6 +97,12 @@ export default defineNuxtModule<ModuleOptions>({
         from: obj.path,
         // _internal_install: obj.path,
       });
+      transpileModules.add(obj.path);
     }
+
+    nuxt.options.build.transpile = [
+      ...nuxt.options.build.transpile,
+      ...transpileModules,
+    ];
   },
 });

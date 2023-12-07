@@ -1,4 +1,9 @@
+export const defaultComposables = [
+  { name: "useEditor", path: "@tiptap/vue-3" },
+];
+
 export const defaultNodes = [
+  { name: "Node", path: "@tiptap/core" },
   { name: "Blockquote", path: "@tiptap/extension-blockquote" },
   { name: "BulletList", path: "@tiptap/extension-bullet-list" },
   { name: "OrderedList", path: "@tiptap/extension-ordered-list" },
@@ -13,6 +18,7 @@ export const defaultNodes = [
 ];
 
 export const defaultMarks = [
+  { name: "Mark", path: "@tiptap/core" },
   { name: "Bold", path: "@tiptap/extension-bold" },
   { name: "Code", path: "@tiptap/extension-code" },
   { name: "Italic", path: "@tiptap/extension-italic" },
@@ -21,6 +27,7 @@ export const defaultMarks = [
 ];
 
 export const defaultExtensions = [
+  { name: "Extension", path: "@tiptap/core" },
   { name: "StarterKit", path: "@tiptap/starter-kit" },
   { name: "BubbleMenu", path: "@tiptap/extension-bubble-menu" },
   { name: "Gapcursor", path: "@tiptap/extension-gapcursor" },
@@ -31,7 +38,6 @@ export const defaultExtensions = [
 
 export const defaultImports = [
   { name: "Editor", path: "@tiptap/vue-3" },
-  { name: "useEditor", path: "@tiptap/vue-3" },
 
   ...defaultNodes,
   ...defaultMarks,
