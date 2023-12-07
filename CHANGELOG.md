@@ -1,4 +1,16 @@
 
+## v0.0.5
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.4...v0.0.5)
+
+### 🚀 Enhancements
+
+- Add core imports Node and Mark ([b638a19](https://github.com/modbender/nuxt-tiptap-editor/commit/b638a19))
+
+### ❤️ Contributors
+
+- Modbender <rameshmamathayashas@gmail.com>
+
 ## v0.0.4
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.3...v0.0.4)
