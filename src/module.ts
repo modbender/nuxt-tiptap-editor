@@ -10,7 +10,7 @@ export interface ModuleOptions {
   /**
    * Prefix for imported elements
    *
-   * @default 'TipTap'
+   * @default 'Tiptap'
    */
   prefix: string;
   /**
