@@ -1,4 +1,20 @@
 
+## v0.0.4
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.3...v0.0.4)
+
+### 🚀 Enhancements
+
+- Add imports for default extensions ([05c4ca8](https://github.com/modbender/nuxt-tiptap-editor/commit/05c4ca8))
+
+### 🏡 Chore
+
+- **release:** V0.0.3 ([16983e1](https://github.com/modbender/nuxt-tiptap-editor/commit/16983e1))
+
+### ❤️ Contributors
+
+- Modbender <rameshmamathayashas@gmail.com>
+
 ## v0.0.3
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.2...v0.0.3)
