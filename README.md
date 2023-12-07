@@ -45,6 +45,9 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
    ```js
    export default defineNuxtConfig({
      modules: ["nuxt-tiptap-editor"],
+     tiptap: {
+       prefix: "Tiptap", //prefix for Tiptap imports, composables not included
+     },
    });
    ```
 
@@ -180,7 +183,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
    <script setup>
      const editor = useEditor({
        content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
-       extensions: [StarterKit],
+       extensions: [TiptapStarterKit],
      });
    </script>
    ```
