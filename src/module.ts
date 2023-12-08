@@ -48,8 +48,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     const transpileModules = new Set<string>([]);
 
-    var optionalImports: { [key: string]: any }[] = [];
-    var optionalComponents: { [key: string]: any }[] = [];
+    let optionalImports: { [key: string]: any }[] = [];
+    let optionalComponents: { [key: string]: any }[] = [];
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     for (const obj of allImports.defaultComposables) {
