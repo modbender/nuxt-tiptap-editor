@@ -9,7 +9,7 @@
 
 ### ❤️ Contributors
 
-- Modbender <rameshmamathayashas@gmail.com>
+- Modbender
 
 ## v0.0.4
 
@@ -25,7 +25,7 @@
 
 ### ❤️ Contributors
 
-- Modbender <rameshmamathayashas@gmail.com>
+- Modbender
 
 ## v0.0.3
 
@@ -37,7 +37,7 @@
 
 ### ❤️ Contributors
 
-- Modbender <rameshmamathayashas@gmail.com>
+- Modbender
 
 ## v0.0.2
 
@@ -49,7 +49,7 @@
 
 ### ❤️ Contributors
 
-- Modbender <rameshmamathayashas@gmail.com>
+- Modbender
 
 ## v0.0.1
 
@@ -71,5 +71,5 @@
 
 ### ❤️ Contributors
 
-- Modbender <rameshmamathayashas@gmail.com>
+- Modbender
 
