@@ -87,6 +87,8 @@ export default defineNuxtModule<ModuleOptions>({
       optionalImports = [...optionalImports, ...allImports.lowlightImports];
     }
 
+    optionalComponents = [...optionalComponents];
+
     for (const obj of optionalImports) {
       addImports({
         as: `${options.prefix}${obj.name}`,
