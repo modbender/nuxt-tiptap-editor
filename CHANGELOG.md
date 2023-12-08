@@ -17,7 +17,7 @@
 
 ### ❤️ Contributors
 
-- Modbender <rameshmamathayashas@gmail.com>
+- Modbender
 
 ## v0.0.5
 
