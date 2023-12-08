@@ -23,7 +23,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
 ## Features
 
 - 🔆Easy to integrate
-- ⚡️Instantly usable components
+- ⚡️Instantly usable components provided by `@tiptap`.
 
 ## Quick Setup
 
@@ -176,7 +176,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
            redo
          </button>
        </div>
-       <EditorContent :editor="editor" />
+       <TiptapEditorContent :editor="editor" />
      </div>
    </template>
 

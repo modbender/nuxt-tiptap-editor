@@ -22,16 +22,10 @@ export interface ModuleOptions {
     | boolean
     | {
         /**
-         * Determine if lowlight should be enabled
-         *
-         * @default false
-         */
-        enabled: boolean;
-        /**
          * Languages to be loaded for highlighting
          *
          */
-        languages: string[];
+        // languages: string[];
       };
 }
 
@@ -53,6 +47,9 @@ export default defineNuxtModule<ModuleOptions>({
     // const { resolve } = createResolver(import.meta.url);
 
     const transpileModules = new Set<string>([]);
+
+    var optionalImports: { [key: string]: any }[] = [];
+    var optionalComponents: { [key: string]: any }[] = [];
 
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     for (const obj of allImports.defaultComposables) {
@@ -78,7 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
     for (const obj of allImports.defaultComponents) {
       addComponent({
         mode: "client",
-        name: obj.name,
+        name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
         // _internal_install: obj.path,
@@ -86,13 +83,13 @@ export default defineNuxtModule<ModuleOptions>({
       transpileModules.add(obj.path);
     }
 
-    if (options.lowlight === false) {
-      allImports.optionalImports.push(...allImports.lowlightImports);
+    if (!!options.lowlight && options.lowlight !== false) {
+      optionalImports = [...optionalImports, ...allImports.lowlightImports];
     }
 
-    for (const obj of allImports.optionalImports) {
+    for (const obj of optionalImports) {
       addImports({
-        as: obj.name,
+        as: `${options.prefix}${obj.name}`,
         name: obj.name,
         from: obj.path,
         // _internal_install: obj.path,
