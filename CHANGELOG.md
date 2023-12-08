@@ -1,4 +1,24 @@
 
+## v0.0.6
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.5...v0.0.6)
+
+### 🩹 Fixes
+
+- Playground TipTap component ([879b975](https://github.com/modbender/nuxt-tiptap-editor/commit/879b975))
+- Prefix default ts ([681aac2](https://github.com/modbender/nuxt-tiptap-editor/commit/681aac2))
+- Prefix for components, lowlight import ([a4f735e](https://github.com/modbender/nuxt-tiptap-editor/commit/a4f735e))
+- Unexpected var ([474be95](https://github.com/modbender/nuxt-tiptap-editor/commit/474be95))
+- Never reassigned optionalComponents ([282f255](https://github.com/modbender/nuxt-tiptap-editor/commit/282f255))
+
+### 🏡 Chore
+
+- Update README ([86486bc](https://github.com/modbender/nuxt-tiptap-editor/commit/86486bc))
+
+### ❤️ Contributors
+
+- Modbender <rameshmamathayashas@gmail.com>
+
 ## v0.0.5
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.4...v0.0.5)
