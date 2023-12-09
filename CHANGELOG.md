@@ -1,4 +1,16 @@
 
+## v0.0.8
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.7...v0.0.8)
+
+### 🩹 Fixes
+
+- Lowlight imports, README ([30a4ca6](https://github.com/modbender/nuxt-tiptap-editor/commit/30a4ca6))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.7
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.6...v0.0.7)
