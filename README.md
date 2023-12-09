@@ -198,25 +198,25 @@ That's it! You can now use Nuxt TipTap Editor in your Nuxt app ✨
 
 ```bash
 # Install dependencies
-npm install
+yarn install
 
 # Generate type stubs
-npm run dev:prepare
+yarndev:prepare
 
 # Develop with the playground
-npm run dev
+yarn dev
 
 # Build the playground
-npm run dev:build
+yarn build
 
 # Run ESLint
-npm run lint
+yarn lint
 
 # Run Vitest
-npm run test
-npm run test:watch
+yarn test
+yarn test:watch
 
-# Release new version
+# Release new version - needs to be with npm for login to work
 npm run release
 ```
 
