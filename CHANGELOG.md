@@ -1,4 +1,16 @@
 
+## v0.0.10
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.9...v0.0.10)
+
+### 🏡 Chore
+
+- Console.log change ([7cf23cd](https://github.com/modbender/nuxt-tiptap-editor/commit/7cf23cd))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.9
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.8...v0.0.9)
