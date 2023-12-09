@@ -125,8 +125,15 @@
 </template>
 
 <script setup>
+const lowlight = TiptapcreateLowlight(Tiptapcommon);
+
 const editor = useEditor({
   content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
-  extensions: [TiptapStarterKit],
+  extensions: [
+    TiptapStarterKit,
+    TiptapCodeBlockLowlight.configure({
+      lowlight,
+    }),
+  ],
 });
 </script>
