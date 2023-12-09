@@ -90,11 +90,11 @@ export default defineNuxtModule<ModuleOptions>({
     optionalComponents = [...optionalComponents];
 
     for (const obj of optionalImports) {
-      console.log(`${options.prefix}${obj.name}`, obj.path);
       addImports({
         as: `${options.prefix}${obj.name}`,
         name: obj.name,
         from: obj.path,
+        // _internal_install: obj.path,
       });
       transpileModules.add(obj.path);
     }
@@ -103,5 +103,7 @@ export default defineNuxtModule<ModuleOptions>({
       ...nuxt.options.build.transpile,
       ...transpileModules,
     ];
+
+    console.log("Tiptap Editor initialized")
   },
 });
