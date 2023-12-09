@@ -1,4 +1,16 @@
 
+## v0.0.9
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.8...v0.0.9)
+
+### 🚀 Enhancements
+
+- Add all grammer lowlight import ([c9bafd4](https://github.com/modbender/nuxt-tiptap-editor/commit/c9bafd4))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.8
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.7...v0.0.8)
