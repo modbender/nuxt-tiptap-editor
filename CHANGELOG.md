@@ -1,4 +1,16 @@
 
+## v0.0.11
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.10...v0.0.11)
+
+### 🩹 Fixes
+
+- Warn duplicate codeBlock when using lowlight ([9de7e5d](https://github.com/modbender/nuxt-tiptap-editor/commit/9de7e5d))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.10
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.9...v0.0.10)
