@@ -4,3 +4,7 @@ export const lowlightImports = [
   { name: "createLowlight", path: "lowlight" },
   { name: "CodeBlockLowlight", path: "@tiptap/extension-code-block-lowlight" },
 ];
+
+export const defaultCodeImports = [
+  { name: "CodeBlock", path: "@tiptap/extension-code-block" },
+];

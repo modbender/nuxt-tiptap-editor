@@ -85,6 +85,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (!!options.lowlight && options.lowlight !== false) {
       optionalImports = [...optionalImports, ...allImports.lowlightImports];
+    } else {
+      optionalImports = [...optionalImports, ...allImports.defaultCodeImports];
     }
 
     optionalComponents = [...optionalComponents];
@@ -104,6 +106,6 @@ export default defineNuxtModule<ModuleOptions>({
       ...transpileModules,
     ];
 
-    console.log("Tiptap Editor initialized")
+    console.log("Tiptap Editor initialized");
   },
 });
