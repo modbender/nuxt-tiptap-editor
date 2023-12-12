@@ -4,3 +4,11 @@ export const lowlightImports = [
   { name: "createLowlight", path: "lowlight" },
   { name: "CodeBlockLowlight", path: "@tiptap/extension-code-block-lowlight" },
 ];
+
+export const placeholderImports = [
+  {
+    name: "Placeholder",
+    path: "components/nuxt-stubs",
+    local: true,
+  },
+];
