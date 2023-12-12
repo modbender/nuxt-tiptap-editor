@@ -8,6 +8,7 @@ export const defaultNodes = [
   { name: "BulletList", path: "@tiptap/extension-bullet-list" },
   { name: "OrderedList", path: "@tiptap/extension-ordered-list" },
   { name: "ListItem", path: "@tiptap/extension-list-item" },
+  { name: "CodeBlock", path: "@tiptap/extension-code-block" },
   { name: "Document", path: "@tiptap/extension-document" },
   { name: "HardBreak", path: "@tiptap/extension-hard-break" },
   { name: "Heading", path: "@tiptap/extension-heading" },
