@@ -1,4 +1,17 @@
 
+## v0.0.12
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.11...v0.0.12)
+
+### 🩹 Fixes
+
+- Revert code for both codeblocks to be available ([7728aa7](https://github.com/modbender/nuxt-tiptap-editor/commit/7728aa7))
+- Optional components and imports ([1b5a44a](https://github.com/modbender/nuxt-tiptap-editor/commit/1b5a44a))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.11
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.10...v0.0.11)
