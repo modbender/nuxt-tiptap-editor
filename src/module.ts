@@ -85,8 +85,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (!!options.lowlight && options.lowlight !== false) {
       optionalImports = [...optionalImports, ...allImports.lowlightImports];
-    } else {
-      optionalImports = [...optionalImports, ...allImports.defaultCodeImports];
     }
 
     optionalComponents = [...optionalComponents];
@@ -96,6 +94,17 @@ export default defineNuxtModule<ModuleOptions>({
         as: `${options.prefix}${obj.name}`,
         name: obj.name,
         from: obj.path,
+        // _internal_install: obj.path,
+      });
+      transpileModules.add(obj.path);
+    }
+
+    for (const obj of optionalComponents) {
+      addComponent({
+        mode: "client",
+        name: `${options.prefix}${obj.name}`,
+        export: obj.name,
+        filePath: obj.path,
         // _internal_install: obj.path,
       });
       transpileModules.add(obj.path);
