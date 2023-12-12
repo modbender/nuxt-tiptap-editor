@@ -210,7 +210,7 @@ By default `@tiptap/extension-link` and `@tiptap/extension-code-block-lowlight` 
   },
 ```
 
-```xml
+```xhtml
 <script setup>
   const lowlight = TiptapcreateLowlight(Tiptapcommon);
 
