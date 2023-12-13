@@ -206,7 +206,9 @@ By default `@tiptap/extension-link` and `@tiptap/extension-code-block-lowlight` 
 
 ```js
   tiptap: {
-    lowlight: true,
+    lowlight: {
+      theme: "github-dark", //default theme
+    },
   },
 ```
 
