@@ -1,4 +1,24 @@
 
+## v0.0.13
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.12...v0.0.13)
+
+### 🚀 Enhancements
+
+- Type support, lowlight highlight theme, css imports ([b9dfd00](https://github.com/modbender/nuxt-tiptap-editor/commit/b9dfd00))
+
+### 🩹 Fixes
+
+- Upgrade ts, optional lowlight ([2f5f259](https://github.com/modbender/nuxt-tiptap-editor/commit/2f5f259))
+
+### 🏡 Chore
+
+- Lowlight example file ([99243bd](https://github.com/modbender/nuxt-tiptap-editor/commit/99243bd))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.12
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.11...v0.0.12)
