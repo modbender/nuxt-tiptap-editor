@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TipTap />
+    <TipTapLowlight />
   </div>
 </template>
 
