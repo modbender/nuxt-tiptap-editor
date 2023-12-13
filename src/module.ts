@@ -65,9 +65,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (options.lowlight !== false) {
       optionalImports = [...optionalImports, ...allImports.lowlightImports];
-      const lldefaultTheme = options.lowlight.theme || "github-dark";
+      const lldefaultTheme = options.lowlight?.theme || "github-dark";
       const highlightJSVersion =
-        options.lowlight.highlightJSVersion || "11.9.0";
+        options.lowlight?.highlightJSVersion || "11.9.0";
       const llThemeCSS = `https://unpkg.com/@highlightjs/cdn-assets@${highlightJSVersion}/styles/${lldefaultTheme}.min.css`;
 
       nuxt.options.app.head.link = [
