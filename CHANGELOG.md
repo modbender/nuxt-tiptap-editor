@@ -1,4 +1,16 @@
 
+## v1.1.0
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.13...v1.1.0)
+
+### 🚀 Enhancements
+
+- Remove mode for component import ([3a3c22a](https://github.com/modbender/nuxt-tiptap-editor/commit/3a3c22a))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v0.0.13
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.12...v0.0.13)
