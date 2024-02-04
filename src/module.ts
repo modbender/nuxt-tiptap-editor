@@ -54,7 +54,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     for (const obj of allImports.defaultComponents) {
       addComponent({
-        mode: "client",
+        // mode: "client",
         name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
@@ -90,7 +90,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     for (const obj of optionalComponents) {
       addComponent({
-        mode: "client",
+        // mode: "client",
         name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
@@ -106,6 +106,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.css = [...nuxt.options.css, ...customCSS];
 
-    console.log("Tiptap Editor initialized");
+    console.info("Tiptap Editor initialized");
   },
 });
