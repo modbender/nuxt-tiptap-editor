@@ -3,6 +3,16 @@
   "version": "1.1.0",
   "description": "Essentials to Quickly Integrate TipTap Editor into your Nuxt App",
   "repository": "modbender/nuxt-tiptap-editor",
+  "keywords": [
+    "vue",
+    "vue.js",
+    "vue3",
+    "nuxt",
+    "nuxt3",
+    "tiptap",
+    "tiptap nuxt module",
+    "tiptap nuxt3"
+  ],
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -25,7 +35,10 @@
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest watch"
+    "test:watch": "vitest watch",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@nuxt/kit": "^3.8.2",
@@ -46,6 +59,7 @@
     "changelogen": "^0.5.5",
     "eslint": "^8.55.0",
     "nuxt": "^3.8.2",
+    "vitepress": "^1.0.0-rc.42",
     "vitest": "^1.0.4"
   }
 }
