@@ -51,7 +51,7 @@ Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionalit
     });
     ```
 
-3. You can use the contents of this file as reference [TipTap.client.vue](/playground/components/TipTap.client.vue). Copy the code to your own `components/TipTap.client.vue`. Any path is fine as long as it's under `components` directory with `.client.vue` extension.
+3. You can use the contents of this file as reference [TipTap.vue](/playground/components/TipTap.vue). Copy the code to your own `components/TipTap.vue`. Any path is fine as long as it's under `components` directory with `.vue` extension.
 
     ```xhtml
     <template>
