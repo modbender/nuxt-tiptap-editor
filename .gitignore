@@ -1,5 +1,6 @@
 # Dependencies
 node_modules
+pnpm-global
 
 # Logs
 *.log*
@@ -8,7 +9,6 @@ node_modules
 .temp
 .tmp
 .cache
-.vitepress
 
 # Yarn
 **/.yarn/cache
@@ -55,3 +55,13 @@ coverage
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Vitepress
+/coverage
+/src/client/shared.ts
+/src/node/shared.ts
+*.tgz
+cache
+temp
+examples-temp
+TODOs.md

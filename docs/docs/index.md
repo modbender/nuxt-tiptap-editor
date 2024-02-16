@@ -1,20 +1,9 @@
 ---
-layout: home
-
-hero:
-  name: Nuxt Tiptap Editor
-  tagline: Essentials to Quickly Integrate TipTap Editor into your Nuxt App
-  actions:
-    - theme: brand
-      text: Documentation
-      link: /docs
-    - theme: alt
-      text: Examples
-      link: /examples
-
-features:
-  - title: 🔆Easy to integrate
-    details: Plug and play usage
-  - title: ⚡️Instant components
-    details: All minimal components from @tiptap available
+title: Nuxt Tiptap Editor
+editLink: true
 ---
+
+# Nuxt Tiptap Editor
+Numerous installations and configurations are required to integrate the Tiptap Editor into your Nuxt 3 project.
+
+This plugin is designed to handle the installation and configuration processes, enabling you to start using Tiptap features without any hassle.
