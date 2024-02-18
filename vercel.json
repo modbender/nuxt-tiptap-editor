@@ -1,6 +1,6 @@
 {
   "buildCommand": "yarn docs:build",
-  "installCommand": "yarn install vitepress",
+  "installCommand": "yarn add vitepress",
   "outputDirectory": "docs/.vitepress/dist",
   "headers": [
     {
