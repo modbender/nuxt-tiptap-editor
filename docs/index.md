@@ -10,7 +10,7 @@ hero:
   actions:
     - theme: brand
       text: Documentation
-      link: /docs/
+      link: /docs/what-is
     - theme: alt
       text: Examples
       link: /examples/

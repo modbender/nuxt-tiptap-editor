@@ -5,14 +5,18 @@ export default defineConfig({
   title: "Nuxt Tiptap Editor",
   description:
     "Essentials to Quickly Integrate TipTap Editor into your Nuxt App",
+
+  cleanUrls: true,
+  lastUpdated: true,
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     search: {
-      provider: 'local'
+      provider: "local",
     },
-    
+
     nav: [
-      { text: "Docs", link: "/docs/" },
+      { text: "Docs", link: "/docs/what-is" },
       { text: "Examples", link: "/examples/" },
     ],
 
@@ -20,8 +24,18 @@ export default defineConfig({
       {
         text: "Documentation",
         items: [
-          { text: "Intro", link: "/docs/" },
-          { text: "Setup", link: "/docs/setup/" },
+          { text: "What is Nuxt Tiptap Editor", link: "/docs/what-is" },
+          { text: "Quick Setup", link: "/docs/quick-setup" },
+          { text: "Extensions", link: "/docs/extensions" },
+        ],
+      },
+      {
+        text: "Examples",
+        items: [
+          { text: "Basic", link: "/examples/basic" },
+          { text: "Code Block Lowlight", link: "/examples/lowlight" },
+          { text: "Placeholder", link: "/examples/placeholder" },
+          { text: "Pre-filled Content", link: "/examples/prefilled-content" },
         ],
       },
     ],
