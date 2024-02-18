@@ -27,6 +27,8 @@ export default defineConfig({
           { text: "What is Nuxt Tiptap Editor", link: "/docs/what-is" },
           { text: "Quick Setup", link: "/docs/quick-setup" },
           { text: "Extensions", link: "/docs/extensions" },
+          { text: "Development", link: "/docs/development" },
+          { text: "Contribution", link: "/docs/contribution" },
         ],
       },
       {

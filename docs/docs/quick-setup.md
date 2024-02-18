@@ -6,16 +6,20 @@ title: Quick Setup
 
 1. Add `nuxt-tiptap-editor` dependency to your project
 
-   ```bash
-   # Using pnpm
-   pnpm add -D nuxt-tiptap-editor
+   ::: code-group
 
-   # Using yarn
-   yarn add --dev nuxt-tiptap-editor
+   ```sh [yarn]
+   yarn add -D nuxt-tiptap-editor
+   ```
 
-   # Using npm
+   ```sh [npm]
    npm install --save-dev nuxt-tiptap-editor
    ```
+
+   ```sh [pnpm]
+   pnpm add -D nuxt-tiptap-editor
+   ```
+   :::
 
 2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
 
@@ -29,8 +33,8 @@ title: Quick Setup
    ```
 
 3. You can use the contents of this file as reference.  
-Copy the code to your own `components/TiptapEditor.vue`.  
-Any path is fine as long as it's under `components` directory with `.vue` extension.
+   Copy the code to your own `components/TiptapEditor.vue`.  
+   Any path is fine as long as it's under `components` directory with `.vue` extension.
 
    ```vue
    <template>

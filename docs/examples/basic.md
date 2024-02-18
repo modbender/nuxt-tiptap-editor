@@ -149,7 +149,6 @@ This is the same example you will find in [Quick Setup](/docs/quick-setup)
 
    <script setup>
    const editor = useEditor({
-     content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
      extensions: [TiptapStarterKit],
    });
    </script>

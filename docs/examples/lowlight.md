@@ -6,11 +6,13 @@ title: Code Block Lowlight Example
 
 This example uses Code Block with `lowlight` for syntax highlighting.
 
-::: info
-The extension is already installed, it needs to be enabled in configuration and added to array of extensions.
+::: tip INSTALLED BY PLUGIN
+The extension is already installed by default with Nuxt Tiptap Editor plugin.
 :::
 
-**More About [Code Block Lowlight Extension](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight).**
+`lowlight` is a option that can be enabled in the configuration. Until `lowlight` option evaluates to `true`, `lowlight` related objects won't be imported to the project to reduce chunk size.
+
+**More about [Code Block Lowlight Extension](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight).**
 
 1. Configuration
 
@@ -30,10 +32,10 @@ The extension is already installed, it needs to be enabled in configuration and 
 
 2. There are 2 types of lowlight syntax highlight language preset - `common` and `full`.  
    Adding to the prefix in configuration it becomes `Tiptapcommon` and `Tiptapfull`.
-   
+
    ```js
    const lowlight = TiptapcreateLowlight(Tiptapcommon); //Common languages
-   
+
    // or
 
    const lowlight = TiptapcreateLowlight(Tiptapall); //All languages
@@ -173,13 +175,12 @@ The extension is already installed, it needs to be enabled in configuration and 
    const lowlight = TiptapcreateLowlight(Tiptapall);
 
    const editor = useEditor({
-     content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
      extensions: [
-      TiptapStarterKit.configure({
-        codeBlock: false,
-      }),
-      TiptapCodeBlockLowlight.configure({ lowlight }),
-    ],
+       TiptapStarterKit.configure({
+         codeBlock: false,
+       }),
+       TiptapCodeBlockLowlight.configure({ lowlight }),
+     ],
    });
    </script>
    ```
