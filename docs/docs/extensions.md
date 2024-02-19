@@ -7,8 +7,8 @@ title: Extensions
 By default `@tiptap/extension-link` and `@tiptap/extension-code-block-lowlight` is installed.
 
 ::: details More Details
-More about [Link Extension](https://tiptap.dev/docs/editor/api/marks/link)
-More about [Code Block Lowlight](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight)
+More about [Link Extension](https://tiptap.dev/docs/editor/api/marks/link)  
+More about [Code Block Lowlight Extension](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight)
 :::
 
 Check out [Code Block Lowlight Example](/examples/lowlight)
@@ -20,6 +20,28 @@ Remember that a default prefix `Tiptap` is applied to all imports except for com
 
 **Example:** `StarterKit` is available as `TiptapStarterKit`
 :::
+
+## Installing
+
+It is always recommended to install extensions into `devDependencies`:
+
+**Example:**
+::: code-group
+
+```sh [yarn]
+yarn add -D @tiptap/extension-placeholder
+```
+
+```sh [npm]
+npm install --save-dev @tiptap/extension-placeholder
+```
+
+```sh [pnpm]
+pnpm add -D @tiptap/extension-placeholder
+```
+:::
+
+## Importing
 
 Whenever you install any **external** extension which is not included in this plugin by default, the best way to import it is to either create a `utils/` file or `/composable` file and put all the imports there.
 

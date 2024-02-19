@@ -182,5 +182,9 @@ The extension is already installed by default with Nuxt Tiptap Editor plugin.
        TiptapCodeBlockLowlight.configure({ lowlight }),
      ],
    });
+
+   onBeforeUnmount(() => {
+    unref(editor).destroy();
+   });
    </script>
    ```

@@ -8,6 +8,7 @@ This example uses Placeholder Extension.
 
 ::: tip NOT INSTALLED
 This extension is not installed by default.
+Read about [installing and importing extension](/docs/extensions).
 :::
 
 **More About [Placeholder Extension](https://tiptap.dev/docs/editor/api/extensions/placeholder).**
@@ -147,11 +148,16 @@ const lowlight = TiptapcreateLowlight(Tiptapall);
 
 const editor = useEditor({
   extensions: [
-    TiptapStarterKit.configure({
-      codeBlock: false,
+    TiptapStarterKit,
+    TiptapPlaceholder.configure({
+      emptyEditorClass: "is-editor-empty",
+      placeholder: "Write your post content here",
     }),
-    TiptapCodeBlockLowlight.configure({ lowlight }),
   ],
+});
+
+onBeforeUnmount(() => {
+  unref(editor).destroy();
 });
 </script>
 ```

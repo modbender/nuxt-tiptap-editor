@@ -13,7 +13,7 @@ hero:
       link: /docs/what-is
     - theme: alt
       text: Examples
-      link: /examples/
+      link: /examples/basic
 
 features:
   - icon: 🔆

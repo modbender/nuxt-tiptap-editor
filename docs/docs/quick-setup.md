@@ -168,6 +168,10 @@ title: Quick Setup
      content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
      extensions: [TiptapStarterKit],
    });
+
+   onBeforeUnmount(() => {
+    unref(editor).destroy();
+   });
    </script>
    ```
 

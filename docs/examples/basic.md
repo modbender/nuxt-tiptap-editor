@@ -149,7 +149,13 @@ This is the same example you will find in [Quick Setup](/docs/quick-setup)
 
    <script setup>
    const editor = useEditor({
-     extensions: [TiptapStarterKit],
+      extensions: [
+        TiptapStarterKit
+      ],
    });
-   </script>
+
+   onBeforeUnmount(() => {
+    unref(editor).destroy();
+   });
+   </script> 
    ```

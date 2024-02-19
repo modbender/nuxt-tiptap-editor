@@ -17,7 +17,7 @@ export default defineConfig({
 
     nav: [
       { text: "Docs", link: "/docs/what-is" },
-      { text: "Examples", link: "/examples/" },
+      { text: "Examples", link: "/examples/basic" },
     ],
 
     sidebar: [
@@ -35,9 +35,9 @@ export default defineConfig({
         text: "Examples",
         items: [
           { text: "Basic", link: "/examples/basic" },
+          { text: "Pre-fill Content", link: "/examples/prefilled-content" },
           { text: "Code Block Lowlight", link: "/examples/lowlight" },
           { text: "Placeholder", link: "/examples/placeholder" },
-          { text: "Pre-filled Content", link: "/examples/prefilled-content" },
         ],
       },
     ],
