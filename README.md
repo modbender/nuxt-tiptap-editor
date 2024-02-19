@@ -16,7 +16,7 @@ Find and replace all on all files (CMD+SHIFT+F):
 
 Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionality to your Nuxt 3 App.
 
-- [📖 Full Documentation](nuxt-tiptap-editor.vercel.app)
+- [📖 Full Documentation](https://nuxt-tiptap-editor.vercel.app)
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
 - [🏀 Online playground](https://stackblitz.com/github/modbender/nuxt-tiptap-editor?file=playground%2Fapp.vue)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
