@@ -1,16 +1,3 @@
-<!--
-Get your module up and running quickly.
-
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: Nuxt TipTap Editor
-- Package name: nuxt-tiptap-editor
-- Description: Essentials to Quickly Integrate TipTap Editor into your Nuxt App
--->
-
-<h1 align="center">
-   Nuxt TipTap Editor
-</h1>
-
 <p align="center">
   <a href="https://npmjs.com/package/nuxt-tiptap-editor" rel="nofollow">
     <img src="https://camo.githubusercontent.com/ae81dea5e450a972eb8017f2d165e5a708c2128f68e8c02b046d63ea85d0e186/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f6e7578742d7469707461702d656469746f722f6c61746573742e7376673f7374796c653d666c617426636f6c6f72413d31383138314226636f6c6f72423d323843463844" alt="npm version" data-canonical-src="https://img.shields.io/npm/v/nuxt-tiptap-editor/latest.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
@@ -22,6 +9,10 @@ Find and replace all on all files (CMD+SHIFT+F):
     <img src="https://camo.githubusercontent.com/4ba30edd28e1e16ce7322c5dfd4f878b3501d4cff8664612494d2237f1130d48/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e7578742d3138313831423f6c6f676f3d6e7578742e6a73" alt="Nuxt" data-canonical-src="https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js" style="max-width: 100%;">
   </a>
 </p>
+
+<h1 align="center">
+   Nuxt TipTap Editor
+</h1>
 
 <p align="center">
   Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionality to your Nuxt 3 App.
