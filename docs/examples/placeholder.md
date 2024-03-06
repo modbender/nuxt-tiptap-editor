@@ -6,7 +6,7 @@ title: Placeholder Example
 
 This example uses Placeholder Extension.
 
-::: tip NOT INSTALLED
+::: warning NOT INSTALLED
 This extension is not installed by default.
 Read about [installing and importing extension](/docs/extensions).
 :::
