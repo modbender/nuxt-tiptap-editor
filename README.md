@@ -15,7 +15,7 @@
 </h1>
 
 <p align="center">
-  Instantly add [TipTap Editor](https://tiptap.dev/editor) with basic functionality to your Nuxt 3 App.
+  Instantly add <a href="https://tiptap.dev/editor" rel="nofollow">TipTap Editor</a> with basic functionality to your Nuxt 3 App.
 </p>
 
 <p align="center">
