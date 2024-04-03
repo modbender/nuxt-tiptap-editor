@@ -33,11 +33,11 @@
 1. Add `nuxt-tiptap-editor` dependency to your project
 
    ```sh
-   yarn add -D nuxt-tiptap-editor
+   npx nuxi@latest module add tiptap
 
-   npm install --save-dev nuxt-tiptap-editor
+   npx nuxi@latest module add tiptap
 
-   pnpm add -D nuxt-tiptap-editor
+   npx nuxi@latest module add tiptap
    ```
 
 2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
