@@ -34,10 +34,6 @@
 
    ```sh
    npx nuxi@latest module add tiptap
-
-   npx nuxi@latest module add tiptap
-
-   npx nuxi@latest module add tiptap
    ```
 
 2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
