@@ -5,21 +5,9 @@ title: Quick Setup
 # Quick Setup
 
 1. Add `nuxt-tiptap-editor` dependency to your project
-
-   ::: code-group
-
-   ```sh [yarn]
-   yarn add -D nuxt-tiptap-editor
+   ```bash
+   npx nuxi@latest module add tiptap
    ```
-
-   ```sh [npm]
-   npm install --save-dev nuxt-tiptap-editor
-   ```
-
-   ```sh [pnpm]
-   pnpm add -D nuxt-tiptap-editor
-   ```
-   :::
 
 2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
 
