@@ -1,4 +1,24 @@
 
+## v1.1.1
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.1.0...v1.1.1)
+
+### 📖 Documentation
+
+- Prefill content ([2e30dcc](https://github.com/modbender/nuxt-tiptap-editor/commit/2e30dcc))
+- Important points to remember ([060ff9c](https://github.com/modbender/nuxt-tiptap-editor/commit/060ff9c))
+- Highlight not installed exts ([71f0de2](https://github.com/modbender/nuxt-tiptap-editor/commit/71f0de2))
+- Use new `nuxi module add` command in installation ([a81faa4](https://github.com/modbender/nuxt-tiptap-editor/commit/a81faa4))
+
+### 🏡 Chore
+
+- Remove dupes ([c17d275](https://github.com/modbender/nuxt-tiptap-editor/commit/c17d275))
+
+### ❤️ Contributors
+
+- Daniel Roe ([@danielroe](http://github.com/danielroe))
+- Modbender
+
 ## v1.1.0
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v0.0.13...v1.1.0)
