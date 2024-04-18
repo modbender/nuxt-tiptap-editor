@@ -41,25 +41,25 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.8.2",
-    "@tiptap/extension-code-block-lowlight": "^2.1.13",
-    "@tiptap/extension-link": "^2.1.13",
-    "@tiptap/pm": "^2.1.13",
-    "@tiptap/starter-kit": "^2.1.13",
-    "@tiptap/vue-3": "^2.1.13",
+    "@nuxt/kit": "^3.11.2",
+    "@tiptap/extension-code-block-lowlight": "^2.3.0",
+    "@tiptap/extension-link": "^2.3.0",
+    "@tiptap/pm": "^2.3.0",
+    "@tiptap/starter-kit": "^2.3.0",
+    "@tiptap/vue-3": "^2.3.0",
     "lowlight": "^3.1.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.2.0",
-    "@nuxt/module-builder": "^0.5.4",
-    "@nuxt/schema": "^3.8.2",
-    "@nuxt/test-utils": "^3.8.1",
-    "@types/node": "^20.10.4",
+    "@nuxt/eslint-config": "^0.3.8",
+    "@nuxt/module-builder": "^0.5.5",
+    "@nuxt/schema": "^3.11.2",
+    "@nuxt/test-utils": "^3.12.1",
+    "@types/node": "^20.12.7",
     "changelogen": "^0.5.5",
-    "eslint": "^8.55.0",
-    "nuxt": "^3.8.2",
-    "vitepress": "^1.0.0-rc.42",
-    "vitest": "^1.0.4"
+    "eslint": "^9.0.0",
+    "nuxt": "^3.11.2",
+    "vitepress": "^1.1.1",
+    "vitest": "^1.5.0"
   }
 }
