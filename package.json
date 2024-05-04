@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tiptap-editor",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Essentials to Quickly Integrate TipTap Editor into your Nuxt App",
   "repository": "modbender/nuxt-tiptap-editor",
   "keywords": [
@@ -33,7 +33,7 @@
     "build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "docs:dev": "vitepress dev docs",

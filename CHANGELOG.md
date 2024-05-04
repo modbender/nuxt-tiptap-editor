@@ -1,4 +1,16 @@
 
+## v1.1.2
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.1.1...v1.1.2)
+
+### 🏡 Chore
+
+- Update packages ([b184fbc](https://github.com/modbender/nuxt-tiptap-editor/commit/b184fbc))
+
+### ❤️ Contributors
+
+- Modbender
+
 ## v1.1.1
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.1.0...v1.1.1)
