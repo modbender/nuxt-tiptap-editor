@@ -42,24 +42,24 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
-    "@tiptap/extension-code-block-lowlight": "^2.3.0",
-    "@tiptap/extension-link": "^2.3.0",
-    "@tiptap/pm": "^2.3.0",
-    "@tiptap/starter-kit": "^2.3.0",
-    "@tiptap/vue-3": "^2.3.0",
+    "@tiptap/extension-code-block-lowlight": "^2.3.1",
+    "@tiptap/extension-link": "^2.3.1",
+    "@tiptap/pm": "^2.3.1",
+    "@tiptap/starter-kit": "^2.3.1",
+    "@tiptap/vue-3": "^2.3.1",
     "lowlight": "^3.1.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.3.8",
-    "@nuxt/module-builder": "^0.5.5",
+    "@nuxt/eslint-config": "^0.3.10",
+    "@nuxt/module-builder": "^0.6.0",
     "@nuxt/schema": "^3.11.2",
     "@nuxt/test-utils": "^3.12.1",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.8",
     "changelogen": "^0.5.5",
-    "eslint": "^9.0.0",
+    "eslint": "^9.2.0",
     "nuxt": "^3.11.2",
-    "vitepress": "^1.1.1",
-    "vitest": "^1.5.0"
+    "vitepress": "^1.1.4",
+    "vitest": "^1.6.0"
   }
 }
