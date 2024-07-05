@@ -90,6 +90,20 @@
         ordered list
       </button>
       <button
+        :disabled="!editor.can().chain().focus().toggleSuperscript().run() || editor.isActive('subscript')"
+        @click="editor.chain().focus().toggleSuperscript().run()"
+        :class="{ 'is-active': editor.isActive('superscript') }"
+      >
+        superscript
+      </button>
+      <button
+        :disabled="!editor.can().chain().focus().toggleSuperscript().run() ||editor.isActive('superscript')"
+        @click="editor.chain().focus().toggleSubscript().run()"
+        :class="{ 'is-active': editor.isActive('subscript') }"
+      >
+        subscript
+      </button>
+      <button
         @click="editor.chain().focus().toggleCodeBlock().run()"
         :class="{ 'is-active': editor.isActive('codeBlock') }"
       >
@@ -125,6 +139,9 @@
 </template>
 
 <script setup>
+import {Subscript} from "@tiptap/extension-subscript";
+import {Superscript} from "@tiptap/extension-superscript";
+
 const lowlight = TiptapcreateLowlight(Tiptapcommon);
 
 const editor = useEditor({
@@ -136,6 +153,8 @@ const editor = useEditor({
     TiptapCodeBlockLowlight.configure({
       lowlight,
     }),
-  ],
+    Subscript,
+    Superscript,
+  ]
 });
 </script>

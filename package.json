@@ -42,11 +42,13 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
-    "@tiptap/extension-code-block-lowlight": "^2.3.1",
-    "@tiptap/extension-link": "^2.3.1",
-    "@tiptap/pm": "^2.3.1",
-    "@tiptap/starter-kit": "^2.3.1",
-    "@tiptap/vue-3": "^2.3.1",
+    "@tiptap/extension-code-block-lowlight": "^2.4.0",
+    "@tiptap/extension-link": "^2.4.0",
+    "@tiptap/pm": "^2.4.0",
+    "@tiptap/starter-kit": "^2.4.0",
+    "@tiptap/vue-3": "^2.4.0",
+    "@tiptap/extension-subscript": "^2.4.0",
+    "@tiptap/extension-superscript": "^2.4.0",
     "lowlight": "^3.1.0"
   },
   "devDependencies": {
