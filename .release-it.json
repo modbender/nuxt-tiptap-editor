@@ -1,6 +1,6 @@
 {
   "git": {
-    "changelog": "npx changelogen",
+    "changelog": "npx changelogen -r %s",
     "commitMessage": "chore: release v${version}",
     "requireCleanWorkingDir": true
   },
