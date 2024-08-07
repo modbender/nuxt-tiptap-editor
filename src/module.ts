@@ -1,37 +1,32 @@
-import { defineNuxtModule, addImports, addComponent } from "@nuxt/kit";
+import { defineNuxtModule, addImports, addComponent } from '@nuxt/kit';
 
-import { name, version } from "../package.json";
+// @ts-expect-error es version
+import { name, version } from '../package.json';
 
-import type { ModuleOptions } from "./types";
+import type { ModuleOptions } from './types';
 
-import * as allImports from "./imports";
-
-// Module options TypeScript interface definition
+import * as allImports from './imports';
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name,
     version,
-    configKey: "tiptap",
+    configKey: 'tiptap',
     compatibility: {
-      nuxt: "^3.0.0",
+      nuxt: '^3.0.0',
     },
   },
-  // Default configuration options of the Nuxt module
   defaults: {
-    prefix: "Tiptap",
+    prefix: 'Tiptap',
     lowlight: false,
   },
   async setup(options, nuxt) {
-    // const { resolve } = createResolver(import.meta.url);
-
     const transpileModules = new Set<string>([]);
 
     let optionalImports: { [key: string]: string }[] = [];
     let optionalComponents: { [key: string]: string }[] = [];
     const customCSS: string[] = [];
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     for (const obj of allImports.defaultComposables) {
       addImports({
         as: obj.name,
@@ -65,17 +60,18 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (options.lowlight !== false) {
       optionalImports = [...optionalImports, ...allImports.lowlightImports];
-      const lldefaultTheme = options.lowlight?.theme || "github-dark";
+      const lldefaultTheme = options.lowlight?.theme || 'github-dark';
       const highlightJSVersion =
-        options.lowlight?.highlightJSVersion || "11.9.0";
+        options.lowlight?.highlightJSVersion || '11.9.0';
       const llThemeCSS = `https://unpkg.com/@highlightjs/cdn-assets@${highlightJSVersion}/styles/${lldefaultTheme}.min.css`;
 
       nuxt.options.app.head.link = [
         ...(nuxt.options.app.head.link || []),
-        { rel: "stylesheet", href: llThemeCSS },
+        { rel: 'stylesheet', href: llThemeCSS },
       ];
     }
 
+    // For future uses
     optionalComponents = [...optionalComponents];
 
     for (const obj of optionalImports) {
@@ -90,7 +86,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     for (const obj of optionalComponents) {
       addComponent({
-        // mode: "client",
         name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
@@ -101,11 +96,11 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.build.transpile = [
       ...nuxt.options.build.transpile,
-      ...transpileModules,
+      ...Array.from(transpileModules),
     ];
 
     nuxt.options.css = [...nuxt.options.css, ...customCSS];
 
-    console.info("Tiptap Editor initialized");
+    console.info('Tiptap Editor initialized');
   },
 });

@@ -12,8 +12,8 @@ function renderStubMessage(name: string, extName: string, extDoc?: string) {
 export const Placeholder = {
   setup: () =>
     renderStubMessage(
-      "Placeholder",
-      "@tiptap/extension-placeholder",
-      "https://tiptap.dev/api/extensions/placeholder"
+      'Placeholder',
+      '@tiptap/extension-placeholder',
+      'https://tiptap.dev/api/extensions/placeholder',
     ),
 };
