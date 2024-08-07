@@ -1,0 +1,22 @@
+{
+  "git": {
+    "changelog": "npx changelogen",
+    "commitMessage": "chore: release v${version}",
+    "requireCleanWorkingDir": true
+  },
+  "github": {
+    "release": true,
+    "releaseName": "v${version}"
+  },
+  "npm": {
+    "skipChecks": true
+  },
+  "plugins": {
+    "release-it-pnpm": {
+      "inFile": "CHANGELOG.md"
+    }
+  },
+  "hooks": {
+    "after:bump": "npx changelogen --output"
+  }
+}
