@@ -150,8 +150,8 @@ const editor = useEditor({
   extensions: [
     TiptapStarterKit,
     TiptapPlaceholder.configure({
-      emptyEditorClass: "is-editor-empty",
-      placeholder: "Write your post content here",
+      emptyEditorClass: 'is-editor-empty',
+      placeholder: 'Write your post content here',
     }),
   ],
 });

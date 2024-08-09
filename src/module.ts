@@ -1,6 +1,5 @@
 import { defineNuxtModule, addImports, addComponent } from '@nuxt/kit';
 
-// @ts-expect-error es version
 import { name, version } from '../package.json';
 
 import type { ModuleOptions } from './types';

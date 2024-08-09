@@ -1,5 +1,5 @@
-import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
+import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
 
 export default createConfigForNuxt({
-  ignores: ["dist", "node_modules"],
+  ignores: ['dist', 'node_modules'],
 });

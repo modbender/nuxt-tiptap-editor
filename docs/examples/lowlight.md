@@ -18,11 +18,11 @@ The extension is already installed by default with Nuxt Tiptap Editor plugin.
 
    ```js
    export default defineNuxtConfig({
-     modules: ["nuxt-tiptap-editor"],
+     modules: ['nuxt-tiptap-editor'],
      tiptap: {
-       prefix: "Tiptap", //prefix for Tiptap components
+       prefix: 'Tiptap', //prefix for Tiptap components
        lowlight: {
-         theme: "github-dark",
+         theme: 'github-dark',
        },
      },
    });
@@ -184,7 +184,7 @@ The extension is already installed by default with Nuxt Tiptap Editor plugin.
    });
 
    onBeforeUnmount(() => {
-    unref(editor).destroy();
+     unref(editor).destroy();
    });
    </script>
    ```

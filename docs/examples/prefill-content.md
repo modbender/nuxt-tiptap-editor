@@ -26,20 +26,20 @@ There are 2 main ways of filling content data in editor.
 
 2.  Using `setContent`:
 
-    Initialized `editor` provides various API among which `commands.setContent` function takes in a HTML string and sets the content into editor at any point of time.  
+    Initialized `editor` provides various API among which `commands.setContent` function takes in a HTML string and sets the content into editor at any point of time.
 
     During mount is just one example, the content can be set using the same function at any time after mount.
 
     ```js
     const editor = useEditor({
-      extensions: [
-        TiptapStarterKit
-      ],
+      extensions: [TiptapStarterKit],
     });
 
     onMounted(() => {
       if (!!unref(editor)) {
-        unref(editor).commands.setContent("<p>I'm running Tiptap with Vue.js. 🎉</p>");
+        unref(editor).commands.setContent(
+          "<p>I'm running Tiptap with Vue.js. 🎉</p>",
+        );
       }
     });
 

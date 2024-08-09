@@ -5,6 +5,7 @@ title: Quick Setup
 # Quick Setup
 
 1. Add `nuxt-tiptap-editor` dependency to your project
+
    ```bash
    npx nuxi@latest module add tiptap
    ```
@@ -13,9 +14,9 @@ title: Quick Setup
 
    ```js
    export default defineNuxtConfig({
-     modules: ["nuxt-tiptap-editor"],
+     modules: ['nuxt-tiptap-editor'],
      tiptap: {
-       prefix: "Tiptap", //prefix for Tiptap imports, composables not included
+       prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
      },
    });
    ```
@@ -158,7 +159,7 @@ title: Quick Setup
    });
 
    onBeforeUnmount(() => {
-    unref(editor).destroy();
+     unref(editor).destroy();
    });
    </script>
    ```

@@ -1,12 +1,12 @@
 export default defineNuxtConfig({
-  modules: ["../src/module"],
+  modules: ['../src/module'],
 
   tiptap: {
     lowlight: {
-      theme: "github-dark",
+      theme: 'github-dark',
     },
   },
 
   devtools: { enabled: true },
-  compatibilityDate: "2024-07-25",
+  compatibilityDate: '2024-07-25',
 });

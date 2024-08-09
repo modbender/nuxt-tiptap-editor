@@ -22,7 +22,8 @@
   <img src="https://assets-global.website-files.com/645a9acecda2e0594fac6126/65675de8c3c9cffc1a4a4d26_editor-eaxmple-placeholder-p-800.png" alt="Tiptap Editor Preview" />
 </p>
 
------
+---
+
 - [📖 Full Documentation](https://nuxt-tiptap-editor.vercel.app)
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
 - [🏀 Online playground](https://stackblitz.com/github/modbender/nuxt-tiptap-editor?file=playground%2Fapp.vue)
@@ -40,9 +41,9 @@
 
    ```js
    export default defineNuxtConfig({
-     modules: ["nuxt-tiptap-editor"],
+     modules: ['nuxt-tiptap-editor'],
      tiptap: {
-       prefix: "Tiptap", //prefix for Tiptap imports, composables not included
+       prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
      },
    });
    ```
@@ -185,7 +186,7 @@
    });
 
    onBeforeUnmount(() => {
-    unref(editor).destroy();
+     unref(editor).destroy();
    });
    </script>
    ```
@@ -193,7 +194,6 @@
 4. Now edit the HTML, replace `button` with your UI provided component, or style it using tailwind or whichever CSS you are using, add icons or text, modify active state class, verify dark mode, etc.
 
 That's it! You can now use Nuxt TipTap Editor in your Nuxt app ✨
-
 
 ## Development
 
@@ -224,7 +224,6 @@ npm run release
 ## Contribution
 
 Feel free to send out any valid pull requests. Would love to get any help!
-
 
 <!-- Badges -->
 
