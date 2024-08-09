@@ -1,3 +1,39 @@
+# Changelog
+
+## v1.1.2...main
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.1.2...main)
+
+### 🩹 Fixes
+
+- Editor config ([f571e13](https://github.com/modbender/nuxt-tiptap-editor/commit/f571e13))
+- Lint ([cab0949](https://github.com/modbender/nuxt-tiptap-editor/commit/cab0949))
+
+### 🏡 Chore
+
+- **release:** V1.1.2 ([bcf98ec](https://github.com/modbender/nuxt-tiptap-editor/commit/bcf98ec))
+- Upgrade packages ([3dae1e7](https://github.com/modbender/nuxt-tiptap-editor/commit/3dae1e7))
+- Formatting, updates & fixes ([2748b38](https://github.com/modbender/nuxt-tiptap-editor/commit/2748b38))
+- Add release-it ([f0b79e1](https://github.com/modbender/nuxt-tiptap-editor/commit/f0b79e1))
+- Update release-it config ([a6fc802](https://github.com/modbender/nuxt-tiptap-editor/commit/a6fc802))
+- Update release-it ([f2fd197](https://github.com/modbender/nuxt-tiptap-editor/commit/f2fd197))
+- Update release-it ([b7ce6fd](https://github.com/modbender/nuxt-tiptap-editor/commit/b7ce6fd))
+- Update release-it ([fe2cddf](https://github.com/modbender/nuxt-tiptap-editor/commit/fe2cddf))
+- Update release-it ([8ff72a9](https://github.com/modbender/nuxt-tiptap-editor/commit/8ff72a9))
+- Format ([9b29161](https://github.com/modbender/nuxt-tiptap-editor/commit/9b29161))
+
+### ❤️ Contributors
+
+- Modbender
+
+## 1.2.0
+
+### &nbsp;&nbsp;&nbsp;Bug Fixes
+
+- Editor config &nbsp;-&nbsp; by **modbender** [<samp>(f571e)</samp>](https://github.com/modbender/nuxt-tiptap-editor/commit/f571e13)
+- Lint &nbsp;-&nbsp; by **modbender** [<samp>(cab09)</samp>](https://github.com/modbender/nuxt-tiptap-editor/commit/cab0949)
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.1.2...1.2.0)
 
 ## v1.1.2
 
@@ -229,4 +265,3 @@
 ### ❤️ Contributors
 
 - Modbender
-
