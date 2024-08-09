@@ -1,8 +1,7 @@
 {
   "git": {
-    "tagName": "v${version}",
-    "commitMessage": "chore(release): v${version}",
-    "tagAnnotation": "v${version}"
+    "changelog": "npx changelogen -r ${version}",
+    "commitMessage": "chore: release v${version}"
   },
   "github": {
     "release": true,
@@ -14,14 +13,6 @@
   "plugins": {
     "release-it-pnpm": {
       "inFile": "CHANGELOG.md"
-    },
-    "release-it-changelogen": {
-      "disableVersion": true,
-      "templates": {
-        "commitMessage": "chore(release): v{{newVersion}}",
-        "tagMessage": "v{{newVersion}}",
-        "tagBody": "v{{newVersion}}"
-      }
     }
   },
   "hooks": {
