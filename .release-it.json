@@ -1,6 +1,6 @@
 {
   "git": {
-    "changelog": "npx changelogen -r ${version}",
+    "changelog": "npx changelogen -r ${to}",
     "commitMessage": "chore: release v${version}"
   },
   "github": {
