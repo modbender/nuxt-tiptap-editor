@@ -16,6 +16,6 @@
     }
   },
   "hooks": {
-    "after:bump": "npx changelogen --output"
+    "after:bump": "npx changelogen -r ${version} --output"
   }
 }
