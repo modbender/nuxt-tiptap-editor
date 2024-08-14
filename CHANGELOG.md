@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.2.0...main
+
+[compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.2.0...main)
+
+### 🏡 Chore
+
+- Upgrade packages ([217069e](https://github.com/modbender/nuxt-tiptap-editor/commit/217069e))
+
+### ❤️ Contributors
+
+- Modbender
+
+## 1.2.1
+
+*No significant changes*
+
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.2.0...1.2.1)
+
 ## v1.1.2...main
 
 [compare changes](https://github.com/modbender/nuxt-tiptap-editor/compare/v1.1.2...main)
