@@ -75,7 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     for (const obj of optionalImports) {
       addImports({
-        as: `${options.prefix}${obj.name}`,
+        as: obj.name,
         name: obj.name,
         from: obj.path,
         // _internal_install: obj.path,
