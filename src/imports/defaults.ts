@@ -29,9 +29,7 @@ export const defaultMarks = [
 export const defaultExtensions = [
   { name: 'Extension', path: '@tiptap/core' },
   { name: 'StarterKit', path: '@tiptap/starter-kit' },
-  { name: 'BubbleMenu', path: '@tiptap/extension-bubble-menu' },
   { name: 'Gapcursor', path: '@tiptap/extension-gapcursor' },
-  { name: 'FloatingMenu', path: '@tiptap/extension-floating-menu' },
   { name: 'Dropcursor', path: '@tiptap/extension-dropcursor' },
   { name: 'History', path: '@tiptap/extension-history' },
 ];
