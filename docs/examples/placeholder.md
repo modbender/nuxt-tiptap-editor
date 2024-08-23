@@ -144,7 +144,7 @@ Any path is fine as long as it's under `components` directory with `.vue` extens
 </template>
 
 <script setup>
-const lowlight = TiptapcreateLowlight(Tiptapall);
+const lowlight = createLowlight(Tiptapall);
 
 const editor = useEditor({
   extensions: [

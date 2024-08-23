@@ -24,9 +24,9 @@
 
 ---
 
-- [📖 Full Documentation](https://nuxt-tiptap-editor.vercel.app)
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-- [🏀 Online playground](https://stackblitz.com/github/modbender/nuxt-tiptap-editor?file=playground%2Fapp.vue)
+- 📖 [Documentation for Module](https://nuxt-tiptap-editor.vercel.app) | [Documentation by Tiptap](https://tiptap.dev/docs/editor/extensions/overview)
+- ✨ [Release Notes](/CHANGELOG.md)
+- 🏀 [Online playground](https://stackblitz.com/github/modbender/nuxt-tiptap-editor?file=playground%2Fapp.vue)
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Quick Setup
