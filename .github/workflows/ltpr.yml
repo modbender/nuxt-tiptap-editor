@@ -1,0 +1,54 @@
+name: Lint, Test, Publish and Release
+
+permissions:
+  checks: write
+  contents: write
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  common:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+            fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          registry-url: 'https://registry.npmjs.org'
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run linter
+        run: pnpm lint
+
+      - name: Run prepare
+        run: pnpm dev:prepare
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Run prepack
+        run: pnpm prepack
+
+      - name: Publish to npm
+        shell: bash
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Run github release
+        run: npx --yes changelogithub@latest
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
