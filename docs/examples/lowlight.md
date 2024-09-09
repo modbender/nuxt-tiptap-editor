@@ -34,11 +34,11 @@ The extension is already installed by default with Nuxt Tiptap Editor plugin.
    Adding to the prefix in configuration it becomes `Tiptapcommon` and `Tiptapfull`.
 
    ```js
-   const lowlight = TiptapcreateLowlight(Tiptapcommon); //Common languages
+   const lowlight = createLowlight(Tiptapcommon); //Common languages
 
    // or
 
-   const lowlight = TiptapcreateLowlight(Tiptapall); //All languages
+   const lowlight = createLowlight(Tiptapall); //All languages
    ```
 
    Copy the code to your own `components/TiptapEditor.vue`.  
@@ -172,7 +172,7 @@ The extension is already installed by default with Nuxt Tiptap Editor plugin.
    </template>
 
    <script setup>
-   const lowlight = TiptapcreateLowlight(Tiptapall);
+   const lowlight = createLowlight(allLanguages);
 
    const editor = useEditor({
      extensions: [

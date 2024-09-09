@@ -2,7 +2,7 @@ import { defineNuxtModule, addImports, addComponent } from '@nuxt/kit';
 
 import { name, version } from '../package.json';
 
-import type { ModuleOptions } from './types';
+import type { ModuleOptions, ImportObject } from './types';
 
 import * as allImports from './imports';
 
@@ -22,13 +22,29 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(options, nuxt) {
     const transpileModules = new Set<string>([]);
 
-    let optionalImports: { [key: string]: string }[] = [];
-    let optionalComponents: { [key: string]: string }[] = [];
+    const defaultComposables: ImportObject[] = [
+      ...allImports.defaultComposables,
+      ...allImports.customComposables,
+    ];
+
+    const defaultImports: ImportObject[] = [
+      ...allImports.defaultImports,
+      ...allImports.customImports,
+    ];
+
+    const defaultComponents: ImportObject[] = [
+      ...allImports.defaultComponents,
+      ...allImports.customComponents,
+    ];
+
+    const optionalImports: ImportObject[] = [];
+    const optionalComposables: ImportObject[] = [];
+    const optionalComponents: ImportObject[] = [];
     const customCSS: string[] = [];
 
-    for (const obj of allImports.defaultComposables) {
+    for (const obj of defaultComposables) {
       addImports({
-        as: obj.name,
+        as: obj.as || obj.name,
         name: obj.name,
         from: obj.path,
         // _internal_install: obj.path,
@@ -36,7 +52,7 @@ export default defineNuxtModule<ModuleOptions>({
       transpileModules.add(obj.path);
     }
 
-    for (const obj of allImports.defaultImports) {
+    for (const obj of defaultImports) {
       addImports({
         as: `${options.prefix}${obj.name}`,
         name: obj.name,
@@ -46,9 +62,8 @@ export default defineNuxtModule<ModuleOptions>({
       transpileModules.add(obj.path);
     }
 
-    for (const obj of allImports.defaultComponents) {
+    for (const obj of defaultComponents) {
       addComponent({
-        // mode: "client",
         name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
@@ -57,8 +72,11 @@ export default defineNuxtModule<ModuleOptions>({
       transpileModules.add(obj.path);
     }
 
+    // Optional imports and components
     if (options.lowlight !== false) {
-      optionalImports = [...optionalImports, ...allImports.lowlightImports];
+      optionalImports.push(...allImports.lowlightImports);
+      optionalComposables.push(...allImports.lowlightComposables);
+
       const lldefaultTheme = options.lowlight?.theme || 'github-dark';
       const highlightJSVersion =
         options.lowlight?.highlightJSVersion || '11.10.0';
@@ -70,12 +88,19 @@ export default defineNuxtModule<ModuleOptions>({
       ];
     }
 
-    // For future uses
-    optionalComponents = [...optionalComponents];
-
     for (const obj of optionalImports) {
       addImports({
-        as: obj.name,
+        as: `${options.prefix}${obj.name}`,
+        name: obj.name,
+        from: obj.path,
+        // _internal_install: obj.path,
+      });
+      transpileModules.add(obj.path);
+    }
+
+    for (const obj of optionalComposables) {
+      addImports({
+        as: obj.as || obj.name,
         name: obj.name,
         from: obj.path,
         // _internal_install: obj.path,

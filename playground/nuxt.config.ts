@@ -1,5 +1,12 @@
+import Aura from '@primevue/themes/aura';
+
 export default defineNuxtConfig({
-  modules: ['../src/module'],
+  css: ['primeicons/primeicons.css'],
+
+  modules: ['../src/module', '@nuxtjs/tailwindcss', '@primevue/nuxt-module'],
+
+  devtools: { enabled: true },
+  compatibilityDate: '2024-07-25',
 
   tiptap: {
     lowlight: {
@@ -7,6 +14,18 @@ export default defineNuxtConfig({
     },
   },
 
-  devtools: { enabled: true },
-  compatibilityDate: '2024-07-25',
+  primevue: {
+    components: {
+      exclude: ['Chart', 'Editor'],
+    },
+    options: {
+      theme: {
+        preset: Aura,
+        options: {
+          darkModeSelector: '.dark',
+        },
+      },
+      ripple: true,
+    },
+  },
 });

@@ -249,7 +249,14 @@ export type HighlightTheme =
   | 'vs'
   | 'vs2015'
   | 'xcode'
-  | 'xt256';
+  | 'xt256'
+
+export interface ImportObject {
+  name: string
+  path: string
+  as?: string
+  local?: boolean
+}
 
 export interface ModuleOptions {
   /**
@@ -257,7 +264,7 @@ export interface ModuleOptions {
    *
    * @default 'Tiptap'
    */
-  prefix: string;
+  prefix: string
   /**
    * Determine if lowlight should be enabled
    *
@@ -266,28 +273,28 @@ export interface ModuleOptions {
   lowlight?:
     | false
     | {
-        /**
-         * Language highlighting theme
-         *
-         * @default 'github-dark'
-         */
-        theme?: HighlightTheme;
+      /**
+       * Language highlighting theme
+       *
+       * @default 'github-dark'
+       */
+      theme?: HighlightTheme
 
-        /**
-         * highlight.js version used for css import
-         *
-         * @default '11.9.0'
-         */
-        highlightJSVersion?: '11.9.0' | string;
-      };
+      /**
+       * highlight.js version used for css import
+       *
+       * @default '11.9.0'
+       */
+      highlightJSVersion?: '11.9.0' | string
+    }
 }
 
 declare module 'nuxt-tiptap-editor' {
   interface NuxtConfig {
-    tiptap?: ModuleOptions;
+    tiptap?: ModuleOptions
   }
 
   interface NuxtOptions {
-    tiptap?: ModuleOptions;
+    tiptap?: ModuleOptions
   }
 }

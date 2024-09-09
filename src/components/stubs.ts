@@ -6,7 +6,7 @@ function renderStubMessage(name: string, extName: string, extDoc?: string) {
     ${name} is provided by external extension ${extName}. 
     Find instructions to install in ${extDoc}.
     `,
-  });
+  })
 }
 
 export const Placeholder = {
@@ -16,4 +16,4 @@ export const Placeholder = {
       '@tiptap/extension-placeholder',
       'https://tiptap.dev/api/extensions/placeholder',
     ),
-};
+}

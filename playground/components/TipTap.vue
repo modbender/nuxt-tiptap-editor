@@ -130,3 +130,18 @@ const editor = useEditor({
   extensions: [TiptapStarterKit],
 });
 </script>
+
+<style scoped>
+button {
+  border-radius: 3px;
+  background-image: linear-gradient(
+    to top,
+    rgb(207, 207, 207) 16%,
+    rgb(252, 252, 252) 79%
+  );
+  padding: 3px;
+  border: 1px solid #000;
+  color: black;
+  text-decoration: none;
+}
+</style>

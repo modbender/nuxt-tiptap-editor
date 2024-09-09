@@ -1,14 +1,19 @@
-export const lowlightImports = [
-  { name: 'all', path: 'lowlight' },
-  { name: 'common', path: 'lowlight' },
-  { name: 'createLowlight', path: 'lowlight' },
-  { name: 'CodeBlockLowlight', path: '@tiptap/extension-code-block-lowlight' },
-];
+import type { ImportObject } from '../types'
 
-export const placeholderImports = [
+export const lowlightComposables: ImportObject[] = [
+  { name: 'all', as: 'allLanguages', path: 'lowlight' },
+  { name: 'common', as: 'commonLanguages', path: 'lowlight' },
+  { name: 'createLowlight', path: 'lowlight' },
+]
+
+export const lowlightImports: ImportObject[] = [
+  { name: 'CodeBlockLowlight', path: '@tiptap/extension-code-block-lowlight' },
+]
+
+export const placeholderImports: ImportObject[] = [
   {
     name: 'Placeholder',
     path: 'components/nuxt-stubs',
     local: true,
   },
-];
+]

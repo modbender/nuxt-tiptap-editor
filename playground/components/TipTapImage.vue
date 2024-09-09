@@ -125,19 +125,45 @@
 </template>
 
 <script setup>
-const lowlight = createLowlight(commonLanguages)
+const toast = useToast();
+
+async function uploadImage(file, id) {
+  try {
+    const formData = new FormData();
+    formData.append(id, file);
+
+    const urls = await $fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    console.log(urls);
+
+    return urls[0];
+  } catch (e) {
+    return toast.add({
+      severity: 'error',
+      summary: e.statusMessage,
+      detail: e.statusMessage,
+      life: 3000,
+    });
+  }
+}
 
 const editor = useEditor({
-  content: '<p>I\'m running Tiptap with Vue.js. 🎉</p>',
+  content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
   extensions: [
-    TiptapStarterKit.configure({
-      codeBlock: false,
+    TiptapStarterKit,
+    TiptapImage,
+    TiptapImageUpload.configure({
+      acceptMimes: ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'],
+      upload: uploadImage,
     }),
-    TiptapCodeBlockLowlight.configure({
-      lowlight,
+    TiptapImagePlaceholder.configure({
+      inline: false,
     }),
   ],
-})
+});
 </script>
 
 <style scoped>
