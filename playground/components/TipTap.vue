@@ -126,9 +126,9 @@
 
 <script setup>
 const editor = useEditor({
-  content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
+  content: '<p>I\'m running Tiptap with Vue.js. 🎉</p>',
   extensions: [TiptapStarterKit],
-});
+})
 </script>
 
 <style scoped>

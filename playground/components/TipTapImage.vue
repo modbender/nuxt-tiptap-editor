@@ -125,33 +125,34 @@
 </template>
 
 <script setup>
-const toast = useToast();
+const toast = useToast()
 
 async function uploadImage(file, id) {
   try {
-    const formData = new FormData();
-    formData.append(id, file);
+    const formData = new FormData()
+    formData.append(id, file)
 
     const urls = await $fetch('/api/upload', {
       method: 'POST',
       body: formData,
-    });
+    })
 
-    console.log(urls);
+    console.log(urls)
 
-    return urls[0];
-  } catch (e) {
+    return urls[0]
+  }
+  catch (e) {
     return toast.add({
       severity: 'error',
       summary: e.statusMessage,
       detail: e.statusMessage,
       life: 3000,
-    });
+    })
   }
 }
 
 const editor = useEditor({
-  content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
+  content: '<p>I\'m running Tiptap with Vue.js. 🎉</p>',
   extensions: [
     TiptapStarterKit,
     TiptapImage,
@@ -163,7 +164,7 @@ const editor = useEditor({
       inline: false,
     }),
   ],
-});
+})
 </script>
 
 <style scoped>

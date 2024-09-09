@@ -1,12 +1,27 @@
 <template>
   <div class="prose">
     <h1>TipTap Playground</h1>
-    <hr />
+    <hr>
     <div>
       <h1>Non UI</h1>
-      <NuxtLink class="button" to="/nonui/basic"> Basic </NuxtLink>
-      <NuxtLink class="button" to="/nonui/lowlight"> Lowlight </NuxtLink>
-      <NuxtLink class="button" to="/nonui/image"> Image </NuxtLink>
+      <NuxtLink
+        class="button"
+        to="/nonui/basic"
+      >
+        Basic
+      </NuxtLink>
+      <NuxtLink
+        class="button"
+        to="/nonui/lowlight"
+      >
+        Lowlight
+      </NuxtLink>
+      <NuxtLink
+        class="button"
+        to="/nonui/image"
+      >
+        Image
+      </NuxtLink>
     </div>
     <!-- <div>
       <h1>With UI</h1>

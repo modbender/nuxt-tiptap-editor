@@ -71,8 +71,6 @@
     "@types/node": "^22.5.4",
     "changelogen": "^0.5.5",
     "eslint": "^9.10.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
     "h3-formidable": "^1.0.0",
     "nuxt": "^3.13.1",
     "primeicons": "^7.0.0",

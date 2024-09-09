@@ -1,30 +1,30 @@
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path'
+import fs from 'node:fs'
 
 export default defineEventHandler(async (event) => {
-  const uploadDir = 'uploads';
+  const uploadDir = 'uploads'
   const fullUploadPath = path.join(
     process.cwd(),
     'playground',
     'public',
     uploadDir,
-  );
-  const files = await readMultipartFormData(event);
+  )
+  const files = await readMultipartFormData(event)
 
-  const uploadedFilePaths: string[] = [];
+  const uploadedFilePaths: string[] = []
 
   if (!fs.existsSync(fullUploadPath)) {
-    await fs.promises.mkdir(fullUploadPath, { recursive: true });
+    await fs.promises.mkdir(fullUploadPath, { recursive: true })
   }
 
   files?.forEach((file) => {
-    const filePath = path.join(fullUploadPath, file.filename as string);
-    fs.writeFileSync(filePath, file.data);
+    const filePath = path.join(fullUploadPath, file.filename as string)
+    fs.writeFileSync(filePath, file.data)
     const urlPath = path
       .join(uploadDir, file.filename as string)
-      .replaceAll('\\', '/');
-    uploadedFilePaths.push(`/${urlPath}`);
-  });
+      .replaceAll('\\', '/')
+    uploadedFilePaths.push(`/${urlPath}`)
+  })
 
-  return uploadedFilePaths;
-});
+  return uploadedFilePaths
+})

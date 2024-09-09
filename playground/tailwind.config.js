@@ -5,4 +5,4 @@ module.exports = {
     // other paths
   ],
   plugins: [require('@tailwindcss/typography'), require('tailwindcss-primeui')],
-};
+}

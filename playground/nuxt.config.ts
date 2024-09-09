@@ -1,4 +1,4 @@
-import Aura from '@primevue/themes/aura';
+import Aura from '@primevue/themes/aura'
 
 export default defineNuxtConfig({
   css: ['primeicons/primeicons.css'],
@@ -28,4 +28,4 @@ export default defineNuxtConfig({
       ripple: true,
     },
   },
-});
+})
