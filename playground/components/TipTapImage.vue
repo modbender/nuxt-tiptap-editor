@@ -137,8 +137,6 @@ async function uploadImage(file, id) {
       body: formData,
     })
 
-    console.log(urls)
-
     return urls[0]
   }
   catch (e) {
