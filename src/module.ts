@@ -125,6 +125,10 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.css = [...nuxt.options.css, ...customCSS]
 
+    nuxt.options.typescript = nuxt.options.typescript || {}
+    nuxt.options.typescript.hoist = nuxt.options.typescript.hoist || []
+    nuxt.options.typescript.hoist.push('@tiptap/vue-3')
+
     console.info('Tiptap Editor initialized')
   },
 })
