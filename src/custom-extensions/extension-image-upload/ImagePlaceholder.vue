@@ -1,17 +1,20 @@
 <template>
-    <NodeViewWrapper
-        class="image-placeholder"
-        :class="{ inline: options.inline, uploading: !!base64 }"
+  <NodeViewWrapper
+    class="image-placeholder"
+    :class="{ inline: options.inline, uploading: !!base64 }"
+  >
+    <div
+      v-if="isImgErr"
+      class="iconfont icon-tupian"
+    />
+    <img
+      v-else-if="base64"
+      :src="base64"
+      referrerpolicy="no-referrer"
+      @error="isImgErr = true"
+      @load="onLoad"
     >
-        <div v-if="isImgErr" class="iconfont icon-tupian" />
-        <img
-            v-else-if="base64"
-            :src="base64"
-            referrerpolicy="no-referrer"
-            @error="isImgErr = true"
-            @load="onLoad"
-        />
-    </NodeViewWrapper>
+  </NodeViewWrapper>
 </template>
 
 <script setup>
@@ -40,7 +43,7 @@ onMounted(() => {
       base64.value = res
     })
   }
- else {
+  else {
     base64.value = src
   }
 })

@@ -2,77 +2,77 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-    title: 'Nuxt Tiptap Editor',
-    description:
+  title: 'Nuxt Tiptap Editor',
+  description:
         'Essentials to Quickly Integrate TipTap Editor into your Nuxt App',
 
-    cleanUrls: true,
-    lastUpdated: true,
+  cleanUrls: true,
+  lastUpdated: true,
 
-    head: [
-        [
-            'script',
-            {
-                async: true,
-                src: 'https://www.googletagmanager.com/gtag/js?id=G-Z1D6HCTHXL',
-            },
-        ],
-        [
-            'script',
-            {},
-            "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-Z1D6HCTHXL');",
-        ],
+  head: [
+    [
+      'script',
+      {
+        async: true,
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-Z1D6HCTHXL',
+      },
+    ],
+    [
+      'script',
+      {},
+      'window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag(\'js\', new Date());\ngtag(\'config\', \'G-Z1D6HCTHXL\');',
+    ],
+  ],
+
+  themeConfig: {
+    // https://vitepress.dev/reference/default-theme-config
+    search: {
+      provider: 'local',
+    },
+
+    nav: [
+      { text: 'Docs', link: '/docs/what-is' },
+      { text: 'Examples', link: '/examples/basic' },
     ],
 
-    themeConfig: {
-        // https://vitepress.dev/reference/default-theme-config
-        search: {
-            provider: 'local',
-        },
-
-        nav: [
-            { text: 'Docs', link: '/docs/what-is' },
-            { text: 'Examples', link: '/examples/basic' },
+    sidebar: [
+      {
+        text: 'Documentation',
+        items: [
+          {
+            text: 'What is Nuxt Tiptap Editor?',
+            link: '/docs/what-is',
+          },
+          { text: 'Quick Setup', link: '/docs/quick-setup' },
+          { text: 'Important', link: '/docs/important' },
+          { text: 'Extensions', link: '/docs/extensions' },
+          { text: 'Development', link: '/docs/development' },
+          { text: 'Contribution', link: '/docs/contribution' },
         ],
-
-        sidebar: [
-            {
-                text: 'Documentation',
-                items: [
-                    {
-                        text: 'What is Nuxt Tiptap Editor?',
-                        link: '/docs/what-is',
-                    },
-                    { text: 'Quick Setup', link: '/docs/quick-setup' },
-                    { text: 'Important', link: '/docs/important' },
-                    { text: 'Extensions', link: '/docs/extensions' },
-                    { text: 'Development', link: '/docs/development' },
-                    { text: 'Contribution', link: '/docs/contribution' },
-                ],
-            },
-            {
-                text: 'Examples',
-                items: [
-                    { text: 'Basic', link: '/examples/basic' },
-                    {
-                        text: 'Pre-fill Content',
-                        link: '/examples/prefill-content',
-                    },
-                    {
+      },
+      {
+        text: 'Examples',
+        items: [
+          { text: 'Basic', link: '/examples/basic' },
+          {
+            text: 'Pre-fill Content',
+            link: '/examples/prefill-content',
+          },
+          {
             text: 'Code Block Highlighter',
             link: '/examples/lowlight',
           },
-                    { text: 'Placeholder', link: '/examples/placeholder' },
-                    { text: 'Image Upload', link: '/examples/image-upload' },
-                ],
-            },
+          { text: 'Placeholder', link: '/examples/placeholder' },
+          { text: 'Image Upload', link: '/examples/image-upload' },
         ],
+      },
+    ],
 
-        socialLinks: [
-            {
-                icon: 'github',
-                link: 'https://github.com/modbender/nuxt-tiptap-editor',
-            },
-        ],
-    },
+    socialLinks: [
+      {
+        icon: 'github',
+        link: 'https://github.com/modbender/nuxt-tiptap-editor',
+      },
+    ],
+  },
 })

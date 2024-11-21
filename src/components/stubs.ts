@@ -14,6 +14,6 @@ export const Placeholder = {
     renderStubMessage(
       'Placeholder',
       '@tiptap/extension-placeholder',
-      'https://tiptap.dev/api/extensions/placeholder'
-        ),
+      'https://tiptap.dev/api/extensions/placeholder',
+    ),
 }

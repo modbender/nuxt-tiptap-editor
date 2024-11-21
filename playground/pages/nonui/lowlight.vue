@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <TipTapLowlight />
-    </div>
+  <div>
+    <TipTapLowlight />
+  </div>
 </template>
 
 <script setup></script>
