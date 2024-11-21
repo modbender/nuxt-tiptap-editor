@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     process.cwd(),
     'playground',
     'public',
-    uploadDir,
+    uploadDir
   )
   const files = await readMultipartFormData(event)
 

@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <TipTap />
-  </div>
+    <div>
+        <TipTap />
+    </div>
 </template>
 
 <script setup></script>

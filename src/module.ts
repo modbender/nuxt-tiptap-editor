@@ -79,7 +79,7 @@ export default defineNuxtModule<ModuleOptions>({
 
       const lldefaultTheme = options.lowlight?.theme || 'github-dark'
       const highlightJSVersion
-        = options.lowlight?.highlightJSVersion || '11.10.0'
+                = options.lowlight?.highlightJSVersion || '11.10.0'
       const llThemeCSS = `https://unpkg.com/@highlightjs/cdn-assets@${highlightJSVersion}/styles/${lldefaultTheme}.min.css`
 
       nuxt.options.app.head.link = [

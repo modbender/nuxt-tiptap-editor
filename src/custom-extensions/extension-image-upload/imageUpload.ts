@@ -35,13 +35,13 @@ export const ImageUpload = Extension.create<ImageUploaderPluginOptions>({
   addCommands() {
     return {
       uploadImage:
-        options =>
-          ({ tr }) => {
-          // const plugin = getPluginInstances()
-          // plugin?.beforeUpload(options.file, -1)
-            tr.setMeta('uploadImages', options.file)
-            return true
-          },
+                options =>
+                  ({ tr }) => {
+                    // const plugin = getPluginInstances()
+                    // plugin?.beforeUpload(options.file, -1)
+                    tr.setMeta('uploadImages', options.file)
+                    return true
+                  },
       getFileCache: (key: string) => () => {
         return getFileCache(key)
       },

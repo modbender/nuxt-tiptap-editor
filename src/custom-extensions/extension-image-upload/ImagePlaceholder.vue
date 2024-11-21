@@ -1,20 +1,17 @@
 <template>
-  <NodeViewWrapper
-    class="image-placeholder"
-    :class="{ inline: options.inline, uploading: !!base64 }"
-  >
-    <div
-      v-if="isImgErr"
-      class="iconfont icon-tupian"
-    />
-    <img
-      v-else-if="base64"
-      :src="base64"
-      referrerpolicy="no-referrer"
-      @error="isImgErr = true"
-      @load="onLoad"
+    <NodeViewWrapper
+        class="image-placeholder"
+        :class="{ inline: options.inline, uploading: !!base64 }"
     >
-  </NodeViewWrapper>
+        <div v-if="isImgErr" class="iconfont icon-tupian" />
+        <img
+            v-else-if="base64"
+            :src="base64"
+            referrerpolicy="no-referrer"
+            @error="isImgErr = true"
+            @load="onLoad"
+        />
+    </NodeViewWrapper>
 </template>
 
 <script setup>
@@ -43,7 +40,7 @@ onMounted(() => {
       base64.value = res
     })
   }
-  else {
+ else {
     base64.value = src
   }
 })
@@ -57,33 +54,33 @@ function onLoad(e) {
 
 <style lang="scss" scoped>
 .image-placeholder {
-  max-width: 100%;
-  position: relative;
-  width: fit-content;
-
-  &.inline {
-    display: inline-block;
-  }
-
-  &.uploading::before {
-    content: 'Uploading...';
-    position: sticky;
-    width: 100%;
-    top: 20%;
-    left: 0;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    text-shadow: 2px 2px 14px #000;
-    white-space: pre;
-    display: block;
-    line-height: 44px;
-  }
-
-  img {
-    margin-top: -44px;
     max-width: 100%;
-    opacity: 0.2;
-  }
+    position: relative;
+    width: fit-content;
+
+    &.inline {
+        display: inline-block;
+    }
+
+    &.uploading::before {
+        content: 'Uploading...';
+        position: sticky;
+        width: 100%;
+        top: 20%;
+        left: 0;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        text-shadow: 2px 2px 14px #000;
+        white-space: pre;
+        display: block;
+        line-height: 44px;
+    }
+
+    img {
+        margin-top: -44px;
+        max-width: 100%;
+        opacity: 0.2;
+    }
 }
 </style>

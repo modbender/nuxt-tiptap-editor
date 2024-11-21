@@ -58,7 +58,10 @@ export default defineConfig({
                         text: 'Pre-fill Content',
                         link: '/examples/prefill-content',
                     },
-                    { text: 'Code Block Highlighter', link: '/examples/lowlight' },
+                    {
+            text: 'Code Block Highlighter',
+            link: '/examples/lowlight',
+          },
                     { text: 'Placeholder', link: '/examples/placeholder' },
                     { text: 'Image Upload', link: '/examples/image-upload' },
                 ],

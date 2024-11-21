@@ -4,5 +4,8 @@ module.exports = {
     './presets/**/*.{js,vue,ts}',
     // other paths
   ],
-  plugins: [require('@tailwindcss/typography'), require('tailwindcss-primeui')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('tailwindcss-primeui'),
+  ],
 }

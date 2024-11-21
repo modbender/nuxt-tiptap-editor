@@ -8,7 +8,7 @@ export interface ImagePlaceholderOptions {
 }
 
 export const inputRegex
-  = /(?:^|\s)(!\[(.+|:?)\]\((\S+)(?:\s+["'](\S+)["'])?\))$/
+    = /(?:^|\s)(!\[(.+|:?)\]\((\S+)(?:\s+["'](\S+)["'])?\))$/
 
 export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
   name: 'imagePlaceholder',

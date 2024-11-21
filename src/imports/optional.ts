@@ -7,7 +7,10 @@ export const lowlightComposables: ImportObject[] = [
 ]
 
 export const lowlightImports: ImportObject[] = [
-  { name: 'CodeBlockLowlight', path: '@tiptap/extension-code-block-lowlight' },
+  {
+    name: 'CodeBlockLowlight',
+    path: '@tiptap/extension-code-block-lowlight',
+  },
 ]
 
 export const placeholderImports: ImportObject[] = [

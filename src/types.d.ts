@@ -260,33 +260,33 @@ export interface ImportObject {
 
 export interface ModuleOptions {
   /**
-   * Prefix for imported elements
-   *
-   * @default 'Tiptap'
-   */
+     * Prefix for imported elements
+     *
+     * @default 'Tiptap'
+     */
   prefix: string
   /**
-   * Determine if lowlight should be enabled
-   *
-   * @default false
-   */
+     * Determine if lowlight should be enabled
+     *
+     * @default false
+     */
   lowlight?:
-    | false
-    | {
-      /**
-       * Language highlighting theme
-       *
-       * @default 'github-dark'
-       */
+      | false
+      | {
+              /**
+           * Language highlighting theme
+           *
+           * @default 'github-dark'
+           */
       theme?: HighlightTheme
 
       /**
-       * highlight.js version used for css import
-       *
-       * @default '11.9.0'
-       */
-      highlightJSVersion?: '11.9.0' | string
-    }
+               * highlight.js version used for css import
+               *
+               * @default '11.9.0'
+               */
+              highlightJSVersion?: '11.9.0' | string
+          }
 }
 
 declare module 'nuxt-tiptap-editor' {
