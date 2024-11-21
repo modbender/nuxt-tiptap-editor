@@ -1,5 +1,5 @@
 ---
-title: Code Block Lowlight Example
+title: Code Block Highlighter Example
 ---
 
 # Code Block Lowlight Example

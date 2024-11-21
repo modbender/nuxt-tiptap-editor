@@ -6,22 +6,32 @@ title: Quick Setup
 
 1. Add `nuxt-tiptap-editor` dependency to your project
 
-   ```bash
-   npx nuxi@latest module add tiptap
-   ```
+    a. Automatic install
+    ```bash
+    npx nuxi@latest module add tiptap
+    ```
 
-2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
+    b. Manual install
 
-   ```js
-   export default defineNuxtConfig({
-     modules: ['nuxt-tiptap-editor'],
-     tiptap: {
-       prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
-     },
-   });
-   ```
+    ```bash
+    npm install nuxt-tiptap-editor
 
-3. You can use the contents of this file as reference.  
+    yarn add nuxt-tiptap-editor
+
+    pnpm add nuxt-tiptap-editor
+    ```
+    
+    Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`
+    ```js
+    export default defineNuxtConfig({
+      modules: ['nuxt-tiptap-editor'],
+      tiptap: {
+        prefix: 'Tiptap', //prefix for Tiptap imports, composables not included
+      },
+    });
+    ```
+
+3. You can use the contents of [this file](https://github.com/modbender/nuxt-tiptap-editor/blob/main/playground/components/TipTap.vue) as reference.
    Copy the code to your own `components/TiptapEditor.vue`.  
    Any path is fine as long as it's under `components` directory with `.vue` extension.
 
