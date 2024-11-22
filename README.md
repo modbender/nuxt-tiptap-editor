@@ -4,13 +4,13 @@
 
 <p align="center">
   <a href="https://npmjs.com/package/nuxt-tiptap-editor" rel="nofollow">
-    <img src="https://camo.githubusercontent.com/ae81dea5e450a972eb8017f2d165e5a708c2128f68e8c02b046d63ea85d0e186/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f6e7578742d7469707461702d656469746f722f6c61746573742e7376673f7374796c653d666c617426636f6c6f72413d31383138314226636f6c6f72423d323843463844" alt="npm version" data-canonical-src="https://img.shields.io/npm/v/nuxt-tiptap-editor/latest.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
+    <img src="https://img.shields.io/npm/v/nuxt-tiptap-editor/latest.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" alt="npm version" data-canonical-src="https://img.shields.io/npm/v/nuxt-tiptap-editor/latest.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
   <a href="https://npmjs.com/package/nuxt-tiptap-editor" rel="nofollow">
-    <img src="https://camo.githubusercontent.com/a70996667de8939667a2064a939a4f44f42eb9a65228731c91e2b01301fe393c/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f646d2f6e7578742d7469707461702d656469746f722e7376673f7374796c653d666c617426636f6c6f72413d31383138314226636f6c6f72423d323843463844" alt="npm downloads" data-canonical-src="https://img.shields.io/npm/dm/nuxt-tiptap-editor.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
+    <img src="https://img.shields.io/npm/dm/nuxt-tiptap-editor.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" alt="npm downloads" data-canonical-src="https://img.shields.io/npm/dm/nuxt-tiptap-editor.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
   <a href="https://npmjs.com/package/nuxt-tiptap-editor" rel="nofollow">
-    <img src="https://camo.githubusercontent.com/8ed006b5cde33cda61786bf5d50b53fd4557831141a6fa622361f1bdc98648eb/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f6c2f6e7578742d7469707461702d656469746f722e7376673f7374796c653d666c617426636f6c6f72413d31383138314226636f6c6f72423d323843463844" alt="License" data-canonical-src="https://img.shields.io/npm/l/nuxt-tiptap-editor.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
+    <img src="https://img.shields.io/npm/l/nuxt-tiptap-editor.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" alt="License" data-canonical-src="https://img.shields.io/npm/l/nuxt-tiptap-editor.svg?style=flat&amp;colorA=18181B&amp;colorB=28CF8D" style="max-width: 100%;"></a>
   <a href="https://nuxt.com" rel="nofollow">
-    <img src="https://camo.githubusercontent.com/4ba30edd28e1e16ce7322c5dfd4f878b3501d4cff8664612494d2237f1130d48/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e7578742d3138313831423f6c6f676f3d6e7578742e6a73" alt="Nuxt" data-canonical-src="https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js" style="max-width: 100%;">
+    <img src="https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js" alt="Nuxt" data-canonical-src="https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js" style="max-width: 100%;">
   </a>
 </p>
 
