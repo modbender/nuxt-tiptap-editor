@@ -7,8 +7,7 @@ export interface ImagePlaceholderOptions {
   HTMLAttributes: Record<string, unknown>
 }
 
-export const inputRegex
-    = /(?:^|\s)(!\[(.+|:?)\]\((\S+)(?:\s+["'](\S+)["'])?\))$/
+export const inputRegex = /(?:^|\s)(!\[(.+|:?)\]\((\S+)(?:\s+["'](\S+)["'])?\))$/
 
 export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
   name: 'imagePlaceholder',
@@ -49,7 +48,8 @@ export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
   },
 
   addNodeView() {
-    return VueNodeViewRenderer(ImagePlaceholderComponent)
+    const imagePlaceholderComponent = new ImagePlaceholderComponent()
+    return VueNodeViewRenderer(imagePlaceholderComponent)
   },
 
   addInputRules() {

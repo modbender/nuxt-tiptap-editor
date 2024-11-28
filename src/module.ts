@@ -47,7 +47,6 @@ export default defineNuxtModule<ModuleOptions>({
         as: obj.as || obj.name,
         name: obj.name,
         from: obj.path,
-        // _internal_install: obj.path,
       })
       transpileModules.add(obj.path)
     }
@@ -57,7 +56,6 @@ export default defineNuxtModule<ModuleOptions>({
         as: `${options.prefix}${obj.name}`,
         name: obj.name,
         from: obj.path,
-        // _internal_install: obj.path,
       })
       transpileModules.add(obj.path)
     }
@@ -67,7 +65,6 @@ export default defineNuxtModule<ModuleOptions>({
         name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
-        // _internal_install: obj.path,
       })
       transpileModules.add(obj.path)
     }
@@ -93,7 +90,6 @@ export default defineNuxtModule<ModuleOptions>({
         as: `${options.prefix}${obj.name}`,
         name: obj.name,
         from: obj.path,
-        // _internal_install: obj.path,
       })
       transpileModules.add(obj.path)
     }
@@ -103,7 +99,6 @@ export default defineNuxtModule<ModuleOptions>({
         as: obj.as || obj.name,
         name: obj.name,
         from: obj.path,
-        // _internal_install: obj.path,
       })
       transpileModules.add(obj.path)
     }
@@ -113,10 +108,13 @@ export default defineNuxtModule<ModuleOptions>({
         name: `${options.prefix}${obj.name}`,
         export: obj.name,
         filePath: obj.path,
-        // _internal_install: obj.path,
       })
       transpileModules.add(obj.path)
     }
+
+    transpileModules.add(
+      './custom-extensions',
+    )
 
     nuxt.options.build.transpile = [
       ...nuxt.options.build.transpile,
