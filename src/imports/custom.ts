@@ -1,9 +1,8 @@
-import path from 'node:path'
 import type { ImportObject } from '../types'
 
-const customExtensionPath = '../custom-extensions'
+const customExtensionPath = 'runtime/custom-extensions'
 const resolveCustomExtension = (extPath: string) =>
-  path.resolve(__dirname, customExtensionPath, extPath)
+  `${customExtensionPath}/${extPath}`
 
 export const defaultCustomExtensions: ImportObject[] = [
   {
