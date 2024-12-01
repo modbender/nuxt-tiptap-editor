@@ -1,5 +1,8 @@
+import type { Component } from 'vue'
+
 import { Node, nodeInputRule } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
+
 import ImagePlaceholderComponent from './ImagePlaceholder.vue'
 
 export interface ImagePlaceholderOptions {
@@ -48,8 +51,7 @@ export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
   },
 
   addNodeView() {
-    const imagePlaceholderComponent = new ImagePlaceholderComponent()
-    return VueNodeViewRenderer(imagePlaceholderComponent)
+    return VueNodeViewRenderer(ImagePlaceholderComponent as Component)
   },
 
   addInputRules() {
