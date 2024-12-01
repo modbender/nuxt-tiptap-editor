@@ -112,10 +112,6 @@ export default defineNuxtModule<ModuleOptions>({
       transpileModules.add(obj.path)
     }
 
-    transpileModules.add(
-      './custom-extensions',
-    )
-
     nuxt.options.build.transpile = [
       ...nuxt.options.build.transpile,
       ...Array.from(transpileModules),
