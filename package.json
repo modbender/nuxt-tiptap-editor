@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tiptap-editor",
-  "version": "2.1.4",
+  "version": "2.2.0",
   "description": "Essentials to Quickly Integrate TipTap Editor into your Nuxt App",
   "repository": "modbender/nuxt-tiptap-editor",
   "keywords": [
@@ -17,7 +17,9 @@
     "wysiwyg editor",
     "nuxt-tiptap",
     "nuxt-tiptap-editor",
-    "nuxt editor"
+    "nuxt editor",
+    "nuxt module",
+    "nuxt3 module"
   ],
   "license": "MIT",
   "type": "module",
