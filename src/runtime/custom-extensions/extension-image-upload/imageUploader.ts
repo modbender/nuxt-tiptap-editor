@@ -217,10 +217,10 @@ export class ImageUploaderPlugin {
 
     const url
       = file
-      && ((await this.config
-        .upload(file, id)
+        && ((await this.config
+          .upload(file, id)
         // tslint:disable-next-line:no-console
-        .catch(console.warn)) as string | undefined)
+          .catch(console.warn)) as string | undefined)
 
     const imageNodes = getImagePositions()
     if (!imageNodes.length) {
