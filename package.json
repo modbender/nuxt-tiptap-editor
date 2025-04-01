@@ -50,40 +50,40 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.15.3",
-    "@tiptap/extension-code-block-lowlight": "^2.11.3",
-    "@tiptap/extension-image": "^2.11.3",
-    "@tiptap/extension-link": "^2.11.3",
-    "@tiptap/pm": "^2.11.3",
-    "@tiptap/starter-kit": "^2.11.3",
-    "@tiptap/vue-3": "^2.11.3",
+    "@nuxt/kit": "^3.16.2",
+    "@tiptap/extension-code-block-lowlight": "^2.11.7",
+    "@tiptap/extension-image": "^2.11.7",
+    "@tiptap/extension-link": "^2.11.7",
+    "@tiptap/pm": "^2.11.7",
+    "@tiptap/starter-kit": "^2.11.7",
+    "@tiptap/vue-3": "^2.11.7",
     "lowlight": "^3.3.0",
     "prosemirror-replaceattrs": "^1.0.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint-config": "^0.7.5",
+    "@nuxt/eslint-config": "^0.7.6",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.15.3",
-    "@nuxt/test-utils": "^3.15.4",
-    "@nuxtjs/tailwindcss": "^6.13.1",
-    "@primevue/nuxt-module": "^4.2.5",
-    "@primevue/themes": "^4.2.5",
+    "@nuxt/schema": "^3.16.2",
+    "@nuxt/test-utils": "^3.17.2",
+    "@nuxtjs/tailwindcss": "^6.13.2",
+    "@primevue/nuxt-module": "^4.3.3",
+    "@primevue/themes": "^4.3.3",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.10.10",
+    "@types/node": "^22.13.17",
     "changelogen": "^0.5.7",
-    "eslint": "^9.19.0",
+    "eslint": "^9.23.0",
     "h3-formidable": "^1.0.0",
-    "nuxt": "^3.15.3",
-    "prettier": "^3.4.2",
+    "nuxt": "^3.16.2",
+    "prettier": "^3.5.3",
     "primeicons": "^7.0.0",
-    "primevue": "^4.2.5",
-    "sass": "^1.83.4",
+    "primevue": "^4.3.3",
+    "sass": "^1.86.1",
     "tailwindcss-primeui": "^0.3.4",
-    "typescript": "^5.7.3",
+    "typescript": "^5.8.2",
     "vitepress": "^1.6.3",
-    "vitest": "^2.1.8",
-    "vue-tsc": "~2.1.6"
+    "vitest": "^2.1.9",
+    "vue-tsc": "~2.2.2"
   },
   "resolutions": {
     "rimraf": "latest",
@@ -96,5 +96,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@9.15.4"
+  "packageManager": "pnpm@10.7.1"
 }
