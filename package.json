@@ -25,13 +25,11 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
   "files": [
     "dist"
   ],
@@ -51,7 +49,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.2",
+    "@nuxt/kit": "^3.17.1",
     "@tiptap/extension-code-block-lowlight": "^2.11.7",
     "@tiptap/extension-image": "^2.11.7",
     "@tiptap/extension-link": "^2.11.7",
@@ -64,27 +62,27 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxt/eslint-config": "^1.3.0",
-    "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.16.2",
+    "@nuxt/module-builder": "^1.0.1",
+    "@nuxt/schema": "^3.17.1",
     "@nuxt/test-utils": "^3.17.2",
-    "@nuxtjs/tailwindcss": "^6.13.2",
+    "@nuxtjs/tailwindcss": "^6.14.0",
     "@primevue/nuxt-module": "^4.3.3",
     "@primevue/themes": "^4.3.3",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "^22.13.17",
+    "@types/node": "^22.15.3",
     "changelogen": "^0.6.1",
-    "eslint": "^9.23.0",
+    "eslint": "^9.25.1",
     "h3-formidable": "^1.0.0",
-    "nuxt": "^3.16.2",
+    "nuxt": "^3.17.1",
     "prettier": "^3.5.3",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.3",
-    "sass": "^1.86.1",
+    "sass": "^1.87.0",
     "tailwindcss-primeui": "^0.6.1",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vitepress": "^1.6.3",
-    "vitest": "^3.1.1",
-    "vue-tsc": "~2.2.8"
+    "vitest": "^3.1.2",
+    "vue-tsc": "~2.2.10"
   },
   "resolutions": {
     "rimraf": "latest",
@@ -97,5 +95,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@10.7.1"
+  "packageManager": "pnpm@10.10.0"
 }
