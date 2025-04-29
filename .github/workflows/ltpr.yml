@@ -10,12 +10,10 @@ on:
       - 'v*'
 
 jobs:
-  common:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -37,29 +35,81 @@ jobs:
       - name: Commit lint fixes
         if: steps.lint.outcome == 'failure'
         run: |
-          pnpm lint
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "chore: fix lint errors"
-          git push
+          if [[ -n $(git status --porcelain) ]]; then
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add .
+            git commit -m "chore: fix lint errors"
+            git push
+          fi
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run prepare
         run: pnpm dev:prepare
 
+      - name: Cache build outputs
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuxt
+            dist
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
       - name: Run tests
         run: pnpm test
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Run prepack
         run: pnpm prepack
 
       - name: Publish to npm
         shell: bash
+        if: success()
         run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Run github release
+      - name: Create GitHub Release
+        if: success()
         run: npx --yes changelogithub@latest
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
