@@ -1,0 +1,23 @@
+# Global code owners
+# These owners will be requested for review when anyone opens a pull request.
+
+# Main codebase
+* @modbender
+
+# Workflow files require approval from maintainers
+/.github/ @modbender
+
+# Documentation
+/docs/ @modbender
+README.md @modbender
+
+# Configuration files
+package.json @modbender
+tsconfig.json @modbender
+eslint.config.mjs @modbender
+
+# Core module files
+/src/ @modbender
+
+# Test files
+/test/ @modbender
