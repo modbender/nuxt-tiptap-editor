@@ -77,13 +77,57 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: Run type checks
+        run: pnpm test:types
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run dev:prepare
+        run: pnpm dev:prepare
+
+      - name: Run prepack (build module)
+        run: pnpm prepack
+
+      - name: Build playground
+        run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: |
+            dist/
+            playground/.output/
+          retention-days: 1
+
   publish:
     runs-on: ubuntu-latest
-    needs: [lint, test]
+    needs: [lint, test, build]
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -97,12 +141,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
-      - name: Run dev:prepare
-        run: pnpm dev:prepare
-
-      - name: Run prepack
-        run: pnpm prepack
 
       - name: Publish to npm
         shell: bash
