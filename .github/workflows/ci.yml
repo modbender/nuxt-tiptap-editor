@@ -119,6 +119,7 @@ jobs:
           name: build-artifacts
           path: |
             dist/
+            .nuxt/
             playground/.output/
           retention-days: 7
 
