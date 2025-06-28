@@ -45,9 +45,7 @@
         :class="{
           'is-active': editor.isActive('heading', { level: 1 }),
         }"
-        @click="
-          editor.chain().focus().toggleHeading({ level: 1 }).run()
-        "
+        @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
       >
         h1
       </button>
@@ -55,9 +53,7 @@
         :class="{
           'is-active': editor.isActive('heading', { level: 2 }),
         }"
-        @click="
-          editor.chain().focus().toggleHeading({ level: 2 }).run()
-        "
+        @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
       >
         h2
       </button>
@@ -65,9 +61,7 @@
         :class="{
           'is-active': editor.isActive('heading', { level: 3 }),
         }"
-        @click="
-          editor.chain().focus().toggleHeading({ level: 3 }).run()
-        "
+        @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
       >
         h3
       </button>
@@ -75,9 +69,7 @@
         :class="{
           'is-active': editor.isActive('heading', { level: 4 }),
         }"
-        @click="
-          editor.chain().focus().toggleHeading({ level: 4 }).run()
-        "
+        @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
       >
         h4
       </button>
@@ -85,9 +77,7 @@
         :class="{
           'is-active': editor.isActive('heading', { level: 5 }),
         }"
-        @click="
-          editor.chain().focus().toggleHeading({ level: 5 }).run()
-        "
+        @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
       >
         h5
       </button>
@@ -95,9 +85,7 @@
         :class="{
           'is-active': editor.isActive('heading', { level: 6 }),
         }"
-        @click="
-          editor.chain().focus().toggleHeading({ level: 6 }).run()
-        "
+        @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
       >
         h6
       </button>
@@ -149,8 +137,6 @@
 </template>
 
 <script setup>
-const toast = useToast()
-
 async function uploadImage(file, id) {
   try {
     const formData = new FormData()
@@ -164,7 +150,7 @@ async function uploadImage(file, id) {
     return urls[0]
   }
   catch (e) {
-    return toast.add({
+    return alert({
       severity: 'error',
       summary: e.statusMessage,
       detail: e.statusMessage,
@@ -191,15 +177,15 @@ const editor = useEditor({
 
 <style scoped>
 button {
-    border-radius: 3px;
-    background-image: linear-gradient(
-        to top,
-        rgb(207, 207, 207) 16%,
-        rgb(252, 252, 252) 79%
-    );
-    padding: 3px;
-    border: 1px solid #000;
-    color: black;
-    text-decoration: none;
+  border-radius: 3px;
+  background-image: linear-gradient(
+    to top,
+    rgb(207, 207, 207) 16%,
+    rgb(252, 252, 252) 79%
+  );
+  padding: 3px;
+  border: 1px solid #000;
+  color: black;
+  text-decoration: none;
 }
 </style>

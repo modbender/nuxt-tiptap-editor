@@ -13,10 +13,11 @@ export const lowlightImports: ImportObject[] = [
   },
 ]
 
-export const placeholderImports: ImportObject[] = [
-  {
-    name: 'Placeholder',
-    path: 'components/nuxt-stubs',
-    local: true,
-  },
-]
+// Placeholder imports removed - not currently used in module setup
+// export const placeholderImports: ImportObject[] = [
+//   {
+//     name: 'Placeholder',
+//     path: 'components/nuxt-stubs',
+//     local: true,
+//   },
+// ]
