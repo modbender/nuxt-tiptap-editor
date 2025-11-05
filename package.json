@@ -54,12 +54,12 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.17.5",
-    "@tiptap/extension-code-block-lowlight": "^2.23.0",
-    "@tiptap/extension-image": "^2.23.0",
-    "@tiptap/extension-link": "^2.23.0",
-    "@tiptap/pm": "^2.23.0",
-    "@tiptap/starter-kit": "^2.23.0",
-    "@tiptap/vue-3": "^2.23.0",
+    "@tiptap/extension-code-block-lowlight": "^3.10.2",
+    "@tiptap/extension-image": "^3.10.2",
+    "@tiptap/extension-link": "^3.10.2",
+    "@tiptap/pm": "^3.10.2",
+    "@tiptap/starter-kit": "^3.10.2",
+    "@tiptap/vue-3": "^3.10.2",
     "lowlight": "^3.3.0",
     "prosemirror-replaceattrs": "^1.0.0"
   },
