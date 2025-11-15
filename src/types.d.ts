@@ -1,7 +1,7 @@
 // Whew, 249 themes to choose from, had to ask ChatGPT to process those HTML options into enum
 // Theme List Source: https://github.com/highlightjs/highlight.js/blob/6317acd780bfe448f75393ea42d53c0149013274/tools/developer.html#L73
-export type HighlightTheme =
-  | 'a11y-dark'
+export type HighlightTheme
+  = | 'a11y-dark'
   | 'a11y-light'
   | 'agate'
   | 'an-old-hope'
