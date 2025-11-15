@@ -186,7 +186,12 @@ export class ImageUploaderPlugin {
     // const empty_baseb4 = "data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'/%3E\n";
     const uploadId = this.config.id()
     fileCache[uploadId] = attrs.src || attrs['data-src']
-    return this.view.state.schema.nodes.imagePlaceholder.create({
+    const imagePlaceholderNode = this.view.state.schema.nodes.imagePlaceholder
+    if (!imagePlaceholderNode) {
+      throw new Error('imagePlaceholder node type not found in schema')
+    }
+    // TypeScript doesn't narrow the type properly, so we use non-null assertion after the check
+    return imagePlaceholderNode!.create({
       ...attrs,
       src: '', // attrs.src,
       uploadId,
@@ -233,7 +238,12 @@ export class ImageUploaderPlugin {
 
     imageNodes.forEach(({ node, pos }) => {
       if (url) {
-        const newNode = this.view.state.schema.nodes.image.create({
+        const imageNode = this.view.state.schema.nodes.image
+        if (!imageNode) {
+          throw new Error('image node type not found in schema')
+        }
+        // TypeScript doesn't narrow the type properly, so we use non-null assertion after the check
+        const newNode = imageNode!.create({
           ...node.attrs,
           width: node.attrs.width,
           src: url,
@@ -287,10 +297,18 @@ async function webImg2File(imgUrl: string): Promise<File | null> {
 
   function base64toFile(base: string, filename: string): File {
     const arr = base.split(',')
-    // @ts-expect-error possible null
-    const mime = arr[0].match(/:(.*?);/)[1]
+    const mimeMatch = arr[0].match(/:(.*?);/)
+    if (!mimeMatch || !mimeMatch[1]) {
+      throw new Error('Invalid base64 format: mime type not found')
+    }
+    // TypeScript doesn't narrow properly, so we use non-null assertion after the check
+    const mime: string = mimeMatch[1]!
     const suffix = mime.split('/')[1]
-    const bstr = atob(arr[1])
+    if (!arr[1]) {
+      throw new Error('Invalid base64 format: data not found')
+    }
+    // TypeScript doesn't narrow properly, so we use non-null assertion after the check
+    const bstr = atob(arr[1]!)
     let n = bstr.length
     const u8arr = new Uint8Array(n)
     while (n--) {

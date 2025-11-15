@@ -1,0 +1,2 @@
+pnpm exec lint-staged
+.husky/pre-commit-ts-check.sh

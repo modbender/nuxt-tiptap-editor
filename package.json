@@ -48,6 +48,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
+    "prepare": "husky",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
@@ -75,6 +76,8 @@
     "changelogen": "^0.6.1",
     "eslint": "^9.30.0",
     "h3-formidable": "^1.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "nuxt": "^4.2.0",
     "prettier": "^3.6.2",
     "sass": "^1.89.2",
@@ -86,5 +89,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@10.10.0"
+  "packageManager": "pnpm@10.10.0",
+  "lint-staged": {
+    "*.{ts,tsx,vue,js,jsx,mjs,cjs}": [
+      "eslint --fix"
+    ]
+  }
 }
