@@ -146,12 +146,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
-      - name: Install optional dependencies (oxc-parser bindings)
+      - name: Install oxc-parser native bindings
         run: |
-          # --frozen-lockfile doesn't always install optional dependencies
-          # Run install again without frozen lockfile to install optional deps
-          # This won't modify main dependencies since they're already installed
-          pnpm install
+          # --frozen-lockfile doesn't install optional dependencies
+          # Explicitly install the native binding required by oxc-parser
+          pnpm add --save-optional @oxc-parser/binding-linux-x64-gnu@* || \
+          pnpm install @oxc-parser/binding-linux-x64-gnu || \
+          echo "Attempted to install native bindings"
 
       - name: Cache build outputs
         uses: actions/cache@v4
