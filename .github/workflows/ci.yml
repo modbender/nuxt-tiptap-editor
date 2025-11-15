@@ -146,10 +146,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
-      - name: Ensure oxc-parser native bindings are available
+      - name: Install optional dependencies (oxc-parser bindings)
         run: |
-          # Reinstall without frozen lockfile to ensure optional dependencies are installed
-          # This is needed because --frozen-lockfile sometimes skips optional dependencies
+          # --frozen-lockfile doesn't always install optional dependencies
+          # Run install again without frozen lockfile to install optional deps
+          # This won't modify main dependencies since they're already installed
           pnpm install
 
       - name: Cache build outputs
