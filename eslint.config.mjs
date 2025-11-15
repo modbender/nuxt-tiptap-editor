@@ -16,5 +16,10 @@ export default createConfigForNuxt({
   },
 })
   .append(
-    // your custom flat config here...
+    {
+      rules: {
+        // Disable operator-linebreak to avoid conflict with indent-binary-ops
+        '@stylistic/operator-linebreak': 'off',
+      },
+    },
   )
