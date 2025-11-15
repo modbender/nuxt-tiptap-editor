@@ -297,18 +297,23 @@ async function webImg2File(imgUrl: string): Promise<File | null> {
 
   function base64toFile(base: string, filename: string): File {
     const arr = base.split(',')
-    const mimeMatch = arr[0].match(/:(.*?);/)
+    const prefix = arr[0]
+    if (!prefix) {
+      throw new Error('Invalid base64 format: data prefix not found')
+    }
+    const mimeMatch = prefix.match(/:(.*?);/)
     if (!mimeMatch || !mimeMatch[1]) {
       throw new Error('Invalid base64 format: mime type not found')
     }
     // TypeScript doesn't narrow properly, so we use non-null assertion after the check
     const mime: string = mimeMatch[1]!
     const suffix = mime.split('/')[1]
-    if (!arr[1]) {
+    const data = arr[1]
+    if (!data) {
       throw new Error('Invalid base64 format: data not found')
     }
     // TypeScript doesn't narrow properly, so we use non-null assertion after the check
-    const bstr = atob(arr[1]!)
+    const bstr = atob(data)
     let n = bstr.length
     const u8arr = new Uint8Array(n)
     while (n--) {
