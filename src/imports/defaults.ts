@@ -47,6 +47,6 @@ export const defaultImports: ImportObject[] = [
 
 export const defaultComponents: ImportObject[] = [
   { name: 'EditorContent', path: '@tiptap/vue-3' },
-  { name: 'FloatingMenu', path: '@tiptap/vue-3' },
-  { name: 'BubbleMenu', path: '@tiptap/vue-3' },
+  { name: 'FloatingMenu', path: '@tiptap/vue-3/menus' },
+  { name: 'BubbleMenu', path: '@tiptap/vue-3/menus' },
 ]
