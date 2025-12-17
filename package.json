@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tiptap-editor",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Essentials to Quickly Integrate TipTap Editor into your Nuxt App",
   "repository": "modbender/nuxt-tiptap-editor",
   "keywords": [
