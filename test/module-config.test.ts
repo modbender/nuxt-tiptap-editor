@@ -1,26 +1,26 @@
-import { fileURLToPath } from 'node:url'
 import { describe, it, expect } from 'vitest'
+import { fileURLToPath } from 'node:url'
 import { setup, $fetch } from '@nuxt/test-utils/e2e'
 
-describe('basic module functionality', async () => {
+describe('module configuration - default', async () => {
   await setup({
     rootDir: fileURLToPath(new URL('./fixtures/basic', import.meta.url)),
   })
 
-  it('loads and initializes module without errors', async () => {
+  it('renders page without errors', async () => {
     const html = await $fetch('/')
     expect(html).toBeDefined()
     expect(html).toContain('<!DOCTYPE html>')
   })
 
-  it('renders page with editor placeholder', async () => {
+  it('includes editor status element', async () => {
     const html = await $fetch('/')
-    // Editor status element should be present
     expect(html).toContain('data-testid="editor-status"')
   })
 
-  it('module does not break SSR', async () => {
+  it('module initializes without breaking SSR', async () => {
     const html = await $fetch('/')
+    // No error pages
     expect(html).not.toContain('NuxtError')
     expect(html).not.toContain('500')
   })

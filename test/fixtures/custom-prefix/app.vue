@@ -3,7 +3,7 @@
     <div data-testid="editor-status">
       {{ editor ? 'ready' : 'loading' }}
     </div>
-    <TiptapEditorContent
+    <EditorEditorContent
       v-if="editor"
       :editor="editor"
       data-testid="editor-content"
@@ -13,7 +13,7 @@
 
 <script setup>
 const editor = useEditor({
-  content: '<p>Test content</p>',
-  extensions: [TiptapStarterKit],
+  content: '<p>Custom prefix test</p>',
+  extensions: [EditorStarterKit],
 })
 </script>

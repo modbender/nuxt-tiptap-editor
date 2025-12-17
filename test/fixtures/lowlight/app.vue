@@ -12,8 +12,17 @@
 </template>
 
 <script setup>
+const lowlight = createLowlight(commonLanguages)
+
 const editor = useEditor({
-  content: '<p>Test content</p>',
-  extensions: [TiptapStarterKit],
+  content: '<pre><code class="language-javascript">const x = 1;</code></pre>',
+  extensions: [
+    TiptapStarterKit.configure({
+      codeBlock: false,
+    }),
+    TiptapCodeBlockLowlight.configure({
+      lowlight,
+    }),
+  ],
 })
 </script>
