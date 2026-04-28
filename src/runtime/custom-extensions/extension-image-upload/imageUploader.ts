@@ -1,340 +1,354 @@
 import { Fragment, Slice } from 'prosemirror-model'
-import type { Node } from 'prosemirror-model'
-import 'prosemirror-replaceattrs' /// register it
-import { Plugin } from 'prosemirror-state'
+import type { Node, Schema } from 'prosemirror-model'
+import { Plugin, PluginKey } from 'prosemirror-state'
 import type { EditorView } from 'prosemirror-view'
 import type { ImageUploaderPluginOptions } from './imageUpload'
 
-let plugin: ImageUploaderPlugin | null = null
-const fileCache: { [key: string]: File | string } = {}
+export interface ImageUploaderStorage {
+  cache: Map<string, File | string>
+  getFileCache: (id: string) => File | string | undefined
+}
 
-export function imageUploader(options: ImageUploaderPluginOptions) {
-  plugin = new ImageUploaderPlugin(options)
-  const dummy = {}
+export const imageUploaderPluginKey = new PluginKey('imageUploader')
 
+export interface UploaderContext {
+  options: ImageUploaderPluginOptions
+  storage: ImageUploaderStorage
+}
+
+/**
+ * Build a placeholder node for the given uploadId. Used by the uploadImage
+ * command, which mutates the provided transaction directly rather than
+ * calling view.dispatch.
+ */
+export function createPlaceholderNode(
+  ctx: UploaderContext,
+  schema: Schema,
+  uploadId: string,
+  attrs: Record<string, unknown> = {},
+): Node {
+  const src
+    = (attrs.src as File | string | undefined)
+      ?? (attrs['data-src'] as File | string | undefined)
+      ?? ''
+  ctx.storage.cache.set(uploadId, src)
+
+  const placeholderType = schema.nodes.imagePlaceholder
+  if (!placeholderType) {
+    throw new Error(
+      '[nuxt-tiptap-editor] imagePlaceholder node not found in schema. '
+      + 'Add TiptapImagePlaceholder to the editor extensions.',
+    )
+  }
+  return placeholderType.create({ ...attrs, src: '', uploadId })
+}
+
+/**
+ * Run the upload for an already-inserted placeholder identified by id.
+ * Used by the uploadImage command's deferred follow-up.
+ */
+export async function uploadAndReplaceById(
+  ctx: UploaderContext,
+  view: EditorView,
+  id: string,
+  fileOrUrl: File | string,
+): Promise<void> {
+  await uploadAndReplace(ctx, view, fileOrUrl, id)
+}
+
+export function imageUploader(ctx: UploaderContext): Plugin {
   return new Plugin({
+    key: imageUploaderPluginKey,
     props: {
-      handleDOMEvents: {
-        keydown(view: EditorView) {
-          return !plugin?.setView(view)
-        },
-
-        drop(view: EditorView) {
-          return !plugin?.setView(view)
-        },
-
-        focus(view: EditorView) {
-          return !plugin?.setView(view)
-        },
+      handlePaste(view, event) {
+        return handlePaste(ctx, view, event)
       },
-
-      handlePaste(view: EditorView, event: ClipboardEvent) {
-        return plugin?.setView(view).handlePaste(event) || false
+      transformPasted(slice, view) {
+        return transformPasted(ctx, view, slice)
       },
-
-      transformPasted(slice: Slice) {
-        // Workaround for missing view is provided above.
-        return plugin?.transformPasted(slice) || slice
-      },
-
-      handleDrop(view: EditorView, event: DragEvent) {
-        return plugin?.setView(view).handleDrop(event as DragEvent) || false
-      },
-    },
-
-    state: {
-      init() {
-        return dummy
-      },
-
-      apply(tr, _value, _oldState, newState) {
-        const filesOrUrls = tr.getMeta('uploadImages')
-
-        if (filesOrUrls) {
-          const arr: Array<File | string>
-            = typeof filesOrUrls === 'string' || filesOrUrls instanceof File
-              ? [filesOrUrls]
-              : Array.from(filesOrUrls) // Probably a FileList or an array of files/urls
-
-          // give some time for editor, otherwise history plugin forgets history
-          setTimeout(() => {
-            arr.forEach((item, i) =>
-              plugin?.beforeUpload(item, newState.selection.from + i),
-            )
-            tr.setMeta('uploadImages', undefined)
-          }, 10)
-        }
-
-        return dummy
+      handleDrop(view, event) {
+        return handleDrop(ctx, view, event as DragEvent)
       },
     },
   })
 }
 
-export class ImageUploaderPlugin {
-  public view!: EditorView
+function handleDrop(
+  ctx: UploaderContext,
+  view: EditorView,
+  event: DragEvent,
+): boolean {
+  if (!event.dataTransfer?.files.length) return false
 
-  constructor(public config: ImageUploaderPluginOptions) {}
+  const coordinates = view.posAtCoords({
+    left: event.clientX,
+    top: event.clientY,
+  })
+  if (!coordinates) return false
 
-  public handleDrop(event: DragEvent) {
-    if (!event.dataTransfer?.files.length) return
+  const imageFiles = Array.from(event.dataTransfer.files).filter(file =>
+    ctx.options.acceptMimes.includes(file.type),
+  )
+  if (!imageFiles.length) return false
 
-    const coordinates = this.view.posAtCoords({
-      left: event.clientX,
-      top: event.clientY,
-    })
-    if (!coordinates) return
+  imageFiles.forEach((file, i) => {
+    insertPlaceholderAndUpload(ctx, view, file, coordinates.pos + i)
+  })
 
-    const imageFiles = Array.from(event.dataTransfer.files).filter(file =>
-      this.config.acceptMimes.includes(file.type),
-    )
-    if (!imageFiles.length) return
+  return true
+}
 
-    imageFiles.forEach((file, i) => {
-      this.beforeUpload(file, coordinates.pos + i)
-    })
+function handlePaste(
+  ctx: UploaderContext,
+  view: EditorView,
+  event: ClipboardEvent,
+): boolean {
+  const items = Array.from(event.clipboardData?.items || [])
 
-    return true
-  }
-
-  public transformPasted(slice: Slice) {
-    const imageNodes: Array<{ url: string, id: string }> = []
-
-    const children: Node[] = []
-    slice.content.forEach((child) => {
-      let newChild = child
-
-      // if the node itself is image
-      if (child.type.name === 'image' && !this.isOurOwnPic(child.attrs)) {
-        newChild = this.newUploadingImageNode(child.attrs)
-        imageNodes.push({
-          id: newChild.attrs.uploadId,
-          url: child.attrs.src || child.attrs['data-src'],
-        })
-      }
-      else {
-        child.descendants((node: Node, pos: number) => {
-          if (node.type.name === 'image' && !this.isOurOwnPic(node.attrs)) {
-            const imageNode = this.newUploadingImageNode(node.attrs)
-            newChild = newChild.replace(
-              pos,
-              pos + 1,
-              new Slice(Fragment.from(imageNode), 0, 0),
-            )
-            imageNodes.push({
-              id: imageNode.attrs.uploadId,
-              url: node.attrs.src || node.attrs['data-src'],
-            })
-          }
-        })
-      }
-
-      children.push(newChild)
-    })
-
-    imageNodes.forEach(({ url, id }) => this.uploadImageForId(url, id))
-
-    return new Slice(
-      Fragment.fromArray(children),
-      slice.openStart,
-      slice.openEnd,
-    )
-  }
-
-  public handlePaste(event: ClipboardEvent) {
-    const items = Array.from(event.clipboardData?.items || [])
-
-    // Clipboard may contain both html and image items (like when pasting from ms word, excel)
-    // in that case (if there is any html), don't handle images.
-    if (items.some(x => x.type === 'text/html')) {
-      return false
-    }
-
-    const image = items.find(item =>
-      this.config.acceptMimes.includes(item.type),
-    )
-
-    if (image) {
-      this.beforeUpload(image.getAsFile()!, this.view.state.selection.from)
-      return true
-    }
-
+  // Clipboard from Word/Excel/etc. contains both HTML and image items —
+  // when HTML is present, defer to the standard paste handler.
+  if (items.some(x => x.type === 'text/html')) {
     return false
   }
 
-  public beforeUpload(fileOrUrl: File | string, at: number) {
-    const tr = this.view.state.tr
-    if (!tr.selection.empty) {
-      tr.deleteSelection()
+  const image = items.find(item => ctx.options.acceptMimes.includes(item.type))
+  if (!image) return false
+
+  const file = image.getAsFile()
+  if (!file) return false
+
+  insertPlaceholderAndUpload(ctx, view, file, view.state.selection.from)
+  return true
+}
+
+function transformPasted(
+  ctx: UploaderContext,
+  view: EditorView,
+  slice: Slice,
+): Slice {
+  const queued: Array<{ url: string, id: string }> = []
+  const children: Node[] = []
+
+  slice.content.forEach((child) => {
+    let newChild = child
+
+    if (child.type.name === 'image' && !isOurOwnPic(ctx, child.attrs)) {
+      newChild = newPlaceholderNode(ctx, view, child.attrs)
+      queued.push({
+        id: newChild.attrs.uploadId,
+        url: child.attrs.src || child.attrs['data-src'],
+      })
+    }
+    else {
+      child.descendants((node, pos) => {
+        if (node.type.name === 'image' && !isOurOwnPic(ctx, node.attrs)) {
+          const placeholder = newPlaceholderNode(ctx, view, node.attrs)
+          newChild = newChild.replace(
+            pos,
+            pos + 1,
+            new Slice(Fragment.from(placeholder), 0, 0),
+          )
+          queued.push({
+            id: placeholder.attrs.uploadId,
+            url: node.attrs.src || node.attrs['data-src'],
+          })
+        }
+      })
     }
 
-    if (at < 0) {
-      at = this.view.state.selection.from
-    }
+    children.push(newChild)
+  })
 
-    // insert image node.
-    const node = this.newUploadingImageNode({ src: fileOrUrl })
-    tr.replaceWith(at, at, node)
-    this.view.dispatch(tr)
+  queued.forEach(({ url, id }) => {
+    void uploadAndReplace(ctx, view, url, id)
+  })
 
-    // upload image for above node
-    this.uploadImageForId(fileOrUrl, node.attrs.uploadId)
+  return new Slice(
+    Fragment.fromArray(children),
+    slice.openStart,
+    slice.openEnd,
+  )
+}
+
+export function insertPlaceholderAndUpload(
+  ctx: UploaderContext,
+  view: EditorView,
+  fileOrUrl: File | string,
+  at: number,
+): void {
+  let pos = at
+  const tr = view.state.tr
+  if (!tr.selection.empty) {
+    tr.deleteSelection()
+  }
+  if (pos < 0) {
+    pos = view.state.selection.from
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public newUploadingImageNode(attrs: any): Node {
-    // const empty_baseb4 = "data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'/%3E\n";
-    const uploadId = this.config.id()
-    fileCache[uploadId] = attrs.src || attrs['data-src']
-    const imagePlaceholderNode = this.view.state.schema.nodes.imagePlaceholder
-    if (!imagePlaceholderNode) {
-      throw new Error('imagePlaceholder node type not found in schema')
-    }
-    // TypeScript doesn't narrow the type properly, so we use non-null assertion after the check
-    return imagePlaceholderNode!.create({
-      ...attrs,
-      src: '', // attrs.src,
-      uploadId,
-    })
-  }
+  const node = newPlaceholderNode(ctx, view, { src: fileOrUrl })
+  tr.replaceWith(pos, pos, node)
+  view.dispatch(tr)
 
-  public async uploadImageForId(fileOrUrl: File | string, id: string) {
-    const getImagePositions = () => {
-      const positions: Array<{ node: Node, pos: number }> = []
-      this.view.state.doc.descendants(
-        (node: Node, pos: number) => {
-          if (
-            node.type.name === 'imagePlaceholder'
-            && node.attrs.uploadId === id
-          ) {
-            positions.push({ node, pos })
-          }
-        },
+  void uploadAndReplace(ctx, view, fileOrUrl, node.attrs.uploadId)
+}
+
+function newPlaceholderNode(
+  ctx: UploaderContext,
+  view: EditorView,
+  attrs: Record<string, unknown>,
+): Node {
+  const uploadId = ctx.options.id()
+  return createPlaceholderNode(ctx, view.state.schema, uploadId, attrs)
+}
+
+async function uploadAndReplace(
+  ctx: UploaderContext,
+  view: EditorView,
+  fileOrUrl: File | string,
+  id: string,
+): Promise<void> {
+  let file: File | string = fileOrUrl
+
+  if (typeof file === 'string') {
+    try {
+      const fetched = await webImg2File(file)
+      if (!fetched) {
+        removePlaceholder(view, id)
+        ctx.storage.cache.delete(id)
+        return
+      }
+      file = fetched
+    }
+    catch (err) {
+      console.warn(
+        '[nuxt-tiptap-editor] failed to fetch pasted image URL:',
+        err,
       )
-
-      return positions
-    }
-
-    let file: string | File | null = fileOrUrl
-    if (typeof file === 'string') {
-      file = await webImg2File(file)
-    }
-
-    const url
-      = file
-        && ((await this.config
-          .upload(file, id)
-        // tslint:disable-next-line:no-console
-          .catch(console.warn)) as string | undefined)
-
-    const imageNodes = getImagePositions()
-    if (!imageNodes.length) {
+      removePlaceholder(view, id)
+      ctx.storage.cache.delete(id)
       return
     }
+  }
 
-    /// disallow user from undoing back to 'uploading' state.
-    // let tr = this.view.state.tr.setMeta('addToHistory', false);
-    const tr = this.view.state.tr
+  let url: string | undefined
+  try {
+    url = await ctx.options.upload(file, id)
+  }
+  catch (err) {
+    console.warn('[nuxt-tiptap-editor] image upload failed:', err)
+  }
 
-    imageNodes.forEach(({ node, pos }) => {
-      if (url) {
-        const imageNode = this.view.state.schema.nodes.image
-        if (!imageNode) {
-          throw new Error('image node type not found in schema')
-        }
-        // TypeScript doesn't narrow the type properly, so we use non-null assertion after the check
-        const newNode = imageNode!.create({
-          ...node.attrs,
-          width: node.attrs.width,
-          src: url,
-        })
-        tr.replaceWith(pos, pos + 1, newNode)
+  replaceOrRemovePlaceholder(view, id, url)
+  ctx.storage.cache.delete(id)
+}
+
+function findPlaceholderPositions(
+  view: EditorView,
+  id: string,
+): Array<{ node: Node, pos: number }> {
+  const positions: Array<{ node: Node, pos: number }> = []
+  view.state.doc.descendants((node, pos) => {
+    if (
+      node.type.name === 'imagePlaceholder'
+      && node.attrs.uploadId === id
+    ) {
+      positions.push({ node, pos })
+    }
+  })
+  return positions
+}
+
+function replaceOrRemovePlaceholder(
+  view: EditorView,
+  id: string,
+  url: string | undefined,
+): void {
+  const positions = findPlaceholderPositions(view, id)
+  if (!positions.length) return
+
+  const tr = view.state.tr
+  positions.forEach(({ node, pos }) => {
+    if (url) {
+      const imageType = view.state.schema.nodes.image
+      if (!imageType) {
+        throw new Error(
+          '[nuxt-tiptap-editor] image node not found in schema. '
+          + 'Add TiptapImage to the editor extensions.',
+        )
       }
-      else {
-        tr.delete(pos, pos + 1)
-      }
-    })
+      const imageNode = imageType.create({ ...node.attrs, src: url })
+      tr.replaceWith(pos, pos + 1, imageNode)
+    }
+    else {
+      tr.delete(pos, pos + 1)
+    }
+  })
+  view.dispatch(tr)
+}
 
-    this.view.dispatch(tr)
-    fileCache[id] = ''
-  }
+function removePlaceholder(view: EditorView, id: string): void {
+  replaceOrRemovePlaceholder(view, id, undefined)
+}
 
-  public setView(view: EditorView): this {
-    this.view = view
-    return this
-  }
-
-  private isOurOwnPic(attrs: { src?: string, ['data-src']?: string }): boolean {
-    const src = attrs.src || attrs['data-src'] || ''
-    return (this.config.ignoreDomains || []).some(domain =>
-      src.includes(domain),
-    )
-  }
+function isOurOwnPic(
+  ctx: UploaderContext,
+  attrs: { src?: string, ['data-src']?: string },
+): boolean {
+  const src = attrs.src || attrs['data-src'] || ''
+  return (ctx.options.ignoreDomains || []).some(domain => src.includes(domain))
 }
 
 async function webImg2File(imgUrl: string): Promise<File | null> {
-  function imgToBase64(url: string): Promise<string> {
-    let canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d'),
-      img = new Image()
+  const base = await imgToBase64(imgUrl)
+  return base64ToFile(base, 'Web Image')
+}
+
+function imgToBase64(url: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    const img = new Image()
 
     img.crossOrigin = 'Anonymous'
     img.setAttribute('referrerpolicy', 'no-referrer')
-    img.src = url
-    return new Promise((resolve, reject) => {
-      img.onload = function () {
+
+    img.onload = () => {
+      try {
         canvas.height = img.height
         canvas.width = img.width
         ctx?.drawImage(img, 0, 0)
-        const dataURL = canvas.toDataURL('image/png')
-        resolve(dataURL)
-        // @ts-expect-error canvas cleanup
-        canvas = null
+        resolve(canvas.toDataURL('image/png'))
       }
-      img.onerror = reject
-    })
-  }
-
-  function base64toFile(base: string, filename: string): File {
-    const arr = base.split(',')
-    const prefix = arr[0]
-    if (!prefix) {
-      throw new Error('Invalid base64 format: data prefix not found')
+      catch (err) {
+        // CORS-tainted canvas throws synchronously here in browsers.
+        reject(err instanceof Error ? err : new Error(String(err)))
+      }
     }
-    const mimeMatch = prefix.match(/:(.*?);/)
-    if (!mimeMatch || !mimeMatch[1]) {
-      throw new Error('Invalid base64 format: mime type not found')
-    }
-    // TypeScript doesn't narrow properly, so we use non-null assertion after the check
-    const mime: string = mimeMatch[1]!
-    const suffix = mime.split('/')[1]
-    const data = arr[1]
-    if (!data) {
-      throw new Error('Invalid base64 format: data not found')
-    }
-    // TypeScript doesn't narrow properly, so we use non-null assertion after the check
-    const bstr = atob(data)
-    let n = bstr.length
-    const u8arr = new Uint8Array(n)
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n)
-    }
-    // Convert to file object
-    return new File([u8arr], `${filename}.${suffix}`, { type: mime })
-  }
-
-  return imgToBase64(imgUrl)
-    .then((base) => {
-      return base64toFile(base, 'Web Image')
-    })
-    .catch(() => {
-      return null
-    })
+    img.onerror = () => reject(new Error(`Failed to load image: ${url}`))
+    img.src = url
+  })
 }
 
-// export function getPluginInstances() {
-//   return plugin
-// }
-export function getFileCache(key: string) {
-  return fileCache[key]
+function base64ToFile(base: string, filename: string): File {
+  const arr = base.split(',')
+  const prefix = arr[0]
+  if (!prefix) {
+    throw new Error('Invalid base64 format: data prefix not found')
+  }
+  const mimeMatch = prefix.match(/:(.*?);/)
+  if (!mimeMatch?.[1]) {
+    throw new Error('Invalid base64 format: mime type not found')
+  }
+  const mime = mimeMatch[1]
+  const suffix = mime.split('/')[1] ?? 'bin'
+  const data = arr[1]
+  if (!data) {
+    throw new Error('Invalid base64 format: data not found')
+  }
+
+  const bstr = atob(data)
+  let n = bstr.length
+  const u8arr = new Uint8Array(n)
+  while (n--) u8arr[n] = bstr.charCodeAt(n)
+  return new File([u8arr], `${filename}.${suffix}`, { type: mime })
 }

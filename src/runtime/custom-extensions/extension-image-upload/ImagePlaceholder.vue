@@ -17,42 +17,47 @@
   </NodeViewWrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { NodeViewWrapper } from '@tiptap/vue-3'
+import { NodeViewWrapper, type NodeViewProps } from '@tiptap/vue-3'
+import type { ImageUploaderStorage } from './imageUploader'
 
-const props = defineProps({
-  node: { type: Object, required: true },
-  extension: { type: Object, required: true },
-  editor: { type: Object, required: true },
-})
+const props = defineProps<NodeViewProps>()
+
 const attrs = computed(() => props.node.attrs)
 const options = computed(() => props.extension.options)
-const base64 = ref('')
+const base64 = ref<string>('')
 const isImgErr = ref(false)
 
 onMounted(() => {
-  const src = props.editor.commands.getFileCache(attrs.value.uploadId)
+  const storage = props.editor.storage.imageUploadExtension as
+    | ImageUploaderStorage
+    | undefined
+  const src = storage?.getFileCache(attrs.value.uploadId)
 
   if (src instanceof File) {
-    new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(src)
-      reader.onload = () => resolve(reader.result)
-      reader.onerror = error => reject(error)
-    }).then((res) => {
-      base64.value = res
-    })
+    const reader = new FileReader()
+    reader.onload = () => {
+      base64.value = typeof reader.result === 'string' ? reader.result : ''
+    }
+    reader.onerror = () => {
+      isImgErr.value = true
+    }
+    reader.readAsDataURL(src)
   }
-  else {
+  else if (typeof src === 'string') {
     base64.value = src
   }
 })
 
-function onLoad(e) {
-  const imgW = e.target?.naturalWidth || e.target?.clientWidth || 0
-  const maxW = document.querySelector('.ProseMirror').clientWidth
-  props.updateAttributes({ width: imgW > maxW ? `${maxW}px` : undefined })
+function onLoad(e: Event) {
+  const target = e.target as HTMLImageElement | null
+  const imgW = target?.naturalWidth || target?.clientWidth || 0
+  const editorDom = props.editor.view.dom as HTMLElement
+  const maxW = editorDom.clientWidth
+  props.updateAttributes({
+    width: imgW > maxW ? `${maxW}px` : undefined,
+  })
 }
 </script>
 
