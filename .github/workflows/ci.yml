@@ -65,8 +65,9 @@ jobs:
           path: |
             .nuxt
             dist
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-
             ${{ runner.os }}-build-
 
       - name: Run tests
@@ -100,8 +101,9 @@ jobs:
           path: |
             .nuxt
             dist
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-
             ${{ runner.os }}-build-
 
       - name: Run dev:prepare

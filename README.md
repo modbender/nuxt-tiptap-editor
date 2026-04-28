@@ -184,10 +184,8 @@
      content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
      extensions: [TiptapStarterKit],
    });
-
-   onBeforeUnmount(() => {
-     unref(editor).destroy();
-   });
+   // TipTap 3 cleans up automatically when the component unmounts;
+   // no manual editor.destroy() call is needed.
    </script>
    ```
 
@@ -197,29 +195,53 @@ That's it! You can now use Nuxt TipTap Editor in your Nuxt app ✨
 
 ## Development
 
+This repo uses **pnpm** as the package manager.
+
 ```bash
 # Install dependencies
-yarn install
+pnpm install
 
-# Generate type stubs
-yarn dev:prepare
+# Generate type stubs (must be run after install and after structural changes in src/)
+pnpm dev:prepare
 
 # Develop with the playground
-yarn dev
+pnpm dev
 
 # Build the playground
-yarn build
+pnpm build
 
 # Run ESLint
-yarn lint
+pnpm lint
 
-# Run Vitest
-yarn test
-yarn test:watch
-
-# Release new version - needs to be with npm for login to work
-npm run release
+# Run Vitest (also runs vue-tsc --noEmit)
+pnpm test
+pnpm test:watch
 ```
+
+### Releasing
+
+Use the version-bump scripts (they trigger CI publish via OIDC):
+
+```bash
+pnpm release:patch   # 3.2.x → 3.2.(x+1)
+pnpm release:minor   # 3.2.x → 3.3.0
+pnpm release:major   # 3.x.y → 4.0.0
+```
+
+See [RELEASE.md](./RELEASE.md) for details.
+
+### Upgrading TipTap or Nuxt
+
+After bumping a major dependency, run the full suite — `pnpm test` and `pnpm test:types` will catch:
+- removed/renamed module APIs (registration tests)
+- broken extension behavior (command tests)
+- broken auto-import wiring (registration tests + smoke tests)
+- broken lowlight head-link injection
+
+Things the test suite cannot catch — please verify manually in `pnpm dev`:
+- BubbleMenu / FloatingMenu rendering and positioning
+- Drag/drop and paste flows in `playground/components/TipTapImage.vue`
+- Visual / CSS regressions
 
 ## Contribution
 

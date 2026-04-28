@@ -45,9 +45,9 @@ pnpm release:major
    - Publishes to npm
    - Creates a GitHub release
 
-## Manual Release (Legacy)
+## Manual Release (Legacy — deprecated)
 
-The original `pnpm release` command is still available if you prefer to handle versioning manually, but you'll need to update `package.json` and create tags yourself.
+The original `pnpm release` script (which directly publishes to npm from your machine) predates the OIDC trusted-publishing flow and **should not be used**. It bypasses the GitHub Actions release path, so the npm provenance signature won't be present and the GitHub release won't be created. Use one of the `release:patch / release:minor / release:major` scripts above instead. The legacy script will be removed in a future release.
 
 ## Workflow
 
