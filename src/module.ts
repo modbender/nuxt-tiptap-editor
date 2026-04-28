@@ -82,11 +82,35 @@ export default defineNuxtModule<ModuleOptions>({
       const lldefaultTheme = options.lowlight?.theme || 'github-dark'
       const highlightJSVersion
         = options.lowlight?.highlightJSVersion || '11.10.0'
+
+      // Reject anything that isn't a clean semver — the version is
+      // interpolated into a `<link href>` and into a CDN URL, so let's
+      // refuse weird values rather than silently passing them through.
+      if (!/^\d+\.\d+\.\d+$/.test(highlightJSVersion)) {
+        throw new Error(
+          '[nuxt-tiptap-editor] Invalid `tiptap.lowlight.highlightJSVersion` '
+          + `value ${JSON.stringify(highlightJSVersion)}. Expected a semver `
+          + `string like "11.10.0".`,
+        )
+      }
+
       const llThemeCSS = `https://unpkg.com/@highlightjs/cdn-assets@${highlightJSVersion}/styles/${lldefaultTheme}.min.css`
+
+      const themeLink: Record<string, string> = {
+        rel: 'stylesheet',
+        href: llThemeCSS,
+      }
+      // Opt-in Subresource Integrity. SRI hashes can't be auto-derived at
+      // build without a network fetch, so consumers compute and supply the
+      // hash for the (theme, version) pair they care about.
+      if (options.lowlight?.integrity) {
+        themeLink.integrity = options.lowlight.integrity
+        themeLink.crossorigin = 'anonymous'
+      }
 
       nuxt.options.app.head.link = [
         ...(nuxt.options.app.head.link || []),
-        { rel: 'stylesheet', href: llThemeCSS },
+        themeLink,
       ]
     }
 
