@@ -281,11 +281,24 @@ export interface ModuleOptions {
       theme?: HighlightTheme
 
       /**
-       * highlight.js version used for css import
+       * highlight.js version used for css import. Must be a semver string
+       * like '11.10.0'; the value is validated at module setup.
        *
-       * @default '11.9.0'
+       * @default '11.10.0'
        */
-      highlightJSVersion?: '11.9.0' | string
+      highlightJSVersion?: string
+
+      /**
+       * Optional Subresource Integrity hash for the highlight.js theme
+       * stylesheet (the `<link>` injected into nuxt.options.app.head.link).
+       * When set, the link is rendered with `integrity` and
+       * `crossorigin="anonymous"`. Compute the hash for your specific
+       * (theme, version) pair — it cannot be derived without a network
+       * fetch.
+       *
+       * Example: `'sha384-...'`
+       */
+      integrity?: string
     }
 }
 
