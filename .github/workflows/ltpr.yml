@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
 
@@ -30,19 +30,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run linter
-        id: lint
-        run: pnpm lint || pnpm lint:fix
-
-      - name: Commit lint fixes
-        if: steps.lint.outcome == 'failure'
-        run: |
-          if [[ -n $(git status --porcelain) ]]; then
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            git add .
-            git commit -m "chore: fix lint errors"
-            git push
-          fi
+        run: pnpm lint
 
   test:
     runs-on: ubuntu-latest
@@ -56,7 +44,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
+          node-version: "22"
           cache: "pnpm"
 
       - name: Install dependencies
@@ -71,8 +59,9 @@ jobs:
           path: |
             .nuxt
             dist
-          key: ${{ runner.os }}-build-${{ github.sha }}
+          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-
             ${{ runner.os }}-build-
 
       - name: Run tests
@@ -93,7 +82,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
+          node-version: "22"
           cache: "pnpm"
 
       - name: Install dependencies
@@ -140,7 +129,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "lts/*"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
 
