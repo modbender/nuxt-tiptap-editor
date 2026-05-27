@@ -25,7 +25,7 @@ This is a **Nuxt module** (Nuxt 3+/4-compatible) that registers TipTap as auto-i
 Three categories of imports, all defined as `ImportObject[]` in `src/imports/`:
 
 1. **defaults** (`src/imports/defaults.ts`) — always registered. Split into `defaultComposables`, `defaultNodes`, `defaultMarks`, `defaultExtensions`, `defaultComponents`.
-2. **optional** (`src/imports/optional.ts`) — gated on module options. Currently only `lowlight` (enabled when `options.lowlight !== false`); enabling it also injects a highlight.js theme CSS link via CDN into `nuxt.options.app.head.link`.
+2. **optional** (`src/imports/optional.ts`) — gated on module options. Currently only `lowlight`, enabled when `options.lowlight !== false`. The option is either `false` or an object `{ theme?, highlightJSVersion?, integrity? }` (defaults: `github-dark`, `11.10.0`). When enabled, `module.ts` injects a highlight.js theme CSS link (unpkg `@highlightjs/cdn-assets`) into `nuxt.options.app.head.link`. `highlightJSVersion` is validated against a strict `\d+.\d+.\d+` semver and **throws** on a bad value (it's interpolated into the CDN URL) — the `lowlight-bad-version` fixture exists to assert this. SRI is opt-in: supply `integrity` to get `integrity` + `crossorigin="anonymous"` on the link (hashes can't be derived at build without a network fetch).
 3. **custom** (`src/imports/custom.ts`) — local extensions in `src/runtime/custom-extensions/`. Paths are resolved relative to the module via `createResolver(import.meta.url)`.
 
 **Prefix rule** (important when adding new imports):
