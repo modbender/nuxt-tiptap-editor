@@ -5,6 +5,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { Editor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight'
+import { common, createLowlight } from 'lowlight'
 
 describe('TipTap editor commands', () => {
   let editor: Editor
@@ -284,5 +286,45 @@ describe('TipTap editor commands', () => {
       expect(json).toHaveProperty('type', 'doc')
       expect(json).toHaveProperty('content')
     })
+  })
+})
+
+describe('CodeBlockLowlight extension', () => {
+  let editor: Editor
+
+  beforeEach(() => {
+    const lowlight = createLowlight(common)
+    editor = new Editor({
+      content: '<p>Hello</p>',
+      extensions: [
+        StarterKit.configure({ codeBlock: false }),
+        CodeBlockLowlight.configure({ lowlight }),
+      ],
+    })
+  })
+
+  afterEach(() => {
+    editor.destroy()
+  })
+
+  it('toggleCodeBlock with a language attr renders <pre><code class="language-*">', () => {
+    editor.commands.setContent('<p>const x = 1</p>')
+    editor.commands.focus()
+    editor.commands.selectAll()
+    editor.commands.toggleCodeBlock({ language: 'js' })
+
+    const html = editor.getHTML()
+    expect(html).toContain('<pre>')
+    expect(html).toContain('<code class="language-js">')
+  })
+
+  it('parses HTML with language-* class into a typed code block', () => {
+    editor.commands.setContent(
+      '<pre><code class="language-ts">const x: number = 1</code></pre>',
+    )
+    const json = editor.getJSON()
+    const node = json.content?.[0]
+    expect(node?.type).toBe('codeBlock')
+    expect(node?.attrs?.language).toBe('ts')
   })
 })
