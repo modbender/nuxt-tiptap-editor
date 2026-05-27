@@ -11,6 +11,24 @@ import type { ModuleOptions, ImportObject } from './types'
 
 import * as allImports from './imports'
 
+// The ProseMirror packages re-exported through `@tiptap/pm`. They must
+// resolve to a single instance across the consumer app and every TipTap
+// extension, otherwise mixing module-provided and directly-installed
+// extensions duplicates them and breaks the editor at runtime.
+const proseMirrorPackages = [
+  'prosemirror-state',
+  'prosemirror-view',
+  'prosemirror-model',
+  'prosemirror-transform',
+  'prosemirror-commands',
+  'prosemirror-keymap',
+  'prosemirror-schema-list',
+  'prosemirror-history',
+  'prosemirror-gapcursor',
+  'prosemirror-dropcursor',
+  'prosemirror-inputrules',
+]
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name,
@@ -175,6 +193,25 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.typescript = nuxt.options.typescript || {}
     nuxt.options.typescript.hoist = nuxt.options.typescript.hoist || []
     nuxt.options.typescript.hoist.push('@tiptap/vue-3')
+
+    // Force a single copy of every ProseMirror package. When a consumer also
+    // installs @tiptap/* extensions directly (e.g. Placeholder), Vite can
+    // bundle a second copy of prosemirror-state/view, which throws
+    // "Adding different instances of a keyed plugin (plugin$)" and breaks
+    // decoration rendering ("Cannot read properties of undefined (reading
+    // 'localsInner')"). Deduping + pre-bundling them collapses it to one
+    // instance. See ueberdosis/tiptap#5267, #3869.
+    nuxt.options.vite = nuxt.options.vite || {}
+    nuxt.options.vite.resolve = nuxt.options.vite.resolve || {}
+    nuxt.options.vite.resolve.dedupe = [
+      ...(nuxt.options.vite.resolve.dedupe || []),
+      ...proseMirrorPackages,
+    ]
+    nuxt.options.vite.optimizeDeps = nuxt.options.vite.optimizeDeps || {}
+    nuxt.options.vite.optimizeDeps.include = [
+      ...(nuxt.options.vite.optimizeDeps.include || []),
+      ...proseMirrorPackages,
+    ]
 
     console.info('Tiptap Editor initialized')
   },
