@@ -30,6 +30,16 @@ const PACKAGES_TRANSPILED = [
   '@tiptap/extension-link',
 ]
 
+// A consumer who also installs @tiptap/* extensions directly can end up with
+// two copies of these resolved into the bundle, which throws "Adding
+// different instances of a keyed plugin" / breaks decorations
+// ('localsInner'). The module pins them via vite.resolve.dedupe.
+const PROSEMIRROR_DEDUPE = [
+  'prosemirror-state',
+  'prosemirror-view',
+  'prosemirror-model',
+]
+
 const FIXTURES = {
   basic: fileURLToPath(new URL('./fixtures/basic', import.meta.url)),
   customPrefix: fileURLToPath(
@@ -77,6 +87,13 @@ describe('module registration — default fixture (prefix=Tiptap)', () => {
       typeof l.href === 'string' && l.href.includes('highlightjs/cdn-assets'),
     )
     expect(hjs).toBeUndefined()
+  })
+
+  it('dedupes ProseMirror packages via vite.resolve.dedupe', () => {
+    const dedupe = useTestContext().nuxt!.options.vite?.resolve?.dedupe ?? []
+    for (const pkg of PROSEMIRROR_DEDUPE) {
+      expect(dedupe).toContain(pkg)
+    }
   })
 })
 

@@ -59,3 +59,19 @@ onBeforeUnmount(() => {
   unref(editor).destroy();
 });
 ```
+
+## "Adding different instances of a keyed plugin" / `localsInner` errors
+
+If you see `RangeError: Adding different instances of a keyed plugin (plugin$)` or `Cannot read properties of undefined (reading 'localsInner')`, your build has loaded **two copies of ProseMirror**. This happens when you install a TipTap extension directly (e.g. `@tiptap/extension-placeholder`) alongside the ones this module provides, and the bundler resolves a second `prosemirror-state`/`prosemirror-view`.
+
+As of v3.4.0 the module deduplicates the ProseMirror packages automatically via `vite.resolve.dedupe`, so this should no longer occur. If you still hit it (e.g. with a non-default builder), add the same dedupe to your `nuxt.config`:
+
+```ts
+export default defineNuxtConfig({
+  vite: {
+    resolve: {
+      dedupe: ['prosemirror-state', 'prosemirror-view', 'prosemirror-model'],
+    },
+  },
+});
+```
