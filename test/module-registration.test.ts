@@ -119,9 +119,35 @@ describe('module registration — lowlight fixture', () => {
     expect(themeLink?.rel).toBe('stylesheet')
   })
 
+  it('renders integrity + crossorigin on the theme link when SRI is configured', () => {
+    const links = useTestContext().nuxt!.options.app.head.link ?? []
+    const themeLink = links.find(l =>
+      typeof l.href === 'string' && l.href.includes('highlightjs/cdn-assets'),
+    ) as Record<string, string> | undefined
+    expect(themeLink?.integrity).toBe('sha384-EXAMPLE-INTEGRITY-HASH')
+    expect(themeLink?.crossorigin).toBe('anonymous')
+  })
+
   it('still adds TipTap + lowlight packages to build.transpile', () => {
     const transpile = (useTestContext().nuxt!.options.build.transpile ?? []).map(String)
     expect(transpile).toContain('@tiptap/extension-code-block-lowlight')
     expect(transpile).toContain('lowlight')
   })
+})
+
+describe('module registration — invalid lowlight version', () => {
+  it('throws a descriptive error at module setup time', async () => {
+    setTestContext(createTestContext({
+      rootDir: fileURLToPath(
+        new URL('./fixtures/lowlight-bad-version', import.meta.url),
+      ),
+      build: true,
+      server: false,
+      browser: false,
+    }))
+    await expect(loadFixture()).rejects.toThrow(
+      /Invalid `tiptap\.lowlight\.highlightJSVersion`/,
+    )
+    setTestContext(undefined)
+  }, 60000)
 })
