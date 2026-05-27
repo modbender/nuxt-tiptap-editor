@@ -1,6 +1,10 @@
 import { defineConfig } from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
+  // Vue plugin lets tests import .vue SFCs (e.g. NodeView components used by
+  // custom extensions).
+  plugins: [vue()],
   test: {
     // Longer timeout for Nuxt setup
     testTimeout: 60000,
