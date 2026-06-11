@@ -48,10 +48,7 @@
     "test": "vitest run && vue-tsc --noEmit",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
-    "prepare": "husky",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "prepare": "husky"
   },
   "dependencies": {
     "@tiptap/extension-code-block-lowlight": "^3.23.6",
@@ -84,7 +81,6 @@
     "prettier": "^3.8.3",
     "sass": "^1.100.0",
     "typescript": "^5.9.3",
-    "vitepress": "^1.6.4",
     "vitest": "^3.2.4",
     "vue-tsc": "~3.1.8"
   },
