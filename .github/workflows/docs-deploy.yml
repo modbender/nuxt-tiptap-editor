@@ -1,0 +1,25 @@
+name: Trigger docs rebuild
+
+# Pings the modbender.in Cloudflare Pages deploy hook whenever this repo's
+# docs change, so the centralized Astro + Starlight site re-pulls the latest
+# Markdown. Set the CF_DOCS_DEPLOY_HOOK secret to the deploy hook URL from
+# Cloudflare Pages → Settings → Builds → Deploy hooks.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages build
+        run: |
+          if [ -z "${{ secrets.CF_DOCS_DEPLOY_HOOK }}" ]; then
+            echo "CF_DOCS_DEPLOY_HOOK secret is not set; skipping." >&2
+            exit 0
+          fi
+          curl -fsSL -X POST "${{ secrets.CF_DOCS_DEPLOY_HOOK }}"
