@@ -50,6 +50,10 @@ Located at `src/runtime/custom-extensions/<extension-name>/`, exposed via an `in
 
 Standalone Nuxt app used as the dev harness. Demonstrates `TipTap.vue`, `TipTapImage.vue` (with the upload extension + `/api/upload` server route), and `TipTapLowlight.vue`. Tailwind + `@tailwindcss/typography` for styling. Not part of the published package.
 
+### Documentation (`docs/`)
+
+Plain Starlight-native Markdown (`.md`/`.mdx`) — no local docs build here. These pages are the source of truth, consumed at build time by an external **Astro + Starlight** hub (`modbender-docs`) that sparse-clones this repo's `docs/`. Pushing changes under `docs/**` triggers a hub rebuild via `.github/workflows/docs-deploy.yml` (pings a Cloudflare Pages deploy hook; needs the `CF_DOCS_DEPLOY_HOOK` secret). When editing: one H1 comes from frontmatter `title` (no body `#` heading), use Starlight asides (`:::tip[Title]`) and relative links, and `.mdx` for any page using components (`<Tabs>`, `<Card>`).
+
 ## Testing
 
 Tests are **E2E using `@nuxt/test-utils/e2e`**, not pure unit tests. Each test file calls `setup({ rootDir: ... })` pointing at a fixture in `test/fixtures/<name>/`, which boots a real Nuxt instance and lets the test `$fetch('/')` against it.
