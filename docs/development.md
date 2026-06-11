@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 7
 title: Development
 description: Run, test, and release Nuxt Tiptap Editor locally.
 ---

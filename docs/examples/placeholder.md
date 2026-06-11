@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 4
 title: Placeholder Example
 description: Use the external Placeholder extension to show hint text in an empty editor.
 ---

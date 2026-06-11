@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 1
 title: What is Nuxt Tiptap Editor?
 description: Why this module exists and what it does for your Nuxt app.
 ---

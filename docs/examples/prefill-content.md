@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 2
 title: Pre-fill Content Example
 description: Set the editor's content during initialization or at any time with setContent.
 ---

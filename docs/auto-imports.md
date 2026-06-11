@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 5
 title: Auto-imports Reference
 description: Every composable, component, node, mark, and extension the module registers, and the name it's available under.
 ---

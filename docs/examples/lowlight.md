@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 3
 title: Code Block Highlighter Example
 description: Enable the lowlight option for syntax-highlighted code blocks.
 ---
