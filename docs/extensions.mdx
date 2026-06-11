@@ -1,0 +1,71 @@
+---
+title: Extensions
+description: Which Tiptap extensions ship with the module, and how to add your own.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The module always registers the [StarterKit](https://tiptap.dev/docs/editor/api/extensions/starter-kit) (all of its nodes, marks, and extensions), the [Link](https://tiptap.dev/docs/editor/api/marks/link) mark, and the [Image](https://tiptap.dev/docs/editor/api/nodes/image) node.
+
+The [Code Block Lowlight](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight) extension and the lowlight composables (`createLowlight`, `commonLanguages`, `allLanguages`) are **only registered when the `tiptap.lowlight` option is not `false`**. Since the module's default is `lowlight: false`, lowlight is opt-in — enable it to get syntax highlighting and keep your bundle smaller when you don't.
+
+<details>
+<summary>More details</summary>
+
+- More about the [Link mark](https://tiptap.dev/docs/editor/api/marks/link)
+- More about the [Code Block Lowlight extension](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight)
+
+</details>
+
+See the [Code Block Lowlight example](./examples/lowlight) for how to enable and use it.
+
+For the full list of every name the module auto-imports, see the [Auto-imports reference](./auto-imports).
+
+:::tip[PREFIX]
+A default prefix `Tiptap` is applied to all imports **except composables**.
+
+**Example:** `StarterKit` is available as `TiptapStarterKit`, while `useEditor` keeps its name.
+:::
+
+## Adding your own extensions
+
+The module auto-imports only its curated default set plus the custom image-upload extension. Any other Tiptap extension is yours to install and wire up — but you can make it feel just like a built-in by re-exporting it from a file Nuxt auto-imports.
+
+### Installing
+
+It's recommended to install extensions into `devDependencies`:
+
+<Tabs>
+  <TabItem label="pnpm">
+    ```sh
+    pnpm add -D @tiptap/extension-placeholder
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```sh
+    npm install --save-dev @tiptap/extension-placeholder
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```sh
+    yarn add -D @tiptap/extension-placeholder
+    ```
+  </TabItem>
+</Tabs>
+
+### Importing
+
+Whenever you install an **external** extension that isn't included by default, the cleanest way to use it everywhere is to re-export it from a `composables/` or `utils/` file — Nuxt auto-imports those, so the extension becomes available app-wide without manual imports.
+
+For example, create `composables/tiptapExt.js`:
+
+```js
+export { Image as TiptapImage } from '@tiptap/extension-image'
+export { Youtube as TiptapYoutube } from '@tiptap/extension-youtube'
+export { Underline as TiptapUnderline } from '@tiptap/extension-underline'
+export { TextAlign as TiptapTextAlign } from '@tiptap/extension-text-align'
+export { Placeholder as TiptapPlaceholder } from '@tiptap/extension-placeholder'
+export { CharacterCount as TiptapCharacterCount } from '@tiptap/extension-character-count'
+```
+
+Now every manually installed extension is available app-wide under your chosen name, just like the module's defaults.

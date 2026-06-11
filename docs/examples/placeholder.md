@@ -1,20 +1,19 @@
 ---
 title: Placeholder Example
+description: Use the external Placeholder extension to show hint text in an empty editor.
 ---
 
-# Placeholder Example
+This example uses the Placeholder extension.
 
-This example uses Placeholder Extension.
-
-::: warning NOT INSTALLED
+:::caution[NOT INSTALLED]
 This extension is not installed by default.
-Read about [installing and importing extension](/docs/extensions).
+Read about [installing and importing extensions](../extensions).
 :::
 
-**More About [Placeholder Extension](https://tiptap.dev/docs/editor/api/extensions/placeholder).**
+**More about the [Placeholder extension](https://tiptap.dev/docs/editor/api/extensions/placeholder).**
 
-Copy the code to your own `components/TiptapEditor.vue`.  
-Any path is fine as long as it's under `components` directory with `.vue` extension.
+Copy the code to your own `components/TiptapEditor.vue`.
+Any path is fine as long as it's under the `components` directory with a `.vue` extension.
 
 ```vue
 <template>
@@ -144,8 +143,6 @@ Any path is fine as long as it's under `components` directory with `.vue` extens
 </template>
 
 <script setup>
-const lowlight = createLowlight(Tiptapall);
-
 const editor = useEditor({
   extensions: [
     TiptapStarterKit,
@@ -154,10 +151,6 @@ const editor = useEditor({
       placeholder: 'Write your post content here',
     }),
   ],
-});
-
-onBeforeUnmount(() => {
-  unref(editor).destroy();
 });
 </script>
 ```

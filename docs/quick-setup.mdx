@@ -1,0 +1,133 @@
+---
+title: Quick Setup
+description: Install the module, register it in nuxt.config, and render your first Tiptap editor.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+1. Add `nuxt-tiptap-editor` to your project.
+
+    The quickest way is the Nuxt CLI, which installs the package and adds it to your `nuxt.config`:
+
+    ```bash
+    npx nuxi@latest module add tiptap
+    ```
+
+    To install manually instead:
+
+    <Tabs>
+      <TabItem label="pnpm">
+        ```bash
+        pnpm add nuxt-tiptap-editor
+        ```
+      </TabItem>
+      <TabItem label="npm">
+        ```bash
+        npm install nuxt-tiptap-editor
+        ```
+      </TabItem>
+      <TabItem label="yarn">
+        ```bash
+        yarn add nuxt-tiptap-editor
+        ```
+      </TabItem>
+    </Tabs>
+
+2. Add `nuxt-tiptap-editor` to the `modules` section of `nuxt.config.ts`.
+
+    ```ts
+    export default defineNuxtConfig({
+      modules: ['nuxt-tiptap-editor'],
+      tiptap: {
+        prefix: 'Tiptap', // prefix for Tiptap imports; composables are not prefixed
+      },
+    })
+    ```
+
+3. Create an editor component. You can use [this file](https://github.com/modbender/nuxt-tiptap-editor/blob/main/playground/components/TipTap.vue) as a reference. Any path works as long as it's under the `components` directory with a `.vue` extension.
+
+   ```vue
+   <template>
+     <div>
+       <div v-if="editor">
+         <button
+           :disabled="!editor.can().chain().focus().toggleBold().run()"
+           :class="{ 'is-active': editor.isActive('bold') }"
+           @click="editor.chain().focus().toggleBold().run()"
+         >
+           bold
+         </button>
+         <button
+           :disabled="!editor.can().chain().focus().toggleItalic().run()"
+           :class="{ 'is-active': editor.isActive('italic') }"
+           @click="editor.chain().focus().toggleItalic().run()"
+         >
+           italic
+         </button>
+         <button
+           :disabled="!editor.can().chain().focus().toggleStrike().run()"
+           :class="{ 'is-active': editor.isActive('strike') }"
+           @click="editor.chain().focus().toggleStrike().run()"
+         >
+           strike
+         </button>
+         <button
+           :disabled="!editor.can().chain().focus().toggleCode().run()"
+           :class="{ 'is-active': editor.isActive('code') }"
+           @click="editor.chain().focus().toggleCode().run()"
+         >
+           code
+         </button>
+         <button @click="editor.chain().focus().setParagraph().run()">
+           paragraph
+         </button>
+         <button
+           :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+         >
+           h1
+         </button>
+         <button
+           :class="{ 'is-active': editor.isActive('bulletList') }"
+           @click="editor.chain().focus().toggleBulletList().run()"
+         >
+           bullet list
+         </button>
+         <button
+           :class="{ 'is-active': editor.isActive('codeBlock') }"
+           @click="editor.chain().focus().toggleCodeBlock().run()"
+         >
+           code block
+         </button>
+         <button
+           :disabled="!editor.can().chain().focus().undo().run()"
+           @click="editor.chain().focus().undo().run()"
+         >
+           undo
+         </button>
+         <button
+           :disabled="!editor.can().chain().focus().redo().run()"
+           @click="editor.chain().focus().redo().run()"
+         >
+           redo
+         </button>
+       </div>
+       <TiptapEditorContent :editor="editor" />
+     </div>
+   </template>
+
+   <script setup>
+   const editor = useEditor({
+     content: '<p>I\'m running Tiptap with Vue.js. 🎉</p>',
+     extensions: [TiptapStarterKit],
+   })
+   </script>
+   ```
+
+4. Now style the markup: swap `button` for your own UI components, apply Tailwind or whichever CSS you use, add icons, adjust the active-state class, verify dark mode, and so on.
+
+That's it! You can now use Nuxt Tiptap Editor in your Nuxt app ✨
+
+:::note
+`useEditor` automatically destroys the editor when the component unmounts, so no manual `onBeforeUnmount(() => editor.destroy())` is required. See [Important Points](./important) for the details and for the manual-instantiation case.
+:::
