@@ -1,0 +1,25 @@
+---
+title: Nuxt Tiptap Editor
+description: A Nuxt module that auto-imports and configures the Tiptap rich-text editor, so you can drop a headless WYSIWYG editor into your Nuxt app with zero setup.
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+Integrating [Tiptap](https://tiptap.dev) into a Nuxt app normally means installing and wiring up a long list of packages by hand. This module does that for you: it registers Tiptap's `useEditor` composable, the `EditorContent` component, the StarterKit nodes/marks/extensions, and a custom image-upload extension as Nuxt auto-imports.
+
+The result is a headless, fully customizable editor you can render with a single component and style however you like — no global registration, no manual transpile config, and SSR handled automatically.
+
+<CardGrid>
+  <Card title="What is it?" icon="open-book">
+    Why this module exists and what it does for you. [Read the overview](./what-is)
+  </Card>
+  <Card title="Quick Setup" icon="rocket">
+    Install, register the module, and render your first editor. [Get started](./quick-setup)
+  </Card>
+  <Card title="Examples" icon="puzzle">
+    Working components for basic editing, pre-filling, syntax highlighting, placeholders, and image upload. [Browse examples](./examples/basic)
+  </Card>
+  <Card title="Auto-imports" icon="list-format">
+    The full reference of every composable, component, node, mark, and extension the module registers. [See the reference](./auto-imports)
+  </Card>
+</CardGrid>

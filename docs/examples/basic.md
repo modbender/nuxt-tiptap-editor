@@ -1,10 +1,9 @@
 ---
 title: Basic Example
+description: The minimal editor component with a formatting toolbar.
 ---
 
-# Basic Example
-
-This is the same example you will find in [Quick Setup](/docs/quick-setup)
+This is the same example you will find in [Quick Setup](../quick-setup).
 
 1. Configuration
 
@@ -17,8 +16,8 @@ This is the same example you will find in [Quick Setup](/docs/quick-setup)
    });
    ```
 
-2. Copy the code to your own `components/TiptapEditor.vue`.  
-   Any path is fine as long as it's under `components` directory with `.vue` extension.
+2. Copy the code to your own `components/TiptapEditor.vue`.
+   Any path is fine as long as it's under the `components` directory with a `.vue` extension.
 
    ```vue
    <template>
@@ -150,10 +149,6 @@ This is the same example you will find in [Quick Setup](/docs/quick-setup)
    <script setup>
    const editor = useEditor({
      extensions: [TiptapStarterKit],
-   });
-
-   onBeforeUnmount(() => {
-     unref(editor).destroy();
    });
    </script>
    ```

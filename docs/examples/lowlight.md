@@ -1,190 +1,125 @@
 ---
 title: Code Block Highlighter Example
+description: Enable the lowlight option for syntax-highlighted code blocks.
 ---
 
-# Code Block Lowlight Example
+This example uses a code block with `lowlight` for syntax highlighting.
 
-This example uses Code Block with `lowlight` for syntax highlighting.
-
-::: tip INSTALLED BY PLUGIN
-The extension is already installed by default with Nuxt Tiptap Editor plugin.
+:::tip[ENABLED VIA OPTION]
+`CodeBlockLowlight` and the lowlight composables are registered only when the `tiptap.lowlight` option is **not** `false`. The module default is `lowlight: false`, so set the option to turn this feature on. While it is disabled, none of the lowlight objects are imported, keeping the chunk size down.
 :::
 
-`lowlight` is a option that can be enabled in the configuration. Until `lowlight` option evaluates to `true`, `lowlight` related objects won't be imported to the project to reduce chunk size.
+**More about the [Code Block Lowlight extension](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight).**
 
-**More about [Code Block Lowlight Extension](https://tiptap.dev/docs/editor/api/nodes/code-block-lowlight).**
+## Configuration
 
-1. Configuration
+Enable lowlight in `nuxt.config.ts`. The option is either `false` or an object:
 
-   ```js
-   export default defineNuxtConfig({
-     modules: ['nuxt-tiptap-editor'],
-     tiptap: {
-       prefix: 'Tiptap', //prefix for Tiptap components
-       lowlight: {
-         theme: 'github-dark',
-       },
-     },
-   });
-   ```
+```ts
+export default defineNuxtConfig({
+  modules: ['nuxt-tiptap-editor'],
+  tiptap: {
+    prefix: 'Tiptap',
+    lowlight: {
+      theme: 'github-dark', // default
+      highlightJSVersion: '11.10.0', // default
+      // integrity: 'sha384-...', // optional Subresource Integrity hash
+    },
+  },
+})
+```
 
-   Check this [file](https://github.com/modbender/nuxt-tiptap-editor/blob/7dfbe1c213af472f8f7a50b0e3dd5a7dd8552ce9/src/types.d.ts#L3) for full list of themes.
+The `lowlight` option accepts:
 
-2. There are 2 types of lowlight syntax highlight language preset - `common` and `full`.  
-   Adding to the prefix in configuration it becomes `Tiptapcommon` and `Tiptapfull`.
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| `theme` | `HighlightTheme` | `'github-dark'` | The highlight.js theme used for the code-block colours. Around 249 themes are available, with editor autocomplete on the `HighlightTheme` union. |
+| `highlightJSVersion` | `string` | `'11.10.0'` | The highlight.js version used to build the CDN URL. Must be a strict `major.minor.patch` semver. |
+| `integrity` | `string` | — | Optional Subresource Integrity hash for the theme stylesheet. |
 
-   ```js
-   const lowlight = createLowlight(Tiptapcommon); //Common languages
+When enabled, the module injects a highlight.js **theme CSS `<link>`** into your app head, pointing at unpkg:
 
-   // or
+```
+https://unpkg.com/@highlightjs/cdn-assets@<highlightJSVersion>/styles/<theme>.min.css
+```
 
-   const lowlight = createLowlight(Tiptapall); //All languages
-   ```
+A few things to know:
 
-   Copy the code to your own `components/TiptapEditor.vue`.  
-   Any path is fine as long as it's under `components` directory with `.vue` extension.
+- `highlightJSVersion` is validated against a strict `\d+\.\d+\.\d+` semver because it's interpolated into the CDN URL. A value like `'latest'` or `'11.10'` makes the module **throw at build time**.
+- `integrity` is opt-in. When you supply a hash, the injected `<link>` gains `integrity` and `crossorigin="anonymous"`. SRI hashes can't be derived without a network fetch, so compute the hash for your specific `(theme, version)` pair yourself.
 
-   ```vue
-   <template>
-     <div>
-       <div v-if="editor">
-         <button
-           @click="editor.chain().focus().toggleBold().run()"
-           :disabled="!editor.can().chain().focus().toggleBold().run()"
-           :class="{ 'is-active': editor.isActive('bold') }"
-         >
-           bold
-         </button>
-         <button
-           @click="editor.chain().focus().toggleItalic().run()"
-           :disabled="!editor.can().chain().focus().toggleItalic().run()"
-           :class="{ 'is-active': editor.isActive('italic') }"
-         >
-           italic
-         </button>
-         <button
-           @click="editor.chain().focus().toggleStrike().run()"
-           :disabled="!editor.can().chain().focus().toggleStrike().run()"
-           :class="{ 'is-active': editor.isActive('strike') }"
-         >
-           strike
-         </button>
-         <button
-           @click="editor.chain().focus().toggleCode().run()"
-           :disabled="!editor.can().chain().focus().toggleCode().run()"
-           :class="{ 'is-active': editor.isActive('code') }"
-         >
-           code
-         </button>
-         <button @click="editor.chain().focus().unsetAllMarks().run()">
-           clear marks
-         </button>
-         <button @click="editor.chain().focus().clearNodes().run()">
-           clear nodes
-         </button>
-         <button
-           @click="editor.chain().focus().setParagraph().run()"
-           :class="{ 'is-active': editor.isActive('paragraph') }"
-         >
-           paragraph
-         </button>
-         <button
-           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
-         >
-           h1
-         </button>
-         <button
-           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
-         >
-           h2
-         </button>
-         <button
-           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
-         >
-           h3
-         </button>
-         <button
-           @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
-         >
-           h4
-         </button>
-         <button
-           @click="editor.chain().focus().toggleHeading({ level: 5 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 5 }) }"
-         >
-           h5
-         </button>
-         <button
-           @click="editor.chain().focus().toggleHeading({ level: 6 }).run()"
-           :class="{ 'is-active': editor.isActive('heading', { level: 6 }) }"
-         >
-           h6
-         </button>
-         <button
-           @click="editor.chain().focus().toggleBulletList().run()"
-           :class="{ 'is-active': editor.isActive('bulletList') }"
-         >
-           bullet list
-         </button>
-         <button
-           @click="editor.chain().focus().toggleOrderedList().run()"
-           :class="{ 'is-active': editor.isActive('orderedList') }"
-         >
-           ordered list
-         </button>
-         <button
-           @click="editor.chain().focus().toggleCodeBlock().run()"
-           :class="{ 'is-active': editor.isActive('codeBlock') }"
-         >
-           code block
-         </button>
-         <button
-           @click="editor.chain().focus().toggleBlockquote().run()"
-           :class="{ 'is-active': editor.isActive('blockquote') }"
-         >
-           blockquote
-         </button>
-         <button @click="editor.chain().focus().setHorizontalRule().run()">
-           horizontal rule
-         </button>
-         <button @click="editor.chain().focus().setHardBreak().run()">
-           hard break
-         </button>
-         <button
-           @click="editor.chain().focus().undo().run()"
-           :disabled="!editor.can().chain().focus().undo().run()"
-         >
-           undo
-         </button>
-         <button
-           @click="editor.chain().focus().redo().run()"
-           :disabled="!editor.can().chain().focus().redo().run()"
-         >
-           redo
-         </button>
-       </div>
-       <TiptapEditorContent :editor="editor" />
-     </div>
-   </template>
+## Choosing a language preset
 
-   <script setup>
-   const lowlight = createLowlight(allLanguages);
+lowlight ships two language presets. The module exposes them as the composables `commonLanguages` (a curated common set) and `allLanguages` (every supported language). Pass one to `createLowlight`:
 
-   const editor = useEditor({
-     extensions: [
-       TiptapStarterKit.configure({
-         codeBlock: false,
-       }),
-       TiptapCodeBlockLowlight.configure({ lowlight }),
-     ],
-   });
+```js
+const lowlight = createLowlight(commonLanguages); // common languages
 
-   onBeforeUnmount(() => {
-     unref(editor).destroy();
-   });
-   </script>
-   ```
+// or
+
+const lowlight = createLowlight(allLanguages); // all languages
+```
+
+:::note
+These are composables, so they keep their names — they are **not** prefixed. Use `commonLanguages` / `allLanguages`, not `Tiptapcommon` / `Tiptapfull`.
+:::
+
+## Example component
+
+Disable StarterKit's built-in `codeBlock` and register `TiptapCodeBlockLowlight` in its place.
+
+```vue
+<template>
+  <div>
+    <div v-if="editor">
+      <button
+        :disabled="!editor.can().chain().focus().toggleBold().run()"
+        :class="{ 'is-active': editor.isActive('bold') }"
+        @click="editor.chain().focus().toggleBold().run()"
+      >
+        bold
+      </button>
+      <button
+        :disabled="!editor.can().chain().focus().toggleItalic().run()"
+        :class="{ 'is-active': editor.isActive('italic') }"
+        @click="editor.chain().focus().toggleItalic().run()"
+      >
+        italic
+      </button>
+      <button
+        :class="{ 'is-active': editor.isActive('codeBlock') }"
+        @click="editor.chain().focus().toggleCodeBlock().run()"
+      >
+        code block
+      </button>
+      <button
+        :disabled="!editor.can().chain().focus().undo().run()"
+        @click="editor.chain().focus().undo().run()"
+      >
+        undo
+      </button>
+      <button
+        :disabled="!editor.can().chain().focus().redo().run()"
+        @click="editor.chain().focus().redo().run()"
+      >
+        redo
+      </button>
+    </div>
+    <TiptapEditorContent :editor="editor" />
+  </div>
+</template>
+
+<script setup>
+const lowlight = createLowlight(commonLanguages);
+
+const editor = useEditor({
+  content: '<p>I\'m running Tiptap with Vue.js. 🎉</p>',
+  extensions: [
+    TiptapStarterKit.configure({
+      codeBlock: false,
+    }),
+    TiptapCodeBlockLowlight.configure({ lowlight }),
+  ],
+});
+</script>
+```
