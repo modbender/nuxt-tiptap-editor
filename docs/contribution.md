@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 8
 title: Contribution
 description: How to contribute to Nuxt Tiptap Editor.
 ---

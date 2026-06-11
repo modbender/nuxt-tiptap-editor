@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 1
 title: Basic Example
 description: The minimal editor component with a formatting toolbar.
 ---

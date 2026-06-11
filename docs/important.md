@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 3
 title: Important Points
 description: Client-only editor instances, automatic cleanup, SSR behaviour, and the ProseMirror dedupe fix.
 ---

@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 5
 title: Image Upload Example
 description: Use the built-in image-upload extension with paste, drag-and-drop, and a server upload route.
 ---

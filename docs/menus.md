@@ -1,4 +1,6 @@
 ---
+sidebar:
+  order: 6
 title: Menus
 description: Use the auto-registered bubble and floating menu components for contextual editor toolbars.
 ---
