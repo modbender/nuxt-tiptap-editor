@@ -1,9 +1,7 @@
 name: Lint, Test, Publish and Release
 
 permissions:
-  checks: write
-  contents: write
-  id-token: write # Required for npm OIDC Trusted Publishing
+  contents: read
 
 on:
   push:
@@ -14,16 +12,15 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "lts/*"
-          registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
 
       - name: Install dependencies
@@ -36,13 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "lts/*"
           cache: "pnpm"
@@ -53,34 +50,24 @@ jobs:
       - name: Run prepare
         run: pnpm dev:prepare
 
-      - name: Cache build outputs
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuxt
-            dist
-          key: ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ hashFiles('package.json', 'pnpm-lock.yaml') }}-
-            ${{ runner.os }}-build-
-
+      # Also type-checks the module (vue-tsc --noEmit)
       - name: Run tests
         run: pnpm test
 
-      - name: Run type checks
-        run: pnpm test:types
+      - name: Type-check playground
+        run: pnpm exec vue-tsc --noEmit -p playground
 
   build:
     runs-on: ubuntu-latest
     needs: lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "lts/*"
           cache: "pnpm"
@@ -97,37 +84,28 @@ jobs:
       - name: Build playground
         run: pnpm build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts
-          path: |
-            dist/
-            .nuxt/
-            playground/.output/
-          retention-days: 1
-
   publish:
     runs-on: ubuntu-latest
     needs: [lint, test, build]
     permissions:
-      contents: write
+      contents: read
       id-token: write # Required for npm OIDC Trusted Publishing
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
+      - name: Verify tag matches package.json version
+        run: |
+          expected="v$(node -p "require('./package.json').version")"
+          if [ "$expected" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version $expected"
+            exit 1
+          fi
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "lts/*"
           registry-url: "https://registry.npmjs.org"
@@ -136,6 +114,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Generates .nuxt/tsconfig.json, which the prepack build (run by pnpm publish) extends
       - name: Run dev:prepare
         run: pnpm dev:prepare
 
@@ -143,13 +122,29 @@ jobs:
       # Configure trusted publisher at: https://www.npmjs.com/package/nuxt-tiptap-editor/access
       - name: Publish to npm (OIDC Trusted Publishing)
         shell: bash
-        if: success()
         run: pnpm publish --access public --no-git-checks --provenance
         env:
           NPM_CONFIG_PROVENANCE: true
 
+  release:
+    runs-on: ubuntu-latest
+    needs: publish
+    permissions:
+      contents: write # Create the GitHub release
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4.3.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "lts/*"
+
       - name: Create GitHub Release
-        if: success()
-        run: npx --yes changelogithub@latest
+        run: pnpm dlx changelogithub@15.0.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
