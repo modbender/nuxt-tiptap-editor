@@ -633,6 +633,8 @@ describe('ImageUpload extension — history', () => {
 
   afterEach(() => {
     editor?.destroy()
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
   })
 
   it('undo after a completed upload removes the image without resurrecting a placeholder; redo restores the image', async () => {
@@ -683,8 +685,6 @@ describe('ImageUpload extension — history', () => {
 
     expect(nodesOfType(editor, 'imagePlaceholder')).toHaveLength(0)
     expect(nodesOfType(editor, 'image').map(n => n.attrs.src)).toEqual([small, large])
-    vi.unstubAllGlobals()
-    vi.restoreAllMocks()
   })
 
   it('undo mid-upload removes the placeholder; redo after completion brings back the image', async () => {
