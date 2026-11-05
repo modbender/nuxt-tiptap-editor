@@ -131,13 +131,21 @@
       >
         redo
       </button>
+      <label>
+        image
+        <input
+          type="file"
+          accept="image/*"
+          @change="onFilePicked"
+        >
+      </label>
     </div>
     <TiptapEditorContent :editor="editor" />
   </div>
 </template>
 
 <script setup>
-async function uploadImage(file, id) {
+async function uploadImage(file, id, signal) {
   try {
     const formData = new FormData()
     formData.append(id, file)
@@ -145,18 +153,22 @@ async function uploadImage(file, id) {
     const urls = await $fetch('/api/upload', {
       method: 'POST',
       body: formData,
+      signal,
     })
 
     return urls[0]
   }
   catch (e) {
-    return alert({
-      severity: 'error',
-      summary: e.statusMessage,
-      detail: e.statusMessage,
-      life: 3000,
-    })
+    console.error('Image upload failed:', e.statusMessage ?? e)
+    throw e
   }
+}
+
+function onFilePicked(event) {
+  const input = event.target
+  const file = input.files?.[0]
+  if (file) editor.value?.chain().focus().uploadImage({ file }).run()
+  input.value = ''
 }
 
 const editor = useEditor({

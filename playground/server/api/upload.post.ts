@@ -15,26 +15,49 @@ import type { H3Event } from 'h3'
 
 const UPLOAD_DIR = 'uploads'
 const MAX_FILE_BYTES = 4 * 1024 * 1024 // 4 MB
-const ALLOWED_MIMES = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/gif',
-  'image/webp',
-] as const
+
+interface ImageFormat {
+  ext: string
+  matches: (data: Buffer) => boolean
+}
+
+function startsWith(data: Buffer, signature: number[], offset = 0): boolean {
+  return signature.every((byte, i) => data[offset + i] === byte)
+}
+
+const PNG: ImageFormat = {
+  ext: 'png',
+  matches: data => startsWith(data, [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]),
+}
+const JPEG: ImageFormat = {
+  ext: 'jpg',
+  matches: data => startsWith(data, [0xFF, 0xD8, 0xFF]),
+}
+const GIF: ImageFormat = {
+  ext: 'gif',
+  matches: data => startsWith(data, [0x47, 0x49, 0x46, 0x38]),
+}
+const WEBP: ImageFormat = {
+  ext: 'webp',
+  // "RIFF" <size> "WEBP"
+  matches: data =>
+    startsWith(data, [0x52, 0x49, 0x46, 0x46]) && startsWith(data, [0x57, 0x45, 0x42, 0x50], 8),
+}
+
+// The stored extension comes from this map, never from the client filename,
+// and the bytes must match the declared type.
+const IMAGE_FORMATS = new Map<string, ImageFormat>([
+  ['image/png', PNG],
+  ['image/jpeg', JPEG],
+  ['image/jpg', JPEG],
+  ['image/gif', GIF],
+  ['image/webp', WEBP],
+])
 
 interface UploadFile {
   filename?: string
   type?: string
   data: Buffer
-}
-
-function sanitizeFilename(raw: string | undefined): string | null {
-  if (!raw) return null
-  // Strip any path components a malicious client tried to embed.
-  const base = path.basename(raw)
-  if (!base || base === '.' || base === '..') return null
-  return base
 }
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -57,7 +80,8 @@ export default defineEventHandler(async (event: H3Event) => {
   const uploadedFilePaths: string[] = []
 
   for (const file of files) {
-    if (!ALLOWED_MIMES.includes(file.type as typeof ALLOWED_MIMES[number])) {
+    const format = IMAGE_FORMATS.get(file.type ?? '')
+    if (!format) {
       throw createError({
         statusCode: 415,
         statusMessage: `Unsupported media type: ${file.type ?? 'unknown'}`,
@@ -71,17 +95,16 @@ export default defineEventHandler(async (event: H3Event) => {
       })
     }
 
-    const safeName = sanitizeFilename(file.filename)
-    if (!safeName) {
+    if (!format.matches(file.data)) {
       throw createError({
-        statusCode: 400,
-        statusMessage: 'Invalid filename',
+        statusCode: 415,
+        statusMessage: `File content does not match ${file.type}`,
       })
     }
 
-    // Prefix with a UUID so concurrent uploads can't collide and so a
-    // crafted name can't overwrite something already in /public/uploads.
-    const finalName = `${randomUUID()}-${safeName}`
+    // A server-chosen name: concurrent uploads can't collide and a crafted
+    // client filename can't pick the path or the served content type.
+    const finalName = `${randomUUID()}.${format.ext}`
     const filePath = path.join(fullUploadPath, finalName)
     await fs.writeFile(filePath, file.data)
 

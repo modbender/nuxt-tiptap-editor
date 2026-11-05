@@ -1,6 +1,6 @@
 import type { Component } from 'vue'
 
-import { Node, nodeInputRule } from '@tiptap/core'
+import { Node, mergeAttributes } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 
 import ImagePlaceholderComponent from './ImagePlaceholder.vue'
@@ -9,8 +9,6 @@ export interface ImagePlaceholderOptions {
   inline: boolean
   HTMLAttributes: Record<string, unknown>
 }
-
-export const inputRegex = /(?:^|\s)(!\[(.+|:?)\]\((\S+)(?:\s+["'](\S+)["'])?\))$/
 
 export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
   name: 'imagePlaceholder',
@@ -39,6 +37,12 @@ export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
       width: {
         default: undefined,
       },
+      alt: {
+        default: null,
+      },
+      title: {
+        default: null,
+      },
     }
   },
 
@@ -46,25 +50,11 @@ export const ImagePlaceholder = Node.create<ImagePlaceholderOptions>({
     return [{ tag: 'image-placeholder' }]
   },
 
-  renderHTML() {
-    return ['div']
+  renderHTML({ HTMLAttributes }) {
+    return ['image-placeholder', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
 
   addNodeView() {
     return VueNodeViewRenderer(ImagePlaceholderComponent as Component)
-  },
-
-  addInputRules() {
-    return [
-      nodeInputRule({
-        find: inputRegex,
-        type: this.type,
-        getAttributes: (match) => {
-          const [, , uploadId] = match
-
-          return { uploadId }
-        },
-      }),
-    ]
   },
 })

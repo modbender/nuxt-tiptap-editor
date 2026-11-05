@@ -1,14 +1,22 @@
 import { Extension } from '@tiptap/core'
 import {
+  canUpload,
   createPlaceholderNode,
+  disposeUploadSession,
   imageUploader,
-  uploadAndReplaceById,
+  LOG_PREFIX,
+  missingNodeTypes,
+  scheduleUpload,
   type ImageUploaderStorage,
 } from './imageUploader'
 
 export interface ImageUploaderPluginOptions {
   acceptMimes: string[]
-  upload: (file: File | string, id: string) => Promise<string>
+  /**
+   * Upload the file and resolve the URL to use as the image `src`. `signal`
+   * is aborted when the editor is destroyed mid-upload.
+   */
+  upload: (file: File | string, id: string, signal?: AbortSignal) => Promise<string>
   id: () => string
   ignoreDomains: string[]
 }
@@ -33,10 +41,15 @@ declare module '@tiptap/core' {
 
 const deprecationWarned = new WeakSet<object>()
 
+function randomId(): string {
+  return globalThis.crypto?.randomUUID?.()
+    ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+}
+
 function uploadNotConfigured(): Promise<string> {
   return Promise.reject(
     new Error(
-      '[nuxt-tiptap-editor] ImageUpload extension is missing an `upload` handler. '
+      `${LOG_PREFIX} ImageUpload extension is missing an \`upload\` handler. `
       + 'Configure it via TiptapImageUpload.configure({ upload: async (file, id) => ... }).',
     ),
   )
@@ -50,7 +63,7 @@ export const ImageUpload = Extension.create<
 
   addOptions() {
     return {
-      id: () => Math.random().toString(36).substring(7),
+      id: randomId,
       acceptMimes: ['image/jpeg', 'image/gif', 'image/png', 'image/jpg'],
       upload: uploadNotConfigured,
       ignoreDomains: [],
@@ -67,32 +80,34 @@ export const ImageUpload = Extension.create<
     }
   },
 
+  onCreate() {
+    const missing = missingNodeTypes(this.editor.schema)
+    if (missing.length) {
+      console.error(
+        `${LOG_PREFIX} ImageUpload is disabled: missing node type(s) ${missing.join(', ')}. `
+        + 'Add TiptapImage and TiptapImagePlaceholder to the editor extensions.',
+      )
+    }
+  },
+
   onDestroy() {
-    this.storage.cache.clear()
+    disposeUploadSession(this.storage)
   },
 
   addCommands() {
     return {
       uploadImage:
         options =>
-          ({ tr, state, dispatch }) => {
-            const ctx = { options: this.options, storage: this.storage }
-            const id = this.options.id()
+          ({ tr, state, dispatch, view }) => {
+            if (!canUpload(state.schema)) return false
 
             if (dispatch) {
-              const node = createPlaceholderNode(ctx, state.schema, id, {
-                src: options.file,
-              })
+              const ctx = { options: this.options, storage: this.storage }
+              const job = { id: this.options.id(), source: options.file }
+              const node = createPlaceholderNode(ctx, state.schema, job.id, job.source)
               if (!tr.selection.empty) tr.deleteSelection()
               tr.replaceSelectionWith(node)
-
-              // Defer the upload until after the placeholder transaction is
-              // dispatched by TipTap, then replace by id.
-              const editor = this.editor
-              queueMicrotask(() => {
-                if (!editor.view || editor.isDestroyed) return
-                void uploadAndReplaceById(ctx, editor.view, id, options.file)
-              })
+              scheduleUpload(ctx, view, job)
             }
             return true
           },
@@ -110,7 +125,7 @@ export const ImageUpload = Extension.create<
             ) {
               deprecationWarned.add(editor)
               console.warn(
-                '[nuxt-tiptap-editor] `editor.commands.getFileCache(id)` is '
+                `${LOG_PREFIX} \`editor.commands.getFileCache(id)\` is `
                 + 'deprecated and will be removed in the next major. Use '
                 + '`editor.storage.imageUploadExtension.getFileCache(id)` instead.',
               )
