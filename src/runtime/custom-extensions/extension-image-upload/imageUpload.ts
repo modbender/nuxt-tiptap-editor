@@ -4,6 +4,7 @@ import {
   createPlaceholderNode,
   disposeUploadSession,
   imageUploader,
+  LOG_PREFIX,
   missingNodeTypes,
   scheduleUpload,
   type ImageUploaderStorage,
@@ -48,7 +49,7 @@ function randomId(): string {
 function uploadNotConfigured(): Promise<string> {
   return Promise.reject(
     new Error(
-      '[nuxt-tiptap-editor] ImageUpload extension is missing an `upload` handler. '
+      `${LOG_PREFIX} ImageUpload extension is missing an \`upload\` handler. `
       + 'Configure it via TiptapImageUpload.configure({ upload: async (file, id) => ... }).',
     ),
   )
@@ -83,7 +84,7 @@ export const ImageUpload = Extension.create<
     const missing = missingNodeTypes(this.editor.schema)
     if (missing.length) {
       console.error(
-        `[nuxt-tiptap-editor] ImageUpload is disabled: missing node type(s) ${missing.join(', ')}. `
+        `${LOG_PREFIX} ImageUpload is disabled: missing node type(s) ${missing.join(', ')}. `
         + 'Add TiptapImage and TiptapImagePlaceholder to the editor extensions.',
       )
     }
@@ -124,7 +125,7 @@ export const ImageUpload = Extension.create<
             ) {
               deprecationWarned.add(editor)
               console.warn(
-                '[nuxt-tiptap-editor] `editor.commands.getFileCache(id)` is '
+                `${LOG_PREFIX} \`editor.commands.getFileCache(id)\` is `
                 + 'deprecated and will be removed in the next major. Use '
                 + '`editor.storage.imageUploadExtension.getFileCache(id)` instead.',
               )

@@ -46,7 +46,7 @@ const SAFE_SRC_PROTOCOLS = new Set(['http:', 'https:', 'blob:'])
 const REMOTE_PASTE_PROTOCOLS = new Set(['http:', 'https:'])
 const EPHEMERAL_PASTE_PROTOCOLS = new Set(['blob:', 'data:'])
 const MAX_SETTLED_OUTCOMES = 200
-const LOG_PREFIX = '[nuxt-tiptap-editor]'
+export const LOG_PREFIX = '[nuxt-tiptap-editor]'
 
 const sessions = new WeakMap<ImageUploaderStorage, UploadSession>()
 
