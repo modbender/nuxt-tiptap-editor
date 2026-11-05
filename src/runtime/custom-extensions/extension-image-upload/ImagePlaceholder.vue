@@ -1,15 +1,21 @@
 <template>
   <NodeViewWrapper
     class="image-placeholder"
-    :class="{ inline: options.inline, uploading: !!base64 }"
+    :class="{ inline: options.inline }"
   >
-    <div
+    <span
+      class="image-placeholder__status"
+      role="status"
+      aria-live="polite"
+    >Uploading...</span>
+    <span
       v-if="isImgErr"
-      class="iconfont icon-tupian"
-    />
+      class="image-placeholder__error"
+    >Preview unavailable</span>
     <img
-      v-else-if="base64"
-      :src="base64"
+      v-else-if="previewSrc"
+      :src="previewSrc"
+      alt=""
       referrerpolicy="no-referrer"
       @error="isImgErr = true"
       @load="onLoad"
@@ -18,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { NodeViewWrapper, type NodeViewProps } from '@tiptap/vue-3'
 import type { ImageUploaderStorage } from './imageUploader'
 
@@ -26,8 +32,9 @@ const props = defineProps<NodeViewProps>()
 
 const attrs = computed(() => props.node.attrs)
 const options = computed(() => props.extension.options)
-const base64 = ref<string>('')
+const previewSrc = ref<string>('')
 const isImgErr = ref(false)
+let objectUrl: string | undefined
 
 onMounted(() => {
   const storage = props.editor.storage.imageUploadExtension as
@@ -36,28 +43,33 @@ onMounted(() => {
   const src = storage?.getFileCache(attrs.value.uploadId)
 
   if (src instanceof File) {
-    const reader = new FileReader()
-    reader.onload = () => {
-      base64.value = typeof reader.result === 'string' ? reader.result : ''
-    }
-    reader.onerror = () => {
-      isImgErr.value = true
-    }
-    reader.readAsDataURL(src)
+    objectUrl = URL.createObjectURL(src)
+    previewSrc.value = objectUrl
   }
   else if (typeof src === 'string') {
-    base64.value = src
+    previewSrc.value = src
   }
+})
+
+onBeforeUnmount(() => {
+  if (objectUrl) URL.revokeObjectURL(objectUrl)
 })
 
 function onLoad(e: Event) {
   const target = e.target as HTMLImageElement | null
   const imgW = target?.naturalWidth || target?.clientWidth || 0
-  const editorDom = props.editor.view.dom as HTMLElement
-  const maxW = editorDom.clientWidth
-  props.updateAttributes({
-    width: imgW > maxW ? `${maxW}px` : undefined,
-  })
+  const { view } = props.editor
+  const maxW = (view.dom as HTMLElement).clientWidth
+  const pos = props.getPos()
+  if (view.isDestroyed || typeof pos !== 'number' || attrs.value.width || imgW <= maxW) {
+    return
+  }
+  // Layout-only adjustment; keep it out of the undo history.
+  view.dispatch(
+    view.state.tr
+      .setNodeMarkup(pos, undefined, { ...attrs.value, width: `${maxW}px` })
+      .setMeta('addToHistory', false),
+  )
 }
 </script>
 
@@ -71,8 +83,7 @@ function onLoad(e: Event) {
     display: inline-block;
   }
 
-  &.uploading::before {
-    content: 'Uploading...';
+  &__status {
     position: sticky;
     width: 100%;
     top: 20%;
@@ -84,6 +95,12 @@ function onLoad(e: Event) {
     white-space: pre;
     display: block;
     line-height: 44px;
+  }
+
+  &__error {
+    display: block;
+    font-size: 14px;
+    opacity: 0.7;
   }
 
   img {
