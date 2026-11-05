@@ -659,7 +659,7 @@ describe('ImageUpload extension — history', () => {
     ])
   })
 
-  it('redo after a data: paste failed mid-undo restores small payloads and drops oversized ones', async () => {
+  it('redo after a data: paste failed mid-undo restores every original, oversized ones included', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {})
     vi.stubGlobal('fetch', vi.fn(async () => imageResponse()))
     const small = `data:image/gif;base64,${'A'.repeat(100)}`
@@ -682,7 +682,7 @@ describe('ImageUpload extension — history', () => {
     editor.commands.redo()
 
     expect(nodesOfType(editor, 'imagePlaceholder')).toHaveLength(0)
-    expect(nodesOfType(editor, 'image').map(n => n.attrs.src)).toEqual([small])
+    expect(nodesOfType(editor, 'image').map(n => n.attrs.src)).toEqual([small, large])
     vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })

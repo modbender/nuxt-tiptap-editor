@@ -46,7 +46,6 @@ const SAFE_SRC_PROTOCOLS = new Set(['http:', 'https:', 'blob:'])
 const REMOTE_PASTE_PROTOCOLS = new Set(['http:', 'https:'])
 const EPHEMERAL_PASTE_PROTOCOLS = new Set(['blob:', 'data:'])
 const MAX_SETTLED_OUTCOMES = 200
-const MAX_RETAINED_DATA_SRC_LENGTH = 64 * 1024
 export const LOG_PREFIX = '[nuxt-tiptap-editor]'
 
 const sessions = new WeakMap<ImageUploaderStorage, UploadSession>()
@@ -327,20 +326,10 @@ function settle(
 
 /**
  * The outcome kept for placeholders that reappear later. A success needs only
- * its src; a large data: restore is dropped so its payload is not held for
- * the editor's lifetime, and such a placeholder is then removed.
+ * its src; a failure keeps the original attrs so the image is never lost.
  */
 function retainedOutcome(outcome: UploadOutcome): UploadOutcome {
-  if (outcome.src) return { src: outcome.src }
-  const restoreSrc = outcome.restore?.src
-  if (
-    typeof restoreSrc === 'string'
-    && restoreSrc.startsWith('data:')
-    && restoreSrc.length > MAX_RETAINED_DATA_SRC_LENGTH
-  ) {
-    return {}
-  }
-  return outcome
+  return outcome.src ? { src: outcome.src } : outcome
 }
 
 /**
