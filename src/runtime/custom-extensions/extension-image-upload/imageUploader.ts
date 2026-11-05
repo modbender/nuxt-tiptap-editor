@@ -1,5 +1,5 @@
 import { Fragment, Slice } from '@tiptap/pm/model'
-import type { Node, Schema } from '@tiptap/pm/model'
+import type { Mark, Node, Schema } from '@tiptap/pm/model'
 import { Plugin, PluginKey } from '@tiptap/pm/state'
 import type { Transaction } from '@tiptap/pm/state'
 import { Mapping, dropPoint } from '@tiptap/pm/transform'
@@ -46,6 +46,7 @@ const SAFE_SRC_PROTOCOLS = new Set(['http:', 'https:', 'blob:'])
 const REMOTE_PASTE_PROTOCOLS = new Set(['http:', 'https:'])
 const EPHEMERAL_PASTE_PROTOCOLS = new Set(['blob:', 'data:'])
 const MAX_SETTLED_OUTCOMES = 200
+const MAX_RETAINED_DATA_SRC_LENGTH = 64 * 1024
 export const LOG_PREFIX = '[nuxt-tiptap-editor]'
 
 const sessions = new WeakMap<ImageUploaderStorage, UploadSession>()
@@ -92,6 +93,7 @@ export function createPlaceholderNode(
   uploadId: string,
   source: File | string,
   imageAttrs: Record<string, unknown> = {},
+  marks: readonly Mark[] = [],
 ): Node {
   const placeholderType = schema.nodes[PLACEHOLDER]
   if (!placeholderType) {
@@ -101,7 +103,7 @@ export function createPlaceholderNode(
     )
   }
   ctx.storage.cache.set(uploadId, source)
-  return placeholderType.create({ ...pickPlaceholderAttrs(imageAttrs), uploadId })
+  return placeholderType.create({ ...pickPlaceholderAttrs(imageAttrs), uploadId }, null, marks)
 }
 
 export function imageUploader(ctx: UploaderContext): Plugin {
@@ -198,7 +200,7 @@ function transformPasted(
       restore: { ...node.attrs },
     }
     jobs.push(job)
-    return createPlaceholderNode(ctx, view.state.schema, job.id, job.source, node.attrs)
+    return createPlaceholderNode(ctx, view.state.schema, job.id, job.source, node.attrs, node.marks)
   })
   if (!jobs.length) return slice
 
@@ -285,7 +287,7 @@ async function runUpload(
       if (isSafeImageSrc(url)) src = url
       else console.warn(`${LOG_PREFIX} upload() returned an unsupported image URL:`, url)
     }
-    else {
+    else if (!signal.aborted) {
       console.warn(`${LOG_PREFIX} failed to fetch pasted image URL:`, job.source)
     }
   }
@@ -308,7 +310,7 @@ function settle(
 ): void {
   const outcome: UploadOutcome = { src, restore: job.restore }
   const { settled } = sessionOf(ctx)
-  settled.set(job.id, outcome)
+  settled.set(job.id, retainedOutcome(outcome))
   if (settled.size > MAX_SETTLED_OUTCOMES) {
     settled.delete(settled.keys().next().value as string)
   }
@@ -321,6 +323,24 @@ function settle(
       : undefined,
   )
   if (replaced) view.dispatch(tr.setMeta('addToHistory', false))
+}
+
+/**
+ * The outcome kept for placeholders that reappear later. A success needs only
+ * its src; a large data: restore is dropped so its payload is not held for
+ * the editor's lifetime, and such a placeholder is then removed.
+ */
+function retainedOutcome(outcome: UploadOutcome): UploadOutcome {
+  if (outcome.src) return { src: outcome.src }
+  const restoreSrc = outcome.restore?.src
+  if (
+    typeof restoreSrc === 'string'
+    && restoreSrc.startsWith('data:')
+    && restoreSrc.length > MAX_RETAINED_DATA_SRC_LENGTH
+  ) {
+    return {}
+  }
+  return outcome
 }
 
 /**
@@ -337,9 +357,13 @@ function outcomeNode(
   const imageType = schema.nodes[IMAGE]
   if (!imageType) return null
   if (outcome.src) {
-    return imageType.create({ ...pickPlaceholderAttrs(placeholder.attrs), src: outcome.src })
+    return imageType.create(
+      { ...pickPlaceholderAttrs(placeholder.attrs), src: outcome.src },
+      null,
+      placeholder.marks,
+    )
   }
-  return outcome.restore ? imageType.create(outcome.restore) : null
+  return outcome.restore ? imageType.create(outcome.restore, null, placeholder.marks) : null
 }
 
 function hasPlaceholder(doc: Node, id: string): boolean {
@@ -383,10 +407,10 @@ function replacePlaceholders(
 
 /** Ranges of the final document touched by the given transactions. */
 function changedRanges(transactions: readonly Transaction[]): Array<[number, number]> {
-  const maps = transactions.flatMap(tr => tr.mapping.maps)
+  const mapping = new Mapping(transactions.flatMap(tr => tr.mapping.maps))
   const ranges: Array<[number, number]> = []
-  maps.forEach((map, i) => {
-    const rest = new Mapping(maps.slice(i + 1))
+  mapping.maps.forEach((map, i) => {
+    const rest = mapping.slice(i + 1)
     map.forEach((_oldStart, _oldEnd, newStart, newEnd) => {
       ranges.push([rest.map(newStart, -1), rest.map(newEnd, 1)])
     })

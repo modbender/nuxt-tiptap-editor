@@ -167,6 +167,33 @@ describe('ImageUpload extension — command flow', () => {
     warnSpy.mockRestore()
   })
 
+  it('a failed upload removes only its own placeholder', async () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const failing = deferred<string>()
+    const pending = deferred<string>()
+    const queue = [failing, pending]
+    editor = makeEditor({ upload: () => queue.shift()!.promise })
+    editor.commands.focus('end')
+    editor.commands.uploadImage({ file: makeFile('fails.png') })
+    editor.commands.focus('end')
+    editor.commands.uploadImage({ file: makeFile('survives.png') })
+    await settle()
+    const [, survivor] = nodesOfType(editor, 'imagePlaceholder')
+
+    failing.reject(new Error('boom'))
+    await settle()
+    expect(nodesOfType(editor, 'imagePlaceholder').map(n => n.attrs.uploadId)).toEqual([
+      survivor!.attrs.uploadId,
+    ])
+
+    pending.resolve('https://cdn.example.com/survives.png')
+    await settle()
+    expect(nodesOfType(editor, 'image').map(n => n.attrs.src)).toEqual([
+      'https://cdn.example.com/survives.png',
+    ])
+    warnSpy.mockRestore()
+  })
+
   it('caches the file under a unique upload id', async () => {
     const d = deferred<string>()
     let observedId: string | undefined
@@ -480,6 +507,49 @@ describe('ImageUpload extension — pasted images (transformPasted)', () => {
     const storage = editor.storage.imageUploadExtension as ImageUploaderStorage
     expect(storage.cache.size).toBe(0)
   })
+
+  it('does not warn when the editor is destroyed during the canvas fallback', async () => {
+    fetchMock.mockRejectedValue(new TypeError('CORS'))
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    editor = makeEditor()
+    editor.commands.focus('end')
+    pasteImages(editor, [{ src: 'https://elsewhere.example.org/a.png' }])
+    await settle()
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+
+    editor.destroy()
+    await settle()
+    expect(warnSpy).not.toHaveBeenCalled()
+  })
+
+  it('keeps link marks on inline images through placeholder and upload', async () => {
+    editor = new Editor({
+      extensions: [
+        StarterKit,
+        Image.configure({ inline: true }),
+        ImagePlaceholder.configure({ inline: true }),
+        ImageUpload.configure({ upload: async () => 'https://cdn.example.com/up.gif' }),
+      ],
+      content: '<p>Hello</p>',
+    })
+    editor.commands.focus('end')
+    const link = editor.schema.marks.link!.create({ href: 'https://example.com/' })
+    const image = editor.schema.nodes.image!.create(
+      { src: 'https://elsewhere.example.org/a.gif' },
+      null,
+      [link],
+    )
+    const transformed = pluginProps(editor).transformPasted(new Slice(Fragment.from(image), 0, 0))
+    editor.view.dispatch(editor.state.tr.replaceSelection(transformed))
+
+    const [placeholder] = nodesOfType(editor, 'imagePlaceholder')
+    expect(placeholder!.marks.map(m => m.type.name)).toEqual(['link'])
+
+    await settle()
+    const [uploaded] = nodesOfType(editor, 'image')
+    expect(uploaded!.attrs.src).toBe('https://cdn.example.com/up.gif')
+    expect(uploaded!.marks.map(m => m.attrs.href)).toEqual(['https://example.com/'])
+  })
 })
 
 describe('ImageUpload extension — drop and paste of files', () => {
@@ -587,6 +657,34 @@ describe('ImageUpload extension — history', () => {
     expect(nodesOfType(editor, 'image').map(n => n.attrs.src)).toEqual([
       'https://cdn.example.com/done.png',
     ])
+  })
+
+  it('redo after a data: paste failed mid-undo restores small payloads and drops oversized ones', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.stubGlobal('fetch', vi.fn(async () => imageResponse()))
+    const small = `data:image/gif;base64,${'A'.repeat(100)}`
+    const large = `data:image/gif;base64,${'A'.repeat(70 * 1024)}`
+    const uploads = [deferred<string>(), deferred<string>()]
+    let call = 0
+    editor = makeEditor({
+      upload: () => uploads[call++]!.promise,
+      content: '<p>Hello</p>',
+    })
+    editor.commands.focus('end')
+    pasteImages(editor, [{ src: small }, { src: large }])
+    await settle()
+
+    editor.commands.undo()
+    expect(nodesOfType(editor, 'imagePlaceholder')).toHaveLength(0)
+    uploads.forEach(d => d.reject(new Error('boom')))
+    await settle()
+
+    editor.commands.redo()
+
+    expect(nodesOfType(editor, 'imagePlaceholder')).toHaveLength(0)
+    expect(nodesOfType(editor, 'image').map(n => n.attrs.src)).toEqual([small])
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
   })
 
   it('undo mid-upload removes the placeholder; redo after completion brings back the image', async () => {
